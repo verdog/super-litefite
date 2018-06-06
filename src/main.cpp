@@ -1,11 +1,9 @@
 /*
- * super-litefite
- * a ""fighting game"" with a light mechanic
- * 
- * Josh Chandler
- * github.com:verdog/litefite
+ * super litefite
+ * a weird game by Josh Chandler
 */
 
-int main (int argc, char *argv[]) {
+int main(int argc, char const *argv[])
+{
     return 0;
 }
