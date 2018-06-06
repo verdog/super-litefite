@@ -1,2 +1,2 @@
-# super-litefite
-SUPER litefite
+# litefite
+A game about light and fights
