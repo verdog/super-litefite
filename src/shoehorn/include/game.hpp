@@ -14,12 +14,25 @@ namespace shoe {
 
 class Game {
 public:
-    Game(int x, int y, std::string title);
+    Game(std::string title);
+
+    bool init();
+    bool run();
+
+    // window management
+    void setWindowSize(uint x, uint y);
+    void setWindowTitle(std::string title);
 private:
     // display
-    sf::IntRect mResolution;
+    sf::Vector2u mGameResolution;
+    sf::Vector2u mWinResolution;
+    unsigned int mPixelScale;
     sf::RenderWindow mWindow;
     sf::View mView;
+
+    // status bools
+    bool mInitialized;
+    bool mRunning;
 };
 
 }

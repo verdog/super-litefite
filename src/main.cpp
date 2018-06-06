@@ -9,9 +9,14 @@
 
 int main(int argc, char const *argv[])
 {
-    shoe::Game game(1024, 720, "super litefite");
+    shoe::Game game("super litefite");
 
-    
+    game.init();
+
+    game.setWindowSize(1600, 900);
+    game.setWindowTitle("super litefite");
+
+    game.run();
 
     return 0;
 }
