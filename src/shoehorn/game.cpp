@@ -11,24 +11,23 @@
 namespace shoe {
 
 Game::Game(std::string title)
-: mInitialized {false}
+: mWindow (sf::VideoMode(256,256), "shoeGame")
+, mStates()
+, mInitialized {false}
 , mRunning {false}
 {
-    
+    setWindowTitle(title);
 }
 
 bool Game::init() {
     mInitialized = true;
-
-    mWindow.create(sf::VideoMode(256, 256), "shoeGame");
 
     return true;
 }
 
 bool Game::run() {
     if (!mInitialized) {
-        std::cerr << "ERROR: run() called before init()! Exiting...\n";
-        return false;
+        init();
     }
 
     mRunning = true;
@@ -40,20 +39,33 @@ bool Game::run() {
                 case sf::Event::Closed:
                     mRunning = false;
                     break;
+
+                case sf::Event::KeyPressed:
+                    if (e.key.code == sf::Keyboard::X) {
+                        popState();
+                    }
             
                 default:
                     break;
             }   
         }
 
-        mWindow.clear();
-
-        // draw
-
-        mWindow.display();
+        if (!mStates.empty()) {
+            mStates.back()->clear();
+            mStates.back()->update();
+            mStates.back()->display();
+        } else {
+            mRunning = false;
+            std::cerr << "ERROR: No state on state stack!\n"; 
+        }
     }
 
     return true;
+}
+
+// window management
+sf::RenderWindow& Game::window() {
+    return mWindow;
 }
 
 void Game::setWindowSize(uint x, uint y) {
@@ -62,6 +74,17 @@ void Game::setWindowSize(uint x, uint y) {
 
 void Game::setWindowTitle(std::string title) {
     mWindow.setTitle(title);
+}
+
+// state management
+void Game::pushState(GameState *state) {
+    mStates.push_back(state);
+}
+
+GameState* Game::popState() {
+    GameState *pop = mStates.back();
+    mStates.pop_back();
+    return pop;
 }
 
 }

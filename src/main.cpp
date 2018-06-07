@@ -10,11 +10,10 @@
 int main(int argc, char const *argv[])
 {
     shoe::Game game("super litefite");
-
-    game.init();
-
     game.setWindowSize(1600, 900);
-    game.setWindowTitle("super litefite");
+
+    shoe::GameState myState(&game);
+    game.pushState(&myState);
 
     game.run();
 

@@ -15,3 +15,5 @@
 #include <SFML/Network.hpp>
 
 #include "game.hpp"
+#include "gamestate.hpp"
+#include "gameobject.hpp"
