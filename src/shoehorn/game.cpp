@@ -7,6 +7,9 @@
 #include <iostream>
 
 #include "include/game.hpp"
+#include "include/gamestate.hpp"
+
+#include "include/imagemanager.hpp"
 
 namespace shoe {
 
@@ -53,6 +56,7 @@ bool Game::run() {
         if (!mStates.empty()) {
             mStates.back()->clear();
             mStates.back()->update();
+            mStates.back()->draw();
             mStates.back()->display();
         } else {
             mRunning = false;
@@ -70,6 +74,8 @@ sf::RenderWindow& Game::window() {
 
 void Game::setWindowSize(uint x, uint y) {
     mWindow.setSize(sf::Vector2u(x, y));
+    sf::View newView(sf::FloatRect(0.f, 0.f, x, y));
+    mWindow.setView(newView);
 }
 
 void Game::setWindowTitle(std::string title) {

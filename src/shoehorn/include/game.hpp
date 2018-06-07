@@ -9,11 +9,13 @@
 #include <string>
 #include <vector>
 
-#include "shoehorn.hpp"
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 
 namespace shoe {
 
 class GameState;
+class ImageManager;
 
 class Game {
 public:

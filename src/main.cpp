@@ -9,13 +9,13 @@
 
 int main(int argc, char const *argv[])
 {
-    shoe::Game game("super litefite");
-    game.setWindowSize(1600, 900);
+    shoe::Game *game = new shoe::Game("super litefite");
+    game->setWindowSize(1600, 900);
 
-    shoe::GameState myState(&game);
-    game.pushState(&myState);
+    shoe::GameState *myState = new shoe::GameState(game);
+    game->pushState(myState);
 
-    game.run();
+    game->run();
 
     return 0;
 }
