@@ -26,7 +26,6 @@ public:
 
     // window management
     sf::RenderWindow& window();
-    void setWindowSize(uint x, uint y);
     void setWindowTitle(std::string title);
 
     // view management
@@ -43,7 +42,6 @@ private:
     sf::RenderWindow mWindow;
     sf::View mView;
     sf::Vector2u mGameResolution;
-    sf::Vector2u mWinResolution;
     unsigned int mPixelScale;
 
     // states

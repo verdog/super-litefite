@@ -22,7 +22,7 @@ DebugState::~DebugState() {
 }
 
 void DebugState::loadTextures() {
-    mTextureManager->loadTexture("g", "resources/green.png");
+    mTextureManager->loadTexture("g", "resources/mugs.png");
     mTextureManager->getTexture("g")->setRepeated(true);
 }
 
