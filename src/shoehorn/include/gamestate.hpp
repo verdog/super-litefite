@@ -10,6 +10,8 @@
 #include <vector>
 #include <string>
 
+#include <SFML/Graphics.hpp>
+
 namespace shoe {
 
 class Game;
@@ -20,6 +22,7 @@ class GameState {
 public:
     GameState(Game *game);
 
+    virtual void init() {};
     virtual void clear();
     virtual void update() {};
     virtual void draw();
@@ -28,7 +31,7 @@ public:
     bool loadTexture(std::string key, std::string path);
     sf::Texture* getTexture(std::string key);
 
-private:
+protected:
     Game *mGame;
     std::vector<GameObject*> mObjects;
 

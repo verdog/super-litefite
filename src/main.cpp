@@ -6,14 +6,15 @@
 #include <iostream>
 
 #include "shoehorn/include/shoehorn.hpp"
+#include "states/include/debugstate.hpp"
 
 int main(int argc, char const *argv[])
 {
     shoe::Game *game = new shoe::Game("super litefite");
     game->setWindowSize(1600, 900);
 
-    shoe::GameState *myState = new shoe::GameState(game);
-    game->pushState(myState);
+    DebugState *debugState = new DebugState(game); 
+    game->pushState(debugState);
 
     game->run();
 
