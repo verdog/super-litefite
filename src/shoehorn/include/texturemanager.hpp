@@ -11,13 +11,13 @@
 
 namespace shoe {
 
-class ImageManager {
+class TextureManager {
 public:
-    ImageManager();
-    ~ImageManager();
+    TextureManager();
+    ~TextureManager();
 
-    bool loadImage(std::string key, std::string file);
-    sf::Texture* getImage(std::string key);
+    bool loadTexture(std::string key, std::string file);
+    sf::Texture* getTexture(std::string key);
 private:
     std::map<std::string, sf::Texture> mTextureMap;
 };

@@ -14,7 +14,7 @@ namespace shoe {
 
 class Game;
 class GameObject;
-class ImageManager;
+class TextureManager;
 
 class GameState {
 public:
@@ -25,15 +25,15 @@ public:
     virtual void draw();
     virtual void display();
 
-    bool loadImage(std::string key, std::string path);
-    sf::Texture* getImage(std::string key);
+    bool loadTexture(std::string key, std::string path);
+    sf::Texture* getTexture(std::string key);
 
 private:
     Game *mGame;
     std::vector<GameObject*> mObjects;
 
-    // image management
-    ImageManager *mImageManager;
+    // texture management
+    TextureManager *mTextureManager;
 };
 
 }

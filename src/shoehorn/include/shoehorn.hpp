@@ -18,4 +18,4 @@
 #include "gamestate.hpp"
 #include "gameobject.hpp"
 
-#include "imagemanager.hpp"
+#include "texturemanager.hpp"

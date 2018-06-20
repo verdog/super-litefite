@@ -5,19 +5,19 @@
 #include <map>
 #include <iostream>
 
-#include "include/imagemanager.hpp"
+#include "include/texturemanager.hpp"
 
 namespace shoe {
 
-ImageManager::ImageManager() {
+TextureManager::TextureManager() {
 
 }
 
-ImageManager::~ImageManager() {
-    // destroy all stored images?
+TextureManager::~TextureManager() {
+    // destroy all stored Textures?
 }
 
-bool ImageManager::loadImage(std::string key, std::string file) {
+bool TextureManager::loadTexture(std::string key, std::string file) {
     sf::Texture tex;
     if (!tex.loadFromFile(file)) {
         return false;
@@ -28,11 +28,11 @@ bool ImageManager::loadImage(std::string key, std::string file) {
     return true;
 }
 
-sf::Texture* ImageManager::getImage(std::string key) {
+sf::Texture* TextureManager::getTexture(std::string key) {
     try {
         return &mTextureMap.at(key);
     } catch (...) {
-        std::cerr << "ERROR: Could not retrieve image " << key << std::endl;
+        std::cerr << "ERROR: Could not retrieve Texture " << key << std::endl;
         return nullptr;
     }
 }

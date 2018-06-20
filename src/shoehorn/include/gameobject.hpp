@@ -6,13 +6,20 @@
 
 #pragma once
 
+#include <SFML/Graphics.hpp>
+
 namespace shoe
 {
 
-class GameObject {
+class GameObject : public sf::Sprite {
 public:
+    GameObject();
+    ~GameObject();
+
+    virtual void update();
 
 private:
+    sf::Vector2f mVelocity;
 };
 
 }

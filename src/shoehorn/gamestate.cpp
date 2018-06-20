@@ -7,15 +7,15 @@
 
 #include "include/game.hpp"
 #include "include/gamestate.hpp"
-#include "include/imagemanager.hpp"
+#include "include/texturemanager.hpp"
 
 namespace shoe {
 
 GameState::GameState(Game *game) 
 : mGame {game}
-, mImageManager( new ImageManager )
+, mTextureManager( new TextureManager )
 {
-    loadImage("shu", "resources/shu.png");
+    
 }
 
 void GameState::clear() {
@@ -23,22 +23,19 @@ void GameState::clear() {
 }
 
 void GameState::draw() {
-    sf::Sprite spr;
-    spr.setTexture(*getImage("shu"));
-    spr.setScale(1.f, 1.f);
-    mGame->window().draw(spr);
+    
 }
 
 void GameState::display() {
     mGame->window().display();
 }
 
-bool GameState::loadImage(std::string key, std::string path) {
-    return mImageManager->loadImage(key, path);
+bool GameState::loadTexture(std::string key, std::string path) {
+    return mTextureManager->loadTexture(key, path);
 }
 
-sf::Texture* GameState::getImage(std::string key) {
-    return mImageManager->getImage(key);
+sf::Texture* GameState::getTexture(std::string key) {
+    return mTextureManager->getTexture(key);
 }
 
 }

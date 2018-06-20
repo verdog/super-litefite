@@ -9,7 +9,7 @@
 #include "include/game.hpp"
 #include "include/gamestate.hpp"
 
-#include "include/imagemanager.hpp"
+#include "include/texturemanager.hpp"
 
 namespace shoe {
 
@@ -24,7 +24,7 @@ Game::Game(std::string title)
 
 bool Game::init() {
     mInitialized = true;
-
+    // placeholder?
     return true;
 }
 
