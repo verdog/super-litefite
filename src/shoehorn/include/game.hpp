@@ -29,17 +29,22 @@ public:
     void setWindowSize(uint x, uint y);
     void setWindowTitle(std::string title);
 
+    // view management
+    void setGameSize(sf::Vector2u size);
+    void setGameSize(uint x, uint y);
+    void setPixelScale(uint scale);
+
     // state management
     void pushState(GameState *state);
     GameState* popState();
 
 private:
     // display
+    sf::RenderWindow mWindow;
+    sf::View mView;
     sf::Vector2u mGameResolution;
     sf::Vector2u mWinResolution;
     unsigned int mPixelScale;
-    sf::RenderWindow mWindow;
-    sf::View mView;
 
     // states
     std::vector<GameState*> mStates;

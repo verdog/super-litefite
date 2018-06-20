@@ -11,7 +11,8 @@
 int main(int argc, char const *argv[])
 {
     shoe::Game *game = new shoe::Game("super litefite");
-    game->setWindowSize(1600, 900);
+    game->setGameSize(800, 450);
+    game->setPixelScale(2);
 
     DebugState *debugState = new DebugState(game); 
     game->pushState(debugState);

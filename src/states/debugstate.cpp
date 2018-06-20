@@ -22,14 +22,16 @@ DebugState::~DebugState() {
 }
 
 void DebugState::loadTextures() {
-    mTextureManager->loadTexture("shu", "resources/shu.png");
+    mTextureManager->loadTexture("g", "resources/green.png");
+    mTextureManager->getTexture("g")->setRepeated(true);
 }
 
 void DebugState::init() {
-    shoe::GameObject *object = new shoe::GameObject;
-    mObjects.push_back(object);
+    shoe::GameObject *bg = new shoe::GameObject;
+    bg->setTexture(*mTextureManager->getTexture("g"));
+    bg->setTextureRect(sf::IntRect(0,0,mGame->window().getSize().x,mGame->window().getSize().y));
 
-    object->setTexture(*mTextureManager->getTexture("shu"), true);
+    mObjects.push_back(bg);
 }
 
 void DebugState::draw() {

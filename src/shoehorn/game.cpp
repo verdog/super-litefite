@@ -15,6 +15,7 @@ namespace shoe {
 
 Game::Game(std::string title)
 : mWindow (sf::VideoMode(256,256), "shoeGame")
+, mPixelScale(1)
 , mStates()
 , mInitialized {false}
 , mRunning {false}
@@ -76,6 +77,25 @@ void Game::setWindowSize(uint x, uint y) {
     mWindow.setSize(sf::Vector2u(x, y));
     sf::View newView(sf::FloatRect(0.f, 0.f, x, y));
     mWindow.setView(newView);
+}
+
+// view management
+void Game::setGameSize(sf::Vector2u size) {
+    setGameSize(size.x, size.y);
+}
+
+void Game::setGameSize(uint x, uint y) {
+    mGameResolution = sf::Vector2u(x, y);
+    mWinResolution = mPixelScale * mGameResolution;
+
+    mWindow.setSize(mWinResolution);
+    sf::View view(sf::FloatRect(0.f, 0.f, (float)mGameResolution.x, (float)mGameResolution.y));
+    mWindow.setView(view);
+}
+
+void Game::setPixelScale(uint scale) {
+    mPixelScale = scale;
+    setGameSize(mGameResolution);
 }
 
 void Game::setWindowTitle(std::string title) {
