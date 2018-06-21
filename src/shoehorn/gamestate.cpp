@@ -19,6 +19,7 @@ GameState::GameState(Game *game)
 }
 
 void GameState::clear() {
+    mGame->renderTexture().clear();
     mGame->window().clear();
 }
 
@@ -31,6 +32,8 @@ void GameState::draw() {
 }
 
 void GameState::display() {
+    mGame->renderTexture().display();
+    mGame->window().draw(sf::Sprite(mGame->renderTexture().getTexture()));
     mGame->window().display();
 }
 

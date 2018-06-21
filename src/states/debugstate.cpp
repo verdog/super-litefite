@@ -24,7 +24,7 @@ DebugState::~DebugState() {
 }
 
 void DebugState::loadTextures() {
-    mTextureManager->loadTexture("bg", "resources/img/bg.png");
+    mTextureManager->loadTexture("bg", "resources/img/mugs.png");
     mTextureManager->getTexture("bg")->setRepeated(true);
 
     mTextureManager->loadTexture("player", "resources/img/player.png");
@@ -50,6 +50,6 @@ void DebugState::update(const sf::Time &dTime) {
 
 void DebugState::draw() {
     for (shoe::GameObject* o : mObjects) {
-        mGame->window().draw(*o);
+        mGame->renderTexture().draw(*o);
     }
 }

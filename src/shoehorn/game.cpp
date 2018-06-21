@@ -80,6 +80,10 @@ sf::RenderWindow& Game::window() {
     return mWindow;
 }
 
+sf::RenderTexture& Game::renderTexture() {
+    return mRenderTexture;
+}
+
 // view management
 void Game::setGameSize(sf::Vector2u size) {
     setGameSize(size.x, size.y);
@@ -87,6 +91,10 @@ void Game::setGameSize(sf::Vector2u size) {
 
 void Game::setGameSize(uint x, uint y) {
     mGameResolution = sf::Vector2u(x, y);
+
+    mRenderTexture.create(mGameResolution.x, mGameResolution.y);
+    mRenderTexture.setSmooth(false);
+
     mWindow.setSize(mPixelScale * mGameResolution);
     sf::View view(sf::FloatRect(0.f, 0.f, (float)mGameResolution.x, (float)mGameResolution.y));
     mWindow.setView(view);

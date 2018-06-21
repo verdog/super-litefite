@@ -15,5 +15,6 @@ public:
 
     void handleInput(const sf::Time &dTime);
     void update(const sf::Time &dTime);
+
 private:
 };

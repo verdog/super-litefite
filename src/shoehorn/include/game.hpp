@@ -27,6 +27,7 @@ public:
     // window management
     sf::RenderWindow& window();
     void setWindowTitle(std::string title);
+    sf::RenderTexture& renderTexture();
 
     // view management
     void setGameSize(sf::Vector2u size);
@@ -43,6 +44,7 @@ private:
     sf::View mView;
     sf::Vector2u mGameResolution;
     unsigned int mPixelScale;
+    sf::RenderTexture mRenderTexture;
 
     // states
     std::vector<GameState*> mStates;
