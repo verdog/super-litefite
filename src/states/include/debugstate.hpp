@@ -10,7 +10,10 @@
 
 namespace shoe {
     class Game;
+    class GameObject;
 }
+
+class Player;
 
 class DebugState : public shoe::GameState {
 public:
@@ -20,7 +23,9 @@ public:
     void loadTextures();
     void unLoadTextures();
     void init();
+    void update(const sf::Time &dTime);
     void draw();
 private:
-
+    shoe::GameObject *mBackground;
+    Player *mPlayer;
 };

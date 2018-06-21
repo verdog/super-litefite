@@ -22,6 +22,10 @@ void GameState::clear() {
     mGame->window().clear();
 }
 
+void GameState::update(const sf::Time &dTime) {
+    
+}
+
 void GameState::draw() {
     
 }

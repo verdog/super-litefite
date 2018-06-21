@@ -10,6 +10,8 @@
 #include "../shoehorn/include/texturemanager.hpp"
 #include "../shoehorn/include/game.hpp"
 
+#include "../include/player.hpp"
+
 DebugState::DebugState(shoe::Game *game) 
 : GameState(game)
 {
@@ -22,16 +24,28 @@ DebugState::~DebugState() {
 }
 
 void DebugState::loadTextures() {
-    mTextureManager->loadTexture("g", "resources/bg.png");
-    mTextureManager->getTexture("g")->setRepeated(true);
+    mTextureManager->loadTexture("bg", "resources/img/bg.png");
+    mTextureManager->getTexture("bg")->setRepeated(true);
+
+    mTextureManager->loadTexture("player", "resources/img/player.png");
 }
 
 void DebugState::init() {
-    shoe::GameObject *bg = new shoe::GameObject;
-    bg->setTexture(*mTextureManager->getTexture("g"));
-    bg->setTextureRect(sf::IntRect(0,0,mGame->window().getSize().x,mGame->window().getSize().y));
+    mBackground = new shoe::GameObject;
+    mBackground->setTexture(*mTextureManager->getTexture("bg"));
+    mBackground->setTextureRect(sf::IntRect(0,0,mGame->window().getSize().x,mGame->window().getSize().y));
+    mObjects.push_back(mBackground);
 
-    mObjects.push_back(bg);
+    mPlayer = new Player;
+    mPlayer->setTexture(*mTextureManager->getTexture("player"), true);
+    mObjects.push_back(mPlayer);
+}
+
+void DebugState::update(const sf::Time &dTime) {
+    for (shoe::GameObject* o : mObjects) {
+        o->handleInput(dTime);
+        o->update(dTime);
+    }
 }
 
 void DebugState::draw() {

@@ -16,9 +16,10 @@ public:
     GameObject();
     ~GameObject();
 
-    virtual void update();
+    virtual void handleInput(const sf::Time &dTime);
+    virtual void update(const sf::Time &dTime);
 
-private:
+protected:
     sf::Vector2f mVelocity;
 };
 

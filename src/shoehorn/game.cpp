@@ -21,6 +21,7 @@ Game::Game(std::string title)
 , mRunning {false}
 {
     setWindowTitle(title);
+    mWindow.setFramerateLimit(60);
 }
 
 bool Game::init() {
@@ -35,6 +36,10 @@ bool Game::run() {
     }
 
     mRunning = true;
+
+    sf::Time deltaTime;
+    sf::Clock frameTimer;
+    frameTimer.restart();
 
     while (mRunning) {
         sf::Event e;
@@ -54,9 +59,11 @@ bool Game::run() {
             }   
         }
 
+        deltaTime = frameTimer.getElapsedTime();
+        frameTimer.restart();
         if (!mStates.empty()) {
             mStates.back()->clear();
-            mStates.back()->update();
+            mStates.back()->update(deltaTime);
             mStates.back()->draw();
             mStates.back()->display();
         } else {

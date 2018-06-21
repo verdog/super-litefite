@@ -20,7 +20,8 @@ TextureManager::~TextureManager() {
 bool TextureManager::loadTexture(std::string key, std::string file) {
     sf::Texture tex;
     if (!tex.loadFromFile(file)) {
-        return false;
+        std::cerr << "ERROR: error loading file at path: " << file << "\n";
+        tex.loadFromFile("resources/img/error.png");
     }
 
     mTextureMap.insert(std::pair<std::string, sf::Texture>(key, tex));

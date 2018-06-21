@@ -24,7 +24,7 @@ public:
 
     virtual void init() {};
     virtual void clear();
-    virtual void update() {};
+    virtual void update(const sf::Time &dTime);
     virtual void draw();
     virtual void display();
 

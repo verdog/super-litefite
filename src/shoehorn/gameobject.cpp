@@ -16,7 +16,11 @@ GameObject::~GameObject() {
     //
 }
 
-void GameObject::update() {
+void GameObject::handleInput(const sf::Time &dTime) {
+    //
+}
+
+void GameObject::update(const sf::Time &dTime) {
 
 }
 
