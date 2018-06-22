@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "../../shoehorn/include/gamestate.hpp"
 
 namespace shoe {
@@ -14,6 +16,7 @@ namespace shoe {
 }
 
 class Player;
+class Wallygon;
 
 class DebugState : public shoe::GameState {
 public:
@@ -28,4 +31,5 @@ public:
 private:
     shoe::GameObject *mBackground;
     Player *mPlayer;
+    std::vector<Wallygon*> mWalls;
 };
