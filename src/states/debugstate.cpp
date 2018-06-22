@@ -47,12 +47,12 @@ void DebugState::init() {
     Wallygon *wall = new Wallygon;
     wall->rot = 0;
     wall->setPrimitiveType(sf::PrimitiveType::TriangleFan);
-    wall->append(sf::Vertex(sf::Vector2f(164, 164)));
-    wall->append(sf::Vertex(sf::Vector2f(128, 128)));
-    wall->append(sf::Vertex(sf::Vector2f(196, 128)));
-    wall->append(sf::Vertex(sf::Vector2f(196, 196)));
-    wall->append(sf::Vertex(sf::Vector2f(128, 196)));
-    wall->append(sf::Vertex(sf::Vector2f(128, 128)));
+    wall->append(sf::Vertex(sf::Vector2f(32, 32)));
+    wall->append(sf::Vertex(sf::Vector2f(0, 0)));
+    wall->append(sf::Vertex(sf::Vector2f(64, 0)));
+    wall->append(sf::Vertex(sf::Vector2f(64, 64)));
+    wall->append(sf::Vertex(sf::Vector2f(0, 64)));
+    wall->append(sf::Vertex(sf::Vector2f(0, 0)));
 
     // wall->append(sf::Vertex(sf::Vector2f(300, 300)));
     // wall->append(sf::Vertex(sf::Vector2f(350, 300)));
@@ -66,6 +66,7 @@ void DebugState::init() {
     (*wall)[4].texCoords = sf::Vector2f(0, 32);
     (*wall)[5].texCoords = sf::Vector2f(0, 0);
 
+    mWalls.push_back(wall);
     mWalls.push_back(wall);
 }
 
@@ -83,9 +84,23 @@ void DebugState::draw() {
     sf::RenderStates states;
     sf::Transform transform;
 
+    transform
+        .translate(sf::Vector2f(-32, -32))
+        .rotate(45)
+        .translate(sf::Vector2f(32, 32))
+        ;
+
     states.texture = mTextureManager->getTexture("bricks");
-    
     states.transform = transform;
 
     mGame->renderTexture().draw(*mWalls[0], states);
+
+    transform.combine(transform.getInverse());
+    transform
+        .rotate(45, sf::Vector2f(32, 32))
+        ;
+
+    states.transform = transform;
+
+    mGame->renderTexture().draw(*mWalls[1], states);
 }
