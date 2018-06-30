@@ -29,6 +29,7 @@ public:
     void loadTextures();
     void unLoadTextures();
     void init();
+    void cleanUp();
     void update(const sf::Time &dTime);
     void draw();
 private:

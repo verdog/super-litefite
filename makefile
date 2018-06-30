@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -g -Wall -MMD -MP -std=c++14
+CFLAGS = -g -Wall -MMD -MP -std=c++17
 LLIBS = -lsfml-system -lsfml-window -lsfml-graphics -lsfml-audio -lsfml-network
 
 SRCDIR = src

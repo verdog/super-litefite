@@ -25,6 +25,7 @@ public:
     virtual GameState* clone() const = 0;
 
     virtual void init() {};
+    virtual void cleanUp() {};
     virtual void clear();
     virtual void update(const sf::Time &dTime);
     virtual void draw();

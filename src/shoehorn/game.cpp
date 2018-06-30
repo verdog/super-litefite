@@ -57,6 +57,7 @@ bool Game::run() {
 
                         // this seems fishy
 
+                        newState->cleanUp();
                         newState->init();
                         pushState(newState);
                     }

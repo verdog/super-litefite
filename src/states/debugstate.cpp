@@ -10,6 +10,7 @@
 #include "../shoehorn/include/gamestate.hpp"
 #include "../shoehorn/include/texturemanager.hpp"
 #include "../shoehorn/include/game.hpp"
+#include "../shoehorn/include/random.hpp"
 #include "../shoehorn/include/fpscounter.hpp"
 
 #include "include/debugstate.hpp"
@@ -20,13 +21,12 @@
 DebugState::DebugState(shoe::Game *game) 
 : GameState(game)
 {
-    std::cerr << "DebugState()\n";
     loadTextures();
     init();
 }
 
 DebugState::~DebugState() {
-
+    cleanUp();
 }
 
 void DebugState::loadTextures() {
@@ -39,6 +39,8 @@ void DebugState::loadTextures() {
 }
 
 void DebugState::init() {
+    shoe::Random random;
+
     mFPS = new shoe::FpsCounter;
     mBackground = new shoe::GameObject;
     mBackground->setTexture(*mTextureManager->getTexture("bg"));
@@ -49,25 +51,17 @@ void DebugState::init() {
     mPlayer->setTexture(*mTextureManager->getTexture("player"), true);
     mObjects.push_back(mPlayer);
 
-    Wallygon *wall = new Wallygon;
-    wall->randomize(mGame->gameSize());
-    wall->mRot = 0;
-    wall->setPrimitiveType(sf::PrimitiveType::TriangleFan);
-    wall->append(sf::Vertex(sf::Vector2f(32, 32)));
-    wall->append(sf::Vertex(sf::Vector2f(0, 0)));
-    wall->append(sf::Vertex(sf::Vector2f(64, 0)));
-    wall->append(sf::Vertex(sf::Vector2f(64, 64)));
-    wall->append(sf::Vertex(sf::Vector2f(0, 64)));
-    wall->append(sf::Vertex(sf::Vector2f(0, 0)));
+    for (int i=0; i<5; i++) {
+        Wallygon *wall = new Wallygon;
+        wall->setPrimitiveType(sf::PrimitiveType::TriangleFan);
+        wall->randomize(3 + i, random.int_(32, 198), mGame->gameSize());
+        wall->mRot = 0;
+        mWalls.push_back(wall);
+    }
+}
 
-    (*wall)[0].texCoords = sf::Vector2f(16, 16);
-    (*wall)[1].texCoords = sf::Vector2f(0, 0);
-    (*wall)[2].texCoords = sf::Vector2f(32, 0);
-    (*wall)[3].texCoords = sf::Vector2f(32, 32);
-    (*wall)[4].texCoords = sf::Vector2f(0, 32);
-    (*wall)[5].texCoords = sf::Vector2f(0, 0);
-
-    mWalls.push_back(wall);
+void DebugState::cleanUp() {
+    mWalls.clear();
 }
 
 void DebugState::update(const sf::Time &dTime) {
@@ -80,14 +74,18 @@ void DebugState::update(const sf::Time &dTime) {
 }
 
 void DebugState::draw() {
-    for (shoe::GameObject* o : mObjects) {
+    for (shoe::GameObject *o : mObjects) {
         mGame->renderTexture().draw(*o);
     }
-    sf::RenderStates states;
 
+    sf::RenderStates states;
     states.texture = mTextureManager->getTexture("bricks");
 
-    mGame->renderTexture().draw(*mWalls[0], states);
+    for (Wallygon *w : mWalls) {
+        sf::Transform transform;
+        states.transform = transform.translate(w->mPosition);
+        mGame->renderTexture().draw(*w, states);
+    }
 
     mGame->renderTexture().draw(*mFPS);
 }
