@@ -4,6 +4,8 @@
  * Josh Chandler
 */
 
+#include <iostream>
+
 #include "../shoehorn/include/gameobject.hpp"
 #include "../shoehorn/include/gamestate.hpp"
 #include "../shoehorn/include/texturemanager.hpp"
@@ -18,6 +20,7 @@
 DebugState::DebugState(shoe::Game *game) 
 : GameState(game)
 {
+    std::cerr << "DebugState()\n";
     loadTextures();
     init();
 }
@@ -47,7 +50,8 @@ void DebugState::init() {
     mObjects.push_back(mPlayer);
 
     Wallygon *wall = new Wallygon;
-    wall->rot = 0;
+    wall->randomize(mGame->gameSize());
+    wall->mRot = 0;
     wall->setPrimitiveType(sf::PrimitiveType::TriangleFan);
     wall->append(sf::Vertex(sf::Vector2f(32, 32)));
     wall->append(sf::Vertex(sf::Vector2f(0, 0)));
@@ -56,11 +60,6 @@ void DebugState::init() {
     wall->append(sf::Vertex(sf::Vector2f(0, 64)));
     wall->append(sf::Vertex(sf::Vector2f(0, 0)));
 
-    // wall->append(sf::Vertex(sf::Vector2f(300, 300)));
-    // wall->append(sf::Vertex(sf::Vector2f(350, 300)));
-    // wall->append(sf::Vertex(sf::Vector2f(400, 400)));
-    // wall->append(sf::Vertex(sf::Vector2f(250, 400)));
-
     (*wall)[0].texCoords = sf::Vector2f(16, 16);
     (*wall)[1].texCoords = sf::Vector2f(0, 0);
     (*wall)[2].texCoords = sf::Vector2f(32, 0);
@@ -68,7 +67,6 @@ void DebugState::init() {
     (*wall)[4].texCoords = sf::Vector2f(0, 32);
     (*wall)[5].texCoords = sf::Vector2f(0, 0);
 
-    mWalls.push_back(wall);
     mWalls.push_back(wall);
 }
 
@@ -86,27 +84,10 @@ void DebugState::draw() {
         mGame->renderTexture().draw(*o);
     }
     sf::RenderStates states;
-    sf::Transform transform;
-
-    transform
-        .translate(sf::Vector2f(-32, -32))
-        .rotate(45)
-        .translate(sf::Vector2f(32, 32))
-        ;
 
     states.texture = mTextureManager->getTexture("bricks");
-    states.transform = transform;
 
     mGame->renderTexture().draw(*mWalls[0], states);
-
-    transform.combine(transform.getInverse());
-    transform
-        .rotate(45, sf::Vector2f(32, 32))
-        ;
-
-    states.transform = transform;
-
-    mGame->renderTexture().draw(*mWalls[1], states);
 
     mGame->renderTexture().draw(*mFPS);
 }

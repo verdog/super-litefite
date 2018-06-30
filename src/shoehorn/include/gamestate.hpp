@@ -22,6 +22,8 @@ class GameState {
 public:
     GameState(Game *game);
 
+    virtual GameState* clone() const = 0;
+
     virtual void init() {};
     virtual void clear();
     virtual void update(const sf::Time &dTime);

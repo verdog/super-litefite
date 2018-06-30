@@ -50,6 +50,17 @@ bool Game::run() {
                     break;
 
                 case sf::Event::KeyPressed:
+                    if (e.key.code == sf::Keyboard::R) {
+                        GameState *old = popState();
+                        GameState *newState = old->clone();
+                        delete old;
+
+                        // this seems fishy
+
+                        newState->init();
+                        pushState(newState);
+                    }
+
                     if (e.key.code == sf::Keyboard::X) {
                         popState();
                     }
@@ -102,6 +113,10 @@ void Game::setGameSize(uint x, uint y) {
     mWindow.setSize(mPixelScale * mGameResolution);
     sf::View view(sf::FloatRect(0.f, 0.f, (float)mGameResolution.x, (float)mGameResolution.y));
     mWindow.setView(view);
+}
+
+sf::Vector2u Game::gameSize() {
+    return mGameResolution;
 }
 
 void Game::setPixelScale(uint scale) {

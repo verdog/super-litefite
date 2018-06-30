@@ -11,6 +11,10 @@ public:
     Wallygon();
     ~Wallygon();
 
-    int rot;
+    void randomize(sf::Vector2u size);
+    void randomize(uint maxX, uint maxY);
+
+    int mRot;
+    sf::Vector2f mPosition;
 private:
 };

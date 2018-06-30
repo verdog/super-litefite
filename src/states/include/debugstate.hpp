@@ -24,6 +24,8 @@ public:
     DebugState(shoe::Game *game);
     ~DebugState();
 
+    DebugState* clone() const { return new DebugState(*this); }
+
     void loadTextures();
     void unLoadTextures();
     void init();

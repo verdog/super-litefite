@@ -31,6 +31,7 @@ public:
 
     // view management
     void setGameSize(sf::Vector2u size);
+    sf::Vector2u gameSize();
     void setGameSize(uint x, uint y);
     void setPixelScale(uint scale);
 
