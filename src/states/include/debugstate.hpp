@@ -13,6 +13,7 @@
 namespace shoe {
     class Game;
     class GameObject;
+    class FpsCounter;
 }
 
 class Player;
@@ -32,4 +33,5 @@ private:
     shoe::GameObject *mBackground;
     Player *mPlayer;
     std::vector<Wallygon*> mWalls;
+    shoe::FpsCounter *mFPS;
 };

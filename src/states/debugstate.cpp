@@ -8,6 +8,7 @@
 #include "../shoehorn/include/gamestate.hpp"
 #include "../shoehorn/include/texturemanager.hpp"
 #include "../shoehorn/include/game.hpp"
+#include "../shoehorn/include/fpscounter.hpp"
 
 #include "include/debugstate.hpp"
 #include "../include/wallygon.hpp"
@@ -35,6 +36,7 @@ void DebugState::loadTextures() {
 }
 
 void DebugState::init() {
+    mFPS = new shoe::FpsCounter;
     mBackground = new shoe::GameObject;
     mBackground->setTexture(*mTextureManager->getTexture("bg"));
     mBackground->setTextureRect(sf::IntRect(0,0,mGame->window().getSize().x,mGame->window().getSize().y));
@@ -75,6 +77,8 @@ void DebugState::update(const sf::Time &dTime) {
         o->handleInput(dTime);
         o->update(dTime);
     }
+
+    mFPS->tick();
 }
 
 void DebugState::draw() {
@@ -103,4 +107,6 @@ void DebugState::draw() {
     states.transform = transform;
 
     mGame->renderTexture().draw(*mWalls[1], states);
+
+    mGame->renderTexture().draw(*mFPS);
 }
