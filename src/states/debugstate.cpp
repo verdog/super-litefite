@@ -87,5 +87,5 @@ void DebugState::draw() {
         mGame->renderTexture().draw(*w, states);
     }
 
-    mGame->renderTexture().draw(*mFPS);
+    // mGame->renderTexture().draw(*mFPS);
 }
