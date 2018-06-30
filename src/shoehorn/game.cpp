@@ -53,6 +53,10 @@ bool Game::run() {
                     if (e.key.code == sf::Keyboard::X) {
                         popState();
                     }
+
+                    if (e.key.code == sf::Keyboard::Escape) {
+                        mRunning = false;
+                    }
             
                 default:
                     break;
