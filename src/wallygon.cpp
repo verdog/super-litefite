@@ -67,4 +67,12 @@ void Wallygon::randomize(uint sides, uint radius, uint maxX, uint maxY) {
     }
 
     (*this)[getVertexCount()-1].position = (*this)[1].position;
+
+
+    for (uint i=0; i<getVertexCount(); i++) {
+        sf::Transform t;
+        t = t.rotate(random.int_(0,180));
+        
+        (*this)[i].texCoords = t.transformPoint((*this)[i].position);
+    }
 }
