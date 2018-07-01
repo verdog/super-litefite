@@ -32,9 +32,10 @@ public:
     void cleanUp();
     void update(const sf::Time &dTime);
     void draw();
+    
+    std::vector<Wallygon*> mWalls;
+    shoe::FpsCounter *mFPS;
 private:
     shoe::GameObject *mBackground;
     Player *mPlayer;
-    std::vector<Wallygon*> mWalls;
-    shoe::FpsCounter *mFPS;
 };

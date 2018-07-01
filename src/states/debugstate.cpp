@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include "../shoehorn/include/gameobject.hpp"
+#include "../shoehorn/include/collisionpolygon.hpp"
 #include "../shoehorn/include/gamestate.hpp"
 #include "../shoehorn/include/texturemanager.hpp"
 #include "../shoehorn/include/game.hpp"
@@ -42,16 +43,16 @@ void DebugState::init() {
     shoe::Random random;
 
     mFPS = new shoe::FpsCounter;
-    mBackground = new shoe::GameObject;
+    mBackground = new shoe::GameObject(this);
     mBackground->setTexture(*mTextureManager->getTexture("bg"));
     mBackground->setTextureRect(sf::IntRect(0,0,mGame->window().getSize().x,mGame->window().getSize().y));
     mObjects.push_back(mBackground);
 
-    mPlayer = new Player;
+    mPlayer = new Player(this);
     mPlayer->setTexture(*mTextureManager->getTexture("player"), true);
     mObjects.push_back(mPlayer);
 
-    for (int i=0; i<5; i++) {
+    for (int i=0; i<1; i++) {
         Wallygon *wall = new Wallygon;
         wall->setPrimitiveType(sf::PrimitiveType::TriangleFan);
         wall->randomize(3 + i, random.int_(32, 198), mGame->gameSize());
@@ -61,6 +62,7 @@ void DebugState::init() {
 }
 
 void DebugState::cleanUp() {
+    mObjects.clear();
     mWalls.clear();
 }
 
@@ -75,16 +77,20 @@ void DebugState::update(const sf::Time &dTime) {
 
 void DebugState::draw() {
     for (shoe::GameObject *o : mObjects) {
+        sf::Transform t;
+        t.translate(o->getPosition());
+        sf::RenderStates states(t);
         mGame->renderTexture().draw(*o);
+        mGame->renderTexture().draw(o->collisionPolygon(), states);
     }
 
     sf::RenderStates states;
     states.texture = mTextureManager->getTexture("bricks");
 
     for (Wallygon *w : mWalls) {
-        sf::Transform transform;
-        states.transform = transform.translate(w->mPosition);
+        states.transform = w->collisionPolygon().transform();
         mGame->renderTexture().draw(*w, states);
+        mGame->renderTexture().draw(w->collisionPolygon(), sf::RenderStates(sf::Transform(w->collisionPolygon().transform())));
     }
 
     // mGame->renderTexture().draw(*mFPS);

@@ -8,9 +8,13 @@
 
 #include "../shoehorn/include/gameobject.hpp"
 
+namespace shoe {
+    class GameState;
+}
+
 class Player : public shoe::GameObject {
 public:
-    Player();
+    Player(shoe::GameState *state);
     ~Player();
 
     void handleInput(const sf::Time &dTime);

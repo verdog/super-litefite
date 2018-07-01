@@ -9,13 +9,16 @@
 #include <cmath>
 
 #include "shoehorn/include/random.hpp"
+#include "shoehorn/include/gameobject.hpp"
+#include "shoehorn/include/collisionpolygon.hpp"
 
 #include "include/wallygon.hpp"
 
 const double pi = std::acos(-1);
 
 Wallygon::Wallygon() 
-: VertexArray() 
+: VertexArray()
+, mCPolygon(new shoe::CollisionPolygon) 
 {
     mRad = 128;
 }
@@ -39,18 +42,17 @@ void Wallygon::randomize(uint sides, uint radius, uint maxX, uint maxY) {
     maxX = maxX * (1 - tweak);
     maxY = maxY * (1 - tweak);
 
-    mPosition = sf::Vector2f(random.int_(minX, maxX), random.int_(minY, maxY));
+    setPosition(sf::Vector2f(random.int_(minX, maxX), random.int_(minY, maxY)));
     mRad = radius;
 
     clear();
     resize(sides + 2);
 
     std::vector<sf::Vector2f> points;
-    uint size = radius*2/3;
+    uint size = random.int_(radius*2/3, radius);
 
     // pick {size} distances and angles
     for (uint i=0; i<getVertexCount()-2; i++) {
-        size = std::clamp(size+random.int_(-(int)radius/2, radius/2), radius*1/3, radius);
         uint angle = random.double_(i*360/(getVertexCount()-2), (i+1)*360/(getVertexCount()-2));
 
         points.push_back(sf::Vector2f(
@@ -75,4 +77,30 @@ void Wallygon::randomize(uint sides, uint radius, uint maxX, uint maxY) {
         
         (*this)[i].texCoords = t.transformPoint((*this)[i].position);
     }
+
+    // update collision polygon
+    sf::VertexArray collisionVerts;
+    collisionVerts.resize(getVertexCount()-2);
+
+    for (uint i=1; i<getVertexCount()-1; i++) {
+        collisionVerts[i-1].position = (*this)[i].position;
+    }
+    mCPolygon->readPointsFromVertexArray(collisionVerts);
+}
+
+void Wallygon::setPosition(sf::Vector2f position) {
+    mPosition = position;
+
+    sf::Transform transform;
+    transform.translate(position);
+
+    mCPolygon->setTransform(transform);
+}
+
+bool Wallygon::collidesWith(const shoe::GameObject &other) {
+    return other.collidesWith(*mCPolygon);
+}
+
+shoe::CollisionPolygon Wallygon::collisionPolygon() {
+    return *mCPolygon;   
 }
