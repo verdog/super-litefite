@@ -9,6 +9,7 @@
 #pragma once
 
 #include <vector>
+#include <cmath>
 
 #include <SFML/Graphics.hpp>
 
@@ -20,11 +21,9 @@ struct Projection {
     , max {maxx}
     {};
 
-    bool overlaps(const Projection &p) {
-        return 
-            (max > p.min) &&
-            (min < p.max)
-            ;
+    float overlap(const Projection &p) const {
+        // this calculates the length of the overlap
+        return std::max(0.f, std::min(max, p.max) - std::max(min, p.min));
     };
 
     float min;
@@ -47,8 +46,7 @@ public:
     Projection projectOnto(const sf::Vector2f &axis) const;
     sf::Vector2f toVector2f(const sf::Vertex &v) const;
 
-    // sf::Vector2f collidesWith(const CollisionPolygon &other);
-    bool collidesWith(const CollisionPolygon &other);
+    sf::Vector2f collidesWith(const CollisionPolygon &other);
 private:
     sf::Vector2f mPosition;
     sf::Transform mTransform;

@@ -55,7 +55,7 @@ void DebugState::init() {
     for (int i=0; i<1; i++) {
         Wallygon *wall = new Wallygon;
         wall->setPrimitiveType(sf::PrimitiveType::TriangleFan);
-        wall->randomize(3 + i, random.int_(32, 198), mGame->gameSize());
+        wall->randomize(4 + i, random.int_(32, 198), mGame->gameSize());
         wall->mRot = 0;
         mWalls.push_back(wall);
     }

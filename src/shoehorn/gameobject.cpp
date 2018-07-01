@@ -37,11 +37,11 @@ CollisionPolygon GameObject::collisionPolygon() const {
     return *mCollisionPoly;
 }
 
-bool GameObject::collidesWith(const GameObject &other) const {
+sf::Vector2f GameObject::collidesWith(const GameObject &other) const {
     return mCollisionPoly->collidesWith(other.collisionPolygon());
 }
 
-bool GameObject::collidesWith(const CollisionPolygon &other) const {
+sf::Vector2f GameObject::collidesWith(const CollisionPolygon &other) const {
     return mCollisionPoly->collidesWith(other);
 }
 

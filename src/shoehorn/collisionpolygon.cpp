@@ -52,27 +52,51 @@ void CollisionPolygon::setTransform(sf::Transform transform) {
     mTransform = transform;
 }
 
-// sf::Vector2f CollisionPolygon::collidesWith(const CollisionPolygon &other) {
-//     //
-//     return sf::Vector2f(0,0);
-// }
-
-bool CollisionPolygon::collidesWith(const CollisionPolygon &other) {
+sf::Vector2f CollisionPolygon::collidesWith(const CollisionPolygon &other) {
     std::vector<sf::Vector2f> normals = getNormals();
     std::vector<sf::Vector2f> otherNormals = other.getNormals();
-    normals.reserve(otherNormals.size());
-    normals.insert(normals.end(), otherNormals.begin(), otherNormals.end());
+
+    float smallestOverlap = 999999.f;
+    sf::Vector2f minTranslationVect = sf::Vector2f(0, 0);
+
+    // two seperate loops are needed to provide the correct MTV
+    // this function must return the MTV that would push the object calling it (not other)
 
     for (sf::Vector2f n : normals) {
         Projection p1 = projectOnto(n);
         Projection p2 = other.projectOnto(n);
 
-        if (!p1.overlaps(p2)) {
-            return false;
+        if (float overlap = p1.overlap(p2); overlap == 0.f) {
+            return sf::Vector2f(0, 0);
+        } else {
+            if (overlap < smallestOverlap) {
+                smallestOverlap = overlap;
+                std::cout << "NEW SMALL (my normals): ";
+                // the normal is pointing outwards, but we should "move" inwards
+                n = -n;
+                std::cout << n.x << ", " << n.y << ", " << overlap << ", " << smallestOverlap << std::endl;
+                minTranslationVect = n * smallestOverlap;
+            }
         }
     }
 
-    return true;
+    for (sf::Vector2f n : otherNormals) {
+        Projection p1 = projectOnto(n);
+        Projection p2 = other.projectOnto(n);
+
+        if (float overlap = p1.overlap(p2); overlap == 0.f) {
+            return sf::Vector2f(0, 0);
+        } else {
+            if (overlap < smallestOverlap) {
+                smallestOverlap = overlap;
+                std::cout << "NEW SMALL (other normals): ";
+                std::cout << n.x << ", " << n.y << ", " << overlap << ", " << smallestOverlap << std::endl;
+                minTranslationVect = n * smallestOverlap;
+            }
+        }
+    }
+
+    return minTranslationVect;
 }
 
 std::vector<sf::Vector2f> CollisionPolygon::getNormals() const {

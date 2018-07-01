@@ -55,6 +55,8 @@ bool Game::run() {
                         GameState *newState = old->clone();
                         delete old;
 
+                        std::cout << "RESTART\n";
+
                         // this seems fishy
 
                         newState->cleanUp();

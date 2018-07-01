@@ -24,8 +24,8 @@ public:
 
     CollisionPolygon collisionPolygon() const;
     
-    bool collidesWith(const GameObject &other) const;
-    bool collidesWith(const CollisionPolygon &other) const;
+    sf::Vector2f collidesWith(const GameObject &other) const;
+    sf::Vector2f collidesWith(const CollisionPolygon &other) const;
 
     void makeIntoRegularShape(uint sides, uint radius);
     void makeIntoRect(sf::Vector2f size);

@@ -21,7 +21,7 @@ public:
 
     void setPosition(sf::Vector2f position);
 
-    bool collidesWith(const shoe::GameObject &other);
+    sf::Vector2f collidesWith(const shoe::GameObject &other);
 
     shoe::CollisionPolygon collisionPolygon();
 

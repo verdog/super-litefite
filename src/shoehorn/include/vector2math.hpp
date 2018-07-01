@@ -27,7 +27,7 @@ public:
     }
 
     static sf::Vector2f normal(const sf::Vector2f &v) {
-        return sf::Vector2f(-v.y, v.x);
+        return sf::Vector2f(v.y, -v.x);
     }
 
     static sf::Vector2f projection(const sf::Vector2f &v, const sf::Vector2f &axis) {

@@ -21,7 +21,7 @@ Player::Player(shoe::GameState *state)
 : GameObject(state)
 {
     // setOrigin(16.f, 16.f);
-    makeIntoRegularShape(6, 16);
+    makeIntoRegularShape(4, 16);
     // makeIntoRect(sf::Vector2f(32.f, 32.f));
 }
 
@@ -69,8 +69,14 @@ void Player::update(const sf::Time &dTime) {
         DebugState *state = dynamic_cast<DebugState*>(mState);
 
         for (Wallygon *w : state->mWalls) {
-            if (w->collidesWith(*this)) {
-                std::cout << "Player::update(): hit! " << state->mFPS->mFrames_total << "\n";
+            sf::Vector2f MTA = -w->collidesWith(*this);
+            // we make this negative because collidesWith() returns how much the
+            // caller of the function should move (so here, it returns how much the wall should move.)
+            // we want to move the player, not the wall, so we invert it
+
+            if (MTA != sf::Vector2f(0, 0)) {
+                std::cout << MTA.x << "," << MTA.y << std::endl;
+                move(MTA);
             }
         }
     } else {

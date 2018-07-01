@@ -97,8 +97,8 @@ void Wallygon::setPosition(sf::Vector2f position) {
     mCPolygon->setTransform(transform);
 }
 
-bool Wallygon::collidesWith(const shoe::GameObject &other) {
-    return other.collidesWith(*mCPolygon);
+sf::Vector2f Wallygon::collidesWith(const shoe::GameObject &other) {
+    return mCPolygon->collidesWith(other.collisionPolygon());
 }
 
 shoe::CollisionPolygon Wallygon::collisionPolygon() {
