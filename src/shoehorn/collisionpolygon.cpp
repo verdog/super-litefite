@@ -44,6 +44,14 @@ void CollisionPolygon::setPosition(sf::Vector2f position) {
     mPosition = position;
 }
 
+sf::Vector2f CollisionPolygon::getMidpoint() const {
+    sf::Vector2f midpoint;
+    for (uint i=0; i<getVertexCount(); i++) {
+        midpoint += mTransform.transformPoint(toVector2f((*this)[i].position));
+    }
+    return midpoint/(float)getVertexCount();
+}
+
 sf::Transform CollisionPolygon::transform() {
     return mTransform;
 }
@@ -55,12 +63,11 @@ void CollisionPolygon::setTransform(sf::Transform transform) {
 sf::Vector2f CollisionPolygon::collidesWith(const CollisionPolygon &other) {
     std::vector<sf::Vector2f> normals = getNormals();
     std::vector<sf::Vector2f> otherNormals = other.getNormals();
+    normals.reserve(otherNormals.size());
+    normals.insert(normals.end(), otherNormals.begin(), otherNormals.end());
 
     float smallestOverlap = 999999.f;
     sf::Vector2f minTranslationVect = sf::Vector2f(0, 0);
-
-    // two seperate loops are needed to provide the correct MTV
-    // this function must return the MTV that would push the object calling it (not other)
 
     for (sf::Vector2f n : normals) {
         Projection p1 = projectOnto(n);
@@ -71,26 +78,13 @@ sf::Vector2f CollisionPolygon::collidesWith(const CollisionPolygon &other) {
         } else {
             if (overlap < smallestOverlap) {
                 smallestOverlap = overlap;
-                std::cout << "NEW SMALL (my normals): ";
-                // the normal is pointing outwards, but we should "move" inwards
-                n = -n;
-                std::cout << n.x << ", " << n.y << ", " << overlap << ", " << smallestOverlap << std::endl;
-                minTranslationVect = n * smallestOverlap;
-            }
-        }
-    }
 
-    for (sf::Vector2f n : otherNormals) {
-        Projection p1 = projectOnto(n);
-        Projection p2 = other.projectOnto(n);
+                // check if normal is pointing towards or away other
+                // this must be done in the case of parallel vectors
+                if (Vector2Math::dot(getMidpoint() - other.getMidpoint(), n) < 0) {
+                    n *= -1.f;
+                }
 
-        if (float overlap = p1.overlap(p2); overlap == 0.f) {
-            return sf::Vector2f(0, 0);
-        } else {
-            if (overlap < smallestOverlap) {
-                smallestOverlap = overlap;
-                std::cout << "NEW SMALL (other normals): ";
-                std::cout << n.x << ", " << n.y << ", " << overlap << ", " << smallestOverlap << std::endl;
                 minTranslationVect = n * smallestOverlap;
             }
         }

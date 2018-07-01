@@ -39,6 +39,8 @@ public:
 
     void setPosition(sf::Vector2f position);
 
+    sf::Vector2f getMidpoint() const;
+
     sf::Transform transform();
     void setTransform(sf::Transform transform);
 
@@ -50,6 +52,7 @@ public:
 private:
     sf::Vector2f mPosition;
     sf::Transform mTransform;
+    sf::Vector2f mMidpoint;
 };
 
 } // shoe
