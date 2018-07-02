@@ -20,7 +20,7 @@ Wallygon::Wallygon()
 : VertexArray()
 , mCPolygon(new shoe::CollisionPolygon) 
 {
-    mRad = 128;
+    // mRad = 128;
 }
 
 Wallygon::~Wallygon() {
@@ -85,16 +85,26 @@ void Wallygon::randomize(uint sides, uint radius, uint maxX, uint maxY) {
     for (uint i=1; i<getVertexCount()-1; i++) {
         collisionVerts[i-1].position = (*this)[i].position;
     }
-    mCPolygon->readPointsFromVertexArray(collisionVerts);
+    mCPolygon->loadPointsFromVertexArray(collisionVerts);
+}
+
+void Wallygon::move(sf::Vector2f push) {
+    setPosition(mPosition + push);
+}
+
+void Wallygon::rotate(float angle) {
+    mRot = (mRot + angle);
 }
 
 void Wallygon::setPosition(sf::Vector2f position) {
     mPosition = position;
 
-    sf::Transform transform;
-    transform.translate(position);
+    sf::Transform t;
 
-    mCPolygon->setTransform(transform);
+    t.translate(position);
+    t.rotate(mRot, 0.f, 0.f);
+
+    mCPolygon->setTransform(t);
 }
 
 sf::Vector2f Wallygon::collidesWith(const shoe::GameObject &other) {

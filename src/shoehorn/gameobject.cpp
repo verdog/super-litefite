@@ -16,7 +16,7 @@ namespace shoe {
 
 GameObject::GameObject(GameState *state) 
 : mState {state}
-, mCollisionPoly(new CollisionPolygon)
+, mCollisionPoly(new CollisionPolygon())
 {
     //
 }

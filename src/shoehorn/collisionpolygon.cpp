@@ -19,7 +19,8 @@ const double pi = std::acos(-1);
 
 namespace shoe {
 
-CollisionPolygon::CollisionPolygon() {
+CollisionPolygon::CollisionPolygon() 
+{
     //
 }
 
@@ -27,7 +28,19 @@ CollisionPolygon::~CollisionPolygon() {
     //
 }
 
-void CollisionPolygon::readPointsFromVertexArray(const sf::VertexArray &verts) {
+void CollisionPolygon::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+    sf::VertexArray va = *this;
+    
+    if (va.getVertexCount() != 0) {
+        va.append(va[0]);
+    }
+    
+    states.transform = mTransform;
+
+    target.draw(va, states);
+}
+
+void CollisionPolygon::loadPointsFromVertexArray(const sf::VertexArray &verts) {
     clear();
     resize(verts.getVertexCount());
     setPrimitiveType(sf::PrimitiveType::LineStrip);
@@ -96,10 +109,10 @@ sf::Vector2f CollisionPolygon::collidesWith(const CollisionPolygon &other) {
 std::vector<sf::Vector2f> CollisionPolygon::getNormals() const {
     std::vector<sf::Vector2f> normals;
     for (uint i=0; i<getVertexCount(); i++) {
-        sf::Vector2f v1 = toVector2f((*this)[i]);
+        sf::Vector2f v1 = mTransform.transformPoint(toVector2f((*this)[i]));
         // gets next index (loops to 0 on overflow)
         uint nextIdx = (i + 1 == getVertexCount() ? 0 : i + 1);
-        sf::Vector2f v2 = toVector2f((*this)[nextIdx]);
+        sf::Vector2f v2 = mTransform.transformPoint(toVector2f((*this)[nextIdx]));
 
         sf::Vector2f side = v2 - v1;
         normals.push_back(Vector2Math::normalize(Vector2Math::normal(side)));

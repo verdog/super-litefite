@@ -4,7 +4,9 @@
  * Josh Chandler
 */
 
+#include <vector>
 #include <iostream>
+#include <algorithm>
 
 #include "../shoehorn/include/gameobject.hpp"
 #include "../shoehorn/include/collisionpolygon.hpp"
@@ -52,11 +54,11 @@ void DebugState::init() {
     mPlayer->setTexture(*mTextureManager->getTexture("player"), true);
     mObjects.push_back(mPlayer);
 
-    for (int i=0; i<1; i++) {
+    for (int i=0; i<6; i++) {
         Wallygon *wall = new Wallygon;
         wall->setPrimitiveType(sf::PrimitiveType::TriangleFan);
-        wall->randomize(4 + i, random.int_(32, 198), mGame->gameSize());
-        wall->mRot = 0;
+        wall->randomize(4 + i/2, random.int_(32, 128), mGame->gameSize());
+
         mWalls.push_back(wall);
     }
 }
@@ -67,9 +69,27 @@ void DebugState::cleanUp() {
 }
 
 void DebugState::update(const sf::Time &dTime) {
+    shoe::Random random;
+
     for (shoe::GameObject* o : mObjects) {
         o->handleInput(dTime);
         o->update(dTime);
+    }
+
+    for (uint i=0; i<mWalls.size(); i++) {
+        Wallygon *w = mWalls[i];
+
+        std::vector<Wallygon*> sans = mWalls;
+        sans.erase(sans.begin() + i);
+        std::random_shuffle(sans.begin(), sans.end());
+
+        for (Wallygon *sw : sans) {
+            sf::Vector2f MTA = w->collisionPolygon().collidesWith(sw->collisionPolygon());
+            if (MTA != sf::Vector2f(0, 0)) {
+                w->move(MTA * 0.2f);
+                break;
+            }
+        }
     }
 
     mFPS->tick();
@@ -77,11 +97,10 @@ void DebugState::update(const sf::Time &dTime) {
 
 void DebugState::draw() {
     for (shoe::GameObject *o : mObjects) {
-        sf::Transform t;
-        t.translate(o->getPosition());
+        sf::Transform t = o->getTransform();
         sf::RenderStates states(t);
         mGame->renderTexture().draw(*o);
-        mGame->renderTexture().draw(o->collisionPolygon(), states);
+        // mGame->renderTexture().draw(o->collisionPolygon());
     }
 
     sf::RenderStates states;
@@ -90,7 +109,7 @@ void DebugState::draw() {
     for (Wallygon *w : mWalls) {
         states.transform = w->collisionPolygon().transform();
         mGame->renderTexture().draw(*w, states);
-        mGame->renderTexture().draw(w->collisionPolygon(), sf::RenderStates(sf::Transform(w->collisionPolygon().transform())));
+        mGame->renderTexture().draw(w->collisionPolygon());
     }
 
     // mGame->renderTexture().draw(*mFPS);

@@ -31,7 +31,7 @@ public:
     }
 
     static sf::Vector2f projection(const sf::Vector2f &v, const sf::Vector2f &axis) {
-        return dot(v, normalize(axis)) * axis;
+        return (dot(v, normalize(axis))) * axis;
     }
 };
 

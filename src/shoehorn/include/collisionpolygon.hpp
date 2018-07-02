@@ -35,7 +35,9 @@ public:
     CollisionPolygon();
     ~CollisionPolygon();
 
-    void readPointsFromVertexArray(const sf::VertexArray &verts);
+    void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+
+    void loadPointsFromVertexArray(const sf::VertexArray &verts);
 
     void setPosition(sf::Vector2f position);
 
@@ -52,7 +54,6 @@ public:
 private:
     sf::Vector2f mPosition;
     sf::Transform mTransform;
-    sf::Vector2f mMidpoint;
 };
 
 } // shoe

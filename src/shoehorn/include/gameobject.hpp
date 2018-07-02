@@ -14,6 +14,12 @@ namespace shoe
 class GameState;
 class CollisionPolygon;
 
+struct PhysicsProperties {
+    float drag; // drag in air
+    float friction; // drag against an object
+    float bounce; // bounce off object
+};
+
 class GameObject : public sf::Sprite {
 public:
     GameObject(GameState *state);
@@ -30,10 +36,14 @@ public:
     void makeIntoRegularShape(uint sides, uint radius);
     void makeIntoRect(sf::Vector2f size);
 
+    PhysicsProperties physics() { return mPhysics; };
+
 protected:
     GameState *mState;
     sf::Vector2f mVelocity;
     std::unique_ptr<CollisionPolygon> mCollisionPoly;
+
+    PhysicsProperties mPhysics;
 };
 
 }
