@@ -28,3 +28,6 @@ you can also try this:
 make fast
 ```
 to build with compiler optimizations on, which usually boosts performance a lot.
+
+## warning
+i write bad code. you have been warned.
