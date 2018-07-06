@@ -30,7 +30,7 @@ struct Projection {
     float max;
 };
     
-class CollisionPolygon : public sf::VertexArray {
+class CollisionPolygon : public sf::VertexArray, public sf::Transformable {
 public:
     CollisionPolygon();
     ~CollisionPolygon();
@@ -39,21 +39,13 @@ public:
 
     void loadPointsFromVertexArray(const sf::VertexArray &verts);
 
-    void setPosition(sf::Vector2f position);
-
     sf::Vector2f getMidpoint() const;
-
-    sf::Transform transform();
-    void setTransform(sf::Transform transform);
 
     std::vector<sf::Vector2f> getNormals() const;
     Projection projectOnto(const sf::Vector2f &axis) const;
-    sf::Vector2f toVector2f(const sf::Vertex &v) const;
 
     sf::Vector2f collidesWith(const CollisionPolygon &other);
 private:
-    sf::Vector2f mPosition;
-    sf::Transform mTransform;
 };
 
 } // shoe

@@ -33,6 +33,10 @@ public:
     static sf::Vector2f projection(const sf::Vector2f &v, const sf::Vector2f &axis) {
         return (dot(v, normalize(axis))) * axis;
     }
+
+    static sf::Vector2f toVector2f(const sf::Vertex &v) {
+        return sf::Vector2f(v.position.x, v.position.y);
+    }
 };
 
 } // shoe   

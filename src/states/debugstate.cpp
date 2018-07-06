@@ -52,11 +52,10 @@ void DebugState::init() {
 
     mPlayer = new Player(this);
     mPlayer->setTexture(*mTextureManager->getTexture("player"), true);
-    mObjects.push_back(mPlayer);
+    // mObjects.push_back(mPlayer);
 
     for (int i=0; i<6; i++) {
-        Wallygon *wall = new Wallygon;
-        wall->setPrimitiveType(sf::PrimitiveType::TriangleFan);
+        Wallygon *wall = new Wallygon(this);
         wall->randomize(4 + i/2, random.int_(32, 128), mGame->gameSize());
 
         mWalls.push_back(wall);
@@ -97,17 +96,14 @@ void DebugState::update(const sf::Time &dTime) {
 
 void DebugState::draw() {
     for (shoe::GameObject *o : mObjects) {
-        sf::Transform t = o->getTransform();
-        sf::RenderStates states(t);
         mGame->renderTexture().draw(*o);
-        // mGame->renderTexture().draw(o->collisionPolygon());
+        mGame->renderTexture().draw(o->collisionPolygon());
     }
 
     sf::RenderStates states;
     states.texture = mTextureManager->getTexture("bricks");
 
     for (Wallygon *w : mWalls) {
-        states.transform = w->collisionPolygon().transform();
         mGame->renderTexture().draw(*w, states);
         mGame->renderTexture().draw(w->collisionPolygon());
     }

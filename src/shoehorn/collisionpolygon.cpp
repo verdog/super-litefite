@@ -34,8 +34,11 @@ void CollisionPolygon::draw(sf::RenderTarget &target, sf::RenderStates states) c
     if (va.getVertexCount() != 0) {
         va.append(va[0]);
     }
-    
-    states.transform = mTransform;
+
+    sf::Transform t;
+    t.translate(128, 128);
+    // states.transform = getTransform();
+    states.transform = t;
 
     target.draw(va, states);
 }
@@ -50,27 +53,12 @@ void CollisionPolygon::loadPointsFromVertexArray(const sf::VertexArray &verts) {
     }
 }
 
-void CollisionPolygon::setPosition(sf::Vector2f position) {
-    sf::Transform newTransform;
-    newTransform.translate(position);
-    mTransform = newTransform;
-    mPosition = position;
-}
-
 sf::Vector2f CollisionPolygon::getMidpoint() const {
     sf::Vector2f midpoint;
     for (uint i=0; i<getVertexCount(); i++) {
-        midpoint += mTransform.transformPoint(toVector2f((*this)[i].position));
+        midpoint += getTransform().transformPoint(Vector2Math::toVector2f((*this)[i].position));
     }
     return midpoint/(float)getVertexCount();
-}
-
-sf::Transform CollisionPolygon::transform() {
-    return mTransform;
-}
-
-void CollisionPolygon::setTransform(sf::Transform transform) {
-    mTransform = transform;
 }
 
 sf::Vector2f CollisionPolygon::collidesWith(const CollisionPolygon &other) {
@@ -109,10 +97,10 @@ sf::Vector2f CollisionPolygon::collidesWith(const CollisionPolygon &other) {
 std::vector<sf::Vector2f> CollisionPolygon::getNormals() const {
     std::vector<sf::Vector2f> normals;
     for (uint i=0; i<getVertexCount(); i++) {
-        sf::Vector2f v1 = mTransform.transformPoint(toVector2f((*this)[i]));
+        sf::Vector2f v1 = getTransform().transformPoint(Vector2Math::toVector2f((*this)[i]));
         // gets next index (loops to 0 on overflow)
         uint nextIdx = (i + 1 == getVertexCount() ? 0 : i + 1);
-        sf::Vector2f v2 = mTransform.transformPoint(toVector2f((*this)[nextIdx]));
+        sf::Vector2f v2 = getTransform().transformPoint(Vector2Math::toVector2f((*this)[nextIdx]));
 
         sf::Vector2f side = v2 - v1;
         normals.push_back(Vector2Math::normalize(Vector2Math::normal(side)));
@@ -123,11 +111,11 @@ std::vector<sf::Vector2f> CollisionPolygon::getNormals() const {
 Projection CollisionPolygon::projectOnto(const sf::Vector2f &axis) const {
     sf::Vector2f nAxis = Vector2Math::normalize(axis);
 
-    float min = Vector2Math::dot(mTransform.transformPoint(toVector2f((*this)[0])), nAxis);
+    float min = Vector2Math::dot(getTransform().transformPoint(Vector2Math::toVector2f((*this)[0])), nAxis);
     float max = min;
 
     for (uint i=1; i<getVertexCount(); i++) {
-        sf::Vector2f v = mTransform.transformPoint(toVector2f((*this)[i]));
+        sf::Vector2f v = getTransform().transformPoint(Vector2Math::toVector2f((*this)[i]));
         float dot = Vector2Math::dot(v, nAxis);
         if (dot < min) {
             min = dot;
@@ -137,10 +125,6 @@ Projection CollisionPolygon::projectOnto(const sf::Vector2f &axis) const {
     }
 
     return Projection(min, max);
-}
-
-sf::Vector2f CollisionPolygon::toVector2f(const sf::Vertex &v) const {
-    return sf::Vector2f(v.position.x, v.position.y);
 }
 
 } // shoe
