@@ -67,7 +67,7 @@ void Player::update(const sf::Time &dTime) {
     move(dTimeSeconds * mVelocity);
     setRotation(std::atan2(mVelocity.y, mVelocity.x)*180/M_PIl);
 
-    mCollisionPoly->setPosition(getPosition());
+    mCollisionPolygon->setPosition(getPosition());
 
     if (dynamic_cast<DebugState*>(mState) != nullptr) {
         DebugState *state = dynamic_cast<DebugState*>(mState);

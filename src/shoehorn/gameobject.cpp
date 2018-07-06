@@ -16,7 +16,7 @@ namespace shoe {
 
 GameObject::GameObject(GameState *state) 
 : mState {state}
-, mCollisionPoly(new CollisionPolygon())
+, mCollisionPolygon(new CollisionPolygon())
 {
     //
 }
@@ -34,27 +34,27 @@ void GameObject::update(const sf::Time &dTime) {
 }
 
 CollisionPolygon GameObject::collisionPolygon() const {
-    return *mCollisionPoly;
+    return *mCollisionPolygon;
 }
 
 sf::Vector2f GameObject::collidesWith(const GameObject &other) const {
-    return mCollisionPoly->collidesWith(other.collisionPolygon());
+    return mCollisionPolygon->collidesWith(other.collisionPolygon());
 }
 
 sf::Vector2f GameObject::collidesWith(const CollisionPolygon &other) const {
-    return mCollisionPoly->collidesWith(other);
+    return mCollisionPolygon->collidesWith(other);
 }
 
 void GameObject::makeIntoRegularShape(uint sides, uint radius) {
-    mCollisionPoly->clear();
-    mCollisionPoly->resize(sides);
-    mCollisionPoly->setPrimitiveType(sf::PrimitiveType::LineStrip);
+    mCollisionPolygon->clear();
+    mCollisionPolygon->resize(sides);
+    mCollisionPolygon->setPrimitiveType(sf::PrimitiveType::LineStrip);
 
     float angle = 0;
     float increment = 360.f/sides;
 
-    for (uint i=0; i<mCollisionPoly->getVertexCount(); i++) {
-        (*mCollisionPoly)[i].position = sf::Vector2f(
+    for (uint i=0; i<mCollisionPolygon->getVertexCount(); i++) {
+        (*mCollisionPolygon)[i].position = sf::Vector2f(
             radius * std::cos(angle*pi/180.f),
             radius * std::sin(angle*pi/180.f)
         );
@@ -63,14 +63,14 @@ void GameObject::makeIntoRegularShape(uint sides, uint radius) {
 }
 
 void GameObject::makeIntoRect(sf::Vector2f size) {
-    mCollisionPoly->clear();
-    mCollisionPoly->resize(4);
-    mCollisionPoly->setPrimitiveType(sf::PrimitiveType::LineStrip);
+    mCollisionPolygon->clear();
+    mCollisionPolygon->resize(4);
+    mCollisionPolygon->setPrimitiveType(sf::PrimitiveType::LineStrip);
 
-    (*mCollisionPoly)[0] = sf::Vector2f(0, 0);
-    (*mCollisionPoly)[1] = sf::Vector2f(size.x, 0);
-    (*mCollisionPoly)[2] = sf::Vector2f(size.x, size.y);
-    (*mCollisionPoly)[3] = sf::Vector2f(0, size.y);
+    (*mCollisionPolygon)[0] = sf::Vector2f(0, 0);
+    (*mCollisionPolygon)[1] = sf::Vector2f(size.x, 0);
+    (*mCollisionPolygon)[2] = sf::Vector2f(size.x, size.y);
+    (*mCollisionPolygon)[3] = sf::Vector2f(0, size.y);
 }
 
 }

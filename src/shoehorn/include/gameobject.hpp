@@ -41,7 +41,7 @@ public:
 protected:
     GameState *mState;
     sf::Vector2f mVelocity;
-    std::unique_ptr<CollisionPolygon> mCollisionPoly;
+    std::unique_ptr<CollisionPolygon> mCollisionPolygon;
 
     PhysicsProperties mPhysics;
 };

@@ -35,10 +35,7 @@ void CollisionPolygon::draw(sf::RenderTarget &target, sf::RenderStates states) c
         va.append(va[0]);
     }
 
-    sf::Transform t;
-    t.translate(128, 128);
-    // states.transform = getTransform();
-    states.transform = t;
+    states.transform = getTransform();
 
     target.draw(va, states);
 }

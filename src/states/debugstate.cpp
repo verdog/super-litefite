@@ -52,7 +52,7 @@ void DebugState::init() {
 
     mPlayer = new Player(this);
     mPlayer->setTexture(*mTextureManager->getTexture("player"), true);
-    // mObjects.push_back(mPlayer);
+    mObjects.push_back(mPlayer);
 
     for (int i=0; i<6; i++) {
         Wallygon *wall = new Wallygon(this);

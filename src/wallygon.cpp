@@ -18,7 +18,6 @@ const double pi = std::acos(-1);
 
 Wallygon::Wallygon(shoe::GameState *state)
 : GameObject(state)
-, mCPolygon(new shoe::CollisionPolygon) 
 {
     mVertices.setPrimitiveType(sf::PrimitiveType::TriangleFan);
 }
@@ -84,23 +83,26 @@ void Wallygon::randomize(uint sides, uint radius, uint maxX, uint maxY) {
     for (uint i=1; i<mVertices.getVertexCount()-1; i++) {
         collisionVerts[i-1].position = mVertices[i].position;
     }
-    mCPolygon->loadPointsFromVertexArray(collisionVerts);
-
+    mCollisionPolygon->loadPointsFromVertexArray(collisionVerts);
     setPosition(sf::Vector2f(random.int_(minX, maxX), random.int_(minY, maxY)));
 }
 
 void Wallygon::setPosition(sf::Vector2f position) {
     shoe::GameObject::setPosition(position);
-    mCollisionPoly->setPosition(position);
-    std::cout << mCollisionPoly->getTransform().transformPoint(sf::Vector2f()).x << std::endl;
+    mCollisionPolygon->setPosition(position);
+}
+
+void Wallygon::move(sf::Vector2f vector) {
+    shoe::GameObject::move(vector);
+    mCollisionPolygon->move(vector);
 }
 
 sf::Vector2f Wallygon::collidesWith(const shoe::GameObject &other) {
-    return mCPolygon->collidesWith(other.collisionPolygon());
+    return mCollisionPolygon->collidesWith(other.collisionPolygon());
 }
 
 shoe::CollisionPolygon Wallygon::collisionPolygon() {
-    return *mCPolygon;   
+    return *mCollisionPolygon;   
 }
 
 void Wallygon::draw(sf::RenderTarget &target, sf::RenderStates states) const {
