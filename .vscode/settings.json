@@ -37,6 +37,13 @@
         "system_error": "cpp",
         "type_traits": "cpp",
         "tuple": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "hash_map": "cpp",
+        "cstddef": "cpp",
+        "list": "cpp",
+        "memory": "cpp",
+        "thread": "cpp",
+        "cinttypes": "cpp",
+        "algorithm": "cpp"
     }
 }

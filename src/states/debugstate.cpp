@@ -18,6 +18,7 @@
 
 #include "include/debugstate.hpp"
 #include "../include/wallygon.hpp"
+#include "../include/lightsource.hpp"
 
 #include "../include/player.hpp"
 
@@ -54,12 +55,15 @@ void DebugState::init() {
     mPlayer->setTexture(*mTextureManager->getTexture("player"), true);
     mObjects.push_back(mPlayer);
 
-    for (int i=0; i<6; i++) {
+    for (int i=0; i<1; i++) {
         Wallygon *wall = new Wallygon(this);
         wall->randomize(4 + i/2, random.int_(32, 128), mGame->gameSize());
 
         mWalls.push_back(wall);
     }
+
+    LightSource *light = new LightSource(this, mPlayer);
+    mObjects.push_back(light);
 }
 
 void DebugState::cleanUp() {
@@ -73,6 +77,11 @@ void DebugState::update(const sf::Time &dTime) {
     for (shoe::GameObject* o : mObjects) {
         o->handleInput(dTime);
         o->update(dTime);
+
+        if (LightSource *light = dynamic_cast<LightSource*>(o)) {
+            std::vector<shoe::GameObject*> tempWalls(mWalls.begin(), mWalls.end());
+            light->makeVisibilityShape(tempWalls);
+        }
     }
 
     for (uint i=0; i<mWalls.size(); i++) {
