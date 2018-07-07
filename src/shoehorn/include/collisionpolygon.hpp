@@ -30,7 +30,7 @@ struct Projection {
     float max;
 };
     
-class CollisionPolygon : public sf::VertexArray, public sf::Transformable {
+class CollisionPolygon : public sf::Drawable, public sf::Transformable {
 public:
     CollisionPolygon();
     ~CollisionPolygon();
@@ -45,7 +45,17 @@ public:
     Projection projectOnto(const sf::Vector2f &axis) const;
 
     sf::Vector2f collidesWith(const CollisionPolygon &other);
+
+    void clear() { mVertexArray.clear(); }
+    void resize(std::size_t size) { mVertexArray.resize(size); }
+    void setPrimitiveType(sf::PrimitiveType type) { mVertexArray.setPrimitiveType(type); }
+    std::size_t getVertexCount() { return mVertexArray.getVertexCount(); }
+
+    sf::Vertex& operator[](std::size_t size) {
+        return mVertexArray[size];
+    }
 private:
+    sf::VertexArray mVertexArray;
 };
 
 } // shoe
