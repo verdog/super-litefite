@@ -27,6 +27,7 @@ Player::Player(shoe::GameState *state)
 
     mPhysics.friction = 0.95;
     mPhysics.bounce = 0.25;
+    mPhysics.drag = 0.9;
 }
 
 Player::~Player() {
@@ -36,7 +37,6 @@ Player::~Player() {
 void Player::handleInput(const sf::Time &dTime) {
     bool input = false;
     float delta = 6;
-    float friction = 0.9;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         mVelocity += sf::Vector2f(-delta, 0);
         input = true;
@@ -58,7 +58,7 @@ void Player::handleInput(const sf::Time &dTime) {
     }
 
     if (!input) {
-        mVelocity *= friction;
+        mVelocity *= mPhysics.drag;
     }
 }
 

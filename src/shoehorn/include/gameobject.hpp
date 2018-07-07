@@ -15,6 +15,12 @@ class GameState;
 class CollisionPolygon;
 
 struct PhysicsProperties {
+    PhysicsProperties() {
+        drag = 1;
+        friction = 1;
+        bounce = 0;
+    }
+
     float drag; // drag in air
     float friction; // drag against an object
     float bounce; // bounce off object
