@@ -34,6 +34,8 @@ public:
     bool loadTexture(std::string key, std::string path);
     sf::Texture* getTexture(std::string key);
 
+    shoe::Game* getGame() { return mGame; }
+
 protected:
     Game *mGame;
     std::vector<GameObject*> mObjects;

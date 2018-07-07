@@ -55,7 +55,7 @@ void DebugState::init() {
     mPlayer->setTexture(*mTextureManager->getTexture("player"), true);
     mObjects.push_back(mPlayer);
 
-    for (int i=0; i<1; i++) {
+    for (int i=0; i<2; i++) {
         Wallygon *wall = new Wallygon(this);
         wall->randomize(4 + i/2, random.int_(32, 128), mGame->gameSize());
 
@@ -117,5 +117,5 @@ void DebugState::draw() {
         mGame->renderTexture().draw(w->collisionPolygon());
     }
 
-    // mGame->renderTexture().draw(*mFPS);
+    mGame->renderTexture().draw(*mFPS);
 }
