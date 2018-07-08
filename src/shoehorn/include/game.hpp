@@ -34,6 +34,7 @@ public:
     sf::Vector2u gameSize();
     void setGameSize(uint x, uint y);
     void setPixelScale(uint scale);
+    uint pixelScale() { return mPixelScale; }
 
     // state management
     void pushState(GameState *state);

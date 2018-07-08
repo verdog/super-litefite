@@ -16,6 +16,7 @@ namespace shoe {
     class FpsCounter;
 }
 
+class LightSource;
 class Player;
 class Wallygon;
 
@@ -38,4 +39,9 @@ public:
 private:
     shoe::GameObject *mBackground;
     Player *mPlayer;
+
+    sf::RenderTexture *mLightMask;
+    LightSource *mLightSource;
+    sf::VertexArray mLightShape;
+    sf::Sprite mLightSprite;
 };

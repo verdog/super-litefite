@@ -22,7 +22,7 @@ LightSource::LightSource(shoe::GameState *state, shoe::GameObject *anchor)
 : GameObject (state)
 , mAnchor {anchor}
 , mShape (sf::PrimitiveType::Quads)
-, mColor {sf::Color::Black}
+, mColor {sf::Color::Red}
 {
     
 }
@@ -48,9 +48,56 @@ sf::VertexArray& LightSource::makeVisibilityShape(const std::vector<shoe::GameOb
         }
     }
 
+    /*
+     * this is all poc cone of visibility stuff
+    */
+
+    // sf::Vector2i mousei = sf::Mouse::getPosition(mState->getGame()->window());
+    // sf::Vector2f mousef = sf::Vector2f(mousei.x, mousei.y) / (float)mState->getGame()->pixelScale();
+
+    // sf::Vector2f lineOfSight = shoe::Vector2Math::normalize(mousef - getPosition());
+    // sf::Vector2f normal = shoe::Vector2Math::normal(lineOfSight);
+    // sf::Transform CCW;
+    // sf::Transform CW;
+    // sf::Transform CCWCorner;
+    // sf::Transform CWCorner;
+    // CCW.rotate(-1);
+    // CW.rotate(1);
+    // CCWCorner.rotate(-45);
+    // CWCorner.rotate(45);
+
+    // sf::Vector2f begin = getPosition();
+    // sf::Vector2f CCWRay = begin + stretch * CCW.transformPoint(lineOfSight);
+    // sf::Vector2f corner = begin + stretch * CCWCorner.transformPoint(lineOfSight);
+    // sf::Vector2f longNormal = begin + stretch * normal;
+
+    // mShape.append(sf::Vertex(begin));
+    // mShape.append(sf::Vertex(CCWRay));
+    // mShape.append(sf::Vertex(corner));
+    // mShape.append(sf::Vertex(longNormal));
+
+    // sf::Vector2f CWRay = begin + stretch * CW.transformPoint(lineOfSight);
+    // sf::Vector2f corner2 = begin + stretch * CWCorner.transformPoint(lineOfSight);
+    // sf::Vector2f longNormal2 = begin + stretch * -normal;
+
+    // mShape.append(sf::Vertex(begin));
+    // mShape.append(sf::Vertex(CWRay));
+    // mShape.append(sf::Vertex(corner2));
+    // mShape.append(sf::Vertex(longNormal2));
+
+    // sf::Vector2f backCorner1 = begin - stretch * CW.transformPoint(lineOfSight);
+    // sf::Vector2f backCorner2 = begin - stretch * CCW.transformPoint(lineOfSight);
+
+    // mShape.append(sf::Vertex(longNormal));
+    // mShape.append(sf::Vertex(backCorner1));
+    // mShape.append(sf::Vertex(backCorner2));
+    // mShape.append(sf::Vertex(longNormal2));
+
     for (uint i=0; i<mShape.getVertexCount(); i++) {
         mShape[i].color = mColor;
     }
+
+    return mShape;
 }
 
 void LightSource::update(const sf::Time &dTime) {

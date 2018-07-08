@@ -62,8 +62,9 @@ void DebugState::init() {
         mWalls.push_back(wall);
     }
 
-    LightSource *light = new LightSource(this, mPlayer);
-    mObjects.push_back(light);
+    mLightSource = new LightSource(this, mPlayer);
+    mLightMask = new sf::RenderTexture;
+    mLightMask->create(mGame->gameSize().x, mGame->gameSize().y);
 }
 
 void DebugState::cleanUp() {
@@ -76,13 +77,12 @@ void DebugState::update(const sf::Time &dTime) {
 
     for (shoe::GameObject* o : mObjects) {
         o->handleInput(dTime);
-        o->update(dTime);
-
-        if (LightSource *light = dynamic_cast<LightSource*>(o)) {
-            std::vector<shoe::GameObject*> tempWalls(mWalls.begin(), mWalls.end());
-            light->makeVisibilityShape(tempWalls);
-        }
+        o->update(dTime);    
     }
+
+    std::vector<shoe::GameObject*> tempWalls(mWalls.begin(), mWalls.end());
+    mLightSource->update(dTime);
+    mLightShape = mLightSource->makeVisibilityShape(tempWalls);
 
     for (uint i=0; i<mWalls.size(); i++) {
         Wallygon *w = mWalls[i];
@@ -101,6 +101,7 @@ void DebugState::update(const sf::Time &dTime) {
     }
 
     mFPS->tick();
+
 }
 
 void DebugState::draw() {
@@ -108,6 +109,15 @@ void DebugState::draw() {
         mGame->renderTexture().draw(*o);
         mGame->renderTexture().draw(o->collisionPolygon());
     }
+
+    mLightMask->clear(sf::Color::White);
+    mLightMask->draw(mLightShape);
+    mLightMask->display();
+
+    sf::RenderStates multiplyStates;
+    multiplyStates.blendMode = sf::BlendMultiply;
+    mLightSprite.setTexture(mLightMask->getTexture());
+    mGame->renderTexture().draw(mLightSprite, multiplyStates);
 
     sf::RenderStates states;
     states.texture = mTextureManager->getTexture("bricks");
