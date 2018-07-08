@@ -40,8 +40,9 @@ private:
     shoe::GameObject *mBackground;
     Player *mPlayer;
 
+    std::vector<sf::RenderTexture*> mLightTextures;
+    std::vector<LightSource*> mLightSources;
+    std::vector<sf::VertexArray> mLightShapes;
     sf::RenderTexture *mLightMask;
-    LightSource *mLightSource;
-    sf::VertexArray mLightShape;
     sf::Sprite mLightSprite;
 };

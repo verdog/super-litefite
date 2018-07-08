@@ -112,5 +112,5 @@ void LightSource::draw(sf::RenderTarget &target, sf::RenderStates states) const 
     c.setRadius(4);
     target.draw(c);
 
-    target.draw(mShape);
+    // target.draw(mShape);
 }
