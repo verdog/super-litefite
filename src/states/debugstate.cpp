@@ -7,6 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <memory>
 
 #include "../shoehorn/include/gameobject.hpp"
 #include "../shoehorn/include/collisionpolygon.hpp"
@@ -22,7 +23,7 @@
 
 #include "../include/player.hpp"
 
-DebugState::DebugState(shoe::Game *game) 
+DebugState::DebugState(std::shared_ptr<shoe::Game> game) 
 : GameState(game)
 {
     loadTextures();
@@ -44,6 +45,8 @@ void DebugState::loadTextures() {
 
 void DebugState::init() {
     shoe::Random random;
+
+    // these should all be smart pointers, but i'm ignoring it because this is a debug state only
 
     mFPS = new shoe::FpsCounter;
     mBackground = new shoe::GameObject(this);

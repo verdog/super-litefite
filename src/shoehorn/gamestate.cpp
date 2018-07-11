@@ -11,9 +11,9 @@
 
 namespace shoe {
 
-GameState::GameState(Game *game) 
+GameState::GameState(std::shared_ptr<shoe::Game> game) 
 : mGame {game}
-, mTextureManager( new TextureManager )
+, mTextureManager( new TextureManager ) // shared_ptr
 {
     
 }

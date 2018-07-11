@@ -8,6 +8,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -37,8 +38,8 @@ public:
     uint pixelScale() { return mPixelScale; }
 
     // state management
-    void pushState(GameState *state);
-    GameState* popState();
+    void pushState(std::shared_ptr<shoe::GameState> state);
+    std::shared_ptr<GameState> popState();
 
 private:
     // display
@@ -49,7 +50,7 @@ private:
     sf::RenderTexture mRenderTexture;
 
     // states
-    std::vector<GameState*> mStates;
+    std::vector<std::shared_ptr<shoe::GameState>> mStates;
 
     // status bools
     bool mInitialized;

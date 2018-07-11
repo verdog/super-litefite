@@ -9,6 +9,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 #include <SFML/Graphics.hpp>
 
@@ -20,9 +21,9 @@ class TextureManager;
 
 class GameState {
 public:
-    GameState(Game *game);
+    GameState(std::shared_ptr<Game> game);
 
-    virtual GameState* clone() const = 0;
+    virtual std::shared_ptr<GameState> clone() const = 0;
 
     virtual void init() {};
     virtual void cleanUp() {};
@@ -34,14 +35,14 @@ public:
     bool loadTexture(std::string key, std::string path);
     sf::Texture* getTexture(std::string key);
 
-    shoe::Game* getGame() { return mGame; }
+    std::shared_ptr<shoe::Game> getGame() { return mGame; }
 
 protected:
-    Game *mGame;
+    std::shared_ptr<shoe::Game> mGame;
     std::vector<GameObject*> mObjects;
 
     // texture management
-    TextureManager *mTextureManager;
+    std::shared_ptr<TextureManager> mTextureManager;
 };
 
 }

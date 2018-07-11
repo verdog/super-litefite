@@ -7,6 +7,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 #include "../../shoehorn/include/gamestate.hpp"
 
@@ -22,10 +23,10 @@ class Wallygon;
 
 class DebugState : public shoe::GameState {
 public:
-    DebugState(shoe::Game *game);
+    DebugState(std::shared_ptr<shoe::Game> game);
     ~DebugState();
 
-    DebugState* clone() const { return new DebugState(*this); }
+    std::shared_ptr<GameState> clone() const { return std::shared_ptr<DebugState>(new DebugState(*this)); }
 
     void loadTextures();
     void unLoadTextures();

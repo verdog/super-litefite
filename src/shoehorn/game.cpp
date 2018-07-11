@@ -5,6 +5,7 @@
 */
 
 #include <iostream>
+#include <memory>
 
 #include "include/game.hpp"
 #include "include/gamestate.hpp"
@@ -51,13 +52,9 @@ bool Game::run() {
 
                 case sf::Event::KeyPressed:
                     if (e.key.code == sf::Keyboard::R) {
-                        GameState *old = popState();
-                        GameState *newState = old->clone();
-                        delete old;
+                        std::shared_ptr<GameState> newState = popState()->clone();
 
                         std::cout << "RESTART\n";
-
-                        // this seems fishy
 
                         newState->cleanUp();
                         newState->init();
@@ -132,12 +129,12 @@ void Game::setWindowTitle(std::string title) {
 }
 
 // state management
-void Game::pushState(GameState *state) {
+void Game::pushState(std::shared_ptr<shoe::GameState> state) {
     mStates.push_back(state);
 }
 
-GameState* Game::popState() {
-    GameState *pop = mStates.back();
+std::shared_ptr<GameState> Game::popState() {
+    std::shared_ptr<GameState> pop = mStates.back();
     mStates.pop_back();
     return pop;
 }

@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include <memory>
+
 #include <SFML/Graphics.hpp>
 
 namespace shoe
@@ -47,7 +49,7 @@ public:
 protected:
     GameState *mState;
     sf::Vector2f mVelocity;
-    std::unique_ptr<CollisionPolygon> mCollisionPolygon;
+    std::shared_ptr<CollisionPolygon> mCollisionPolygon;
 
     PhysicsProperties mPhysics;
 };

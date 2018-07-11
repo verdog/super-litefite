@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <memory>
 
 #include "include/gameobject.hpp"
 #include "include/collisionpolygon.hpp"
@@ -16,7 +17,7 @@ namespace shoe {
 
 GameObject::GameObject(GameState *state) 
 : mState {state}
-, mCollisionPolygon(new CollisionPolygon())
+, mCollisionPolygon (new CollisionPolygon()) // shared_ptr
 {
     //
 }
