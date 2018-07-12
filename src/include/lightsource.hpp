@@ -20,9 +20,10 @@ public:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
     void setColor(sf::Color color) { mColor = color; }
-    sf::Color getColor() { return mColor; }
+    sf::Color getColor() const { return mColor; }
 
     sf::VertexArray& makeVisibilityShape(const std::vector<shoe::GameObject*>& obstacles);
+    sf::VertexArray getVisibilityShape() const;
 private:
     shoe::GameObject *mAnchor;
     sf::VertexArray mShape;

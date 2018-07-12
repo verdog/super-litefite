@@ -18,6 +18,7 @@ namespace shoe {
 }
 
 class LightSource;
+class LightMask;
 class Player;
 class Wallygon;
 
@@ -41,9 +42,7 @@ private:
     shoe::GameObject *mBackground;
     Player *mPlayer;
 
-    std::vector<sf::RenderTexture*> mLightTextures;
     std::vector<LightSource*> mLightSources;
-    std::vector<sf::VertexArray> mLightShapes;
-    sf::RenderTexture *mLightMask;
-    sf::Sprite mLightSprite;
+    
+    std::shared_ptr<LightMask> mLightMaskk;
 };

@@ -101,6 +101,10 @@ sf::VertexArray& LightSource::makeVisibilityShape(const std::vector<shoe::GameOb
     return mShape;
 }
 
+sf::VertexArray LightSource::getVisibilityShape() const {
+    return mShape;
+}
+
 void LightSource::update(const sf::Time &dTime) {
     setPosition(mAnchor->getPosition());
 }

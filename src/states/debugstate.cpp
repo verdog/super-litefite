@@ -20,11 +20,13 @@
 #include "include/debugstate.hpp"
 #include "../include/wallygon.hpp"
 #include "../include/lightsource.hpp"
+#include "../include/lightmask.hpp"
 
 #include "../include/player.hpp"
 
 DebugState::DebugState(std::shared_ptr<shoe::Game> game) 
 : GameState(game)
+, mLightMaskk(new LightMask(mGame->gameSize().x, mGame->gameSize().y))
 {
     loadTextures();
     init();
@@ -65,8 +67,6 @@ void DebugState::init() {
         mWalls.push_back(wall);
     }
 
-    mLightShapes.resize(2);
-
     LightSource *l1 = new LightSource(this, mPlayer);
     LightSource *l2 = new LightSource(this, mPlayer);
 
@@ -75,25 +75,13 @@ void DebugState::init() {
 
     mLightSources.push_back(l1);
     mLightSources.push_back(l2);
-
-    mLightTextures.push_back(new sf::RenderTexture);
-    mLightTextures.push_back(new sf::RenderTexture);
-
-    for (sf::RenderTexture *t : mLightTextures) {
-        t->create(mGame->gameSize().x, mGame->gameSize().y);
-    }
-
-    mLightMask = new sf::RenderTexture;
-    mLightMask->create(mGame->gameSize().x, mGame->gameSize().y);
 }
 
 void DebugState::cleanUp() {
     mObjects.clear();
     mWalls.clear();
 
-    mLightTextures.clear();
     mLightSources.clear();
-    mLightShapes.clear();
 }
 
 void DebugState::update(const sf::Time &dTime) {
@@ -106,10 +94,10 @@ void DebugState::update(const sf::Time &dTime) {
 
     std::vector<shoe::GameObject*> tempWalls(mWalls.begin(), mWalls.end());
     mLightSources[0]->update(dTime);
-    mLightShapes[0] = mLightSources[0]->makeVisibilityShape(tempWalls);
+    mLightSources[0]->makeVisibilityShape(tempWalls);
 
     mLightSources[1]->setPosition(sf::Vector2f(mGame->gameSize()) - mPlayer->getPosition());
-    mLightShapes[1] = mLightSources[1]->makeVisibilityShape(tempWalls);
+    mLightSources[1]->makeVisibilityShape(tempWalls);
 
     for (uint i=0; i<mWalls.size(); i++) {
         Wallygon *w = mWalls[i];
@@ -137,19 +125,10 @@ void DebugState::draw() {
         drawOntoGame(o->collisionPolygon());
     }
 
-    mLightMask->clear(sf::Color::Black); // this is the shadow color
-
-    for (uint i=0; i<mLightTextures.size(); i++) {
-        mLightTextures[i]->clear(mLightSources[i]->getColor());
-        mLightTextures[i]->draw(mLightShapes[i]);
-        mLightTextures[i]->display();
-        mLightSprite.setTexture(mLightTextures[i]->getTexture());
-        mLightMask->draw(mLightSprite, sf::RenderStates(sf::BlendAdd));
-    }
-
-    mLightMask->display();
-    mLightSprite.setTexture(mLightMask->getTexture());
-    drawOntoGame(mLightSprite, sf::RenderStates(sf::BlendMultiply));
+    mLightMaskk->reset();
+    mLightMaskk->add(*mLightSources[0]);
+    mLightMaskk->add(*mLightSources[1]);
+    drawOntoGame(*mLightMaskk->sprite(), sf::RenderStates(sf::BlendMultiply));
 
     sf::RenderStates states;
     states.texture = mTextureManager->getTexture("bricks");

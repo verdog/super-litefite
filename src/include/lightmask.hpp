@@ -13,15 +13,19 @@
 
 #include <SFML/Graphics.hpp>
 
+class LightSource;
+
 class LightMask {
 public:
-    LightMask();
+    LightMask(uint sizeX, uint sizeY);
     ~LightMask();
 
-    void reset();
-    void addToMask(const sf::RenderTexture &tex);
-    std::shared_ptr<sf::RenderTexture> mask();
+    void reset(sf::Color color = sf::Color::Black);
+    void add(const LightSource &light);
+    std::shared_ptr<sf::Sprite> sprite();
 
 private:
+    std::shared_ptr<sf::Sprite> mSprite;
     std::shared_ptr<sf::RenderTexture> mMask;
+    std::unique_ptr<sf::RenderTexture> mBuffer;
 };

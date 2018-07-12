@@ -11,24 +11,35 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "include/lightsource.hpp"
 #include "include/lightmask.hpp"
 
-LightMask::LightMask() {
-    //
+LightMask::LightMask(uint sizeX, uint sizeY) 
+: mSprite(new sf::Sprite)
+, mMask(new sf::RenderTexture)
+, mBuffer(new sf::RenderTexture)
+{
+    mMask->create(sizeX, sizeY);
+    mBuffer->create(sizeX, sizeY);
 }
 
 LightMask::~LightMask() {
     //
 }
 
-void LightMask::reset() {
-
+void LightMask::reset(sf::Color color) {
+    mMask->clear(color);
 }
 
-void LightMask::addToMask(const sf::RenderTexture &tex) {
-
+void LightMask::add(const LightSource &light) {
+    mBuffer->clear(light.getColor());
+    mBuffer->draw(light.getVisibilityShape());
+    mBuffer->display();
+    mMask->draw(sf::Sprite(mBuffer->getTexture()), sf::RenderStates(sf::BlendAdd));
 }
 
-std::shared_ptr<sf::RenderTexture> LightMask::mask() {
-    
+std::shared_ptr<sf::Sprite> LightMask::sprite() {
+    mMask->display();
+    mSprite->setTexture(mMask->getTexture());
+    return mSprite;
 }
