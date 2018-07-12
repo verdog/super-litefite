@@ -22,7 +22,7 @@ Game::Game(std::string title)
 , mRunning {false}
 {
     setWindowTitle(title);
-    mWindow.setFramerateLimit(60);
+    mWindow.setVerticalSyncEnabled(60);
 }
 
 bool Game::init() {
