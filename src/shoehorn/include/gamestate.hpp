@@ -32,7 +32,7 @@ public:
     virtual void draw();
     virtual void display();
 
-    void drawOnGame(const sf::Drawable &thing, sf::RenderStates states = sf::RenderStates());
+    void drawOntoGame(const sf::Drawable &thing, sf::RenderStates states = sf::RenderStates());
 
     bool loadTexture(std::string key, std::string path);
     sf::Texture* getTexture(std::string key);

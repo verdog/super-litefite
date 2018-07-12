@@ -37,7 +37,7 @@ void GameState::display() {
     mGame->window().display();
 }
 
-void GameState::drawOnGame(const sf::Drawable &thing, sf::RenderStates states) {
+void GameState::drawOntoGame(const sf::Drawable &thing, sf::RenderStates states) {
     mGame->renderTexture().draw(thing, states);
 }
 
