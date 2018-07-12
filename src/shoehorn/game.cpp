@@ -15,7 +15,7 @@
 namespace shoe {
 
 Game::Game(std::string title)
-: mWindow (sf::VideoMode(256,256), "shoeGame")
+: mWindow (sf::VideoMode(256,256), title)
 , mPixelScale(1)
 , mStates()
 , mInitialized {false}

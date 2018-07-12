@@ -20,7 +20,7 @@ class ImageManager;
 
 class Game {
 public:
-    Game(std::string title);
+    Game(std::string title = "shoegame");
 
     bool init();
     bool run();
