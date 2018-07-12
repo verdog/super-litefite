@@ -70,6 +70,9 @@ void DebugState::init() {
     LightSource *l1 = new LightSource(this, mPlayer);
     LightSource *l2 = new LightSource(this, mPlayer);
 
+    l1->setColor(sf::Color(255, 220, 220)); // redish
+    l2->setColor(sf::Color(220, 220, 255)); // blueish
+
     mLightSources.push_back(l1);
     mLightSources.push_back(l2);
 
@@ -128,15 +131,16 @@ void DebugState::update(const sf::Time &dTime) {
 }
 
 void DebugState::draw() {
+
     for (shoe::GameObject *o : mObjects) {
         mGame->renderTexture().draw(*o);
         mGame->renderTexture().draw(o->collisionPolygon());
     }
 
-    mLightMask->clear(sf::Color::Black);
+    mLightMask->clear(sf::Color::Black); // this is the shadow color
 
     for (uint i=0; i<mLightTextures.size(); i++) {
-        mLightTextures[i]->clear(sf::Color::White);
+        mLightTextures[i]->clear(mLightSources[i]->getColor());
         mLightTextures[i]->draw(mLightShapes[i]);
         mLightTextures[i]->display();
         mLightSprite.setTexture(mLightTextures[i]->getTexture());
@@ -159,5 +163,5 @@ void DebugState::draw() {
         mGame->renderTexture().draw(*l);
     }
 
-    mGame->renderTexture().draw(*mFPS);
+    // mGame->renderTexture().draw(*mFPS);
 }

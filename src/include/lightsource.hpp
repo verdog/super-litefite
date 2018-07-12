@@ -19,6 +19,9 @@ public:
     void update(const sf::Time &dTime);
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
+    void setColor(sf::Color color) { mColor = color; }
+    sf::Color getColor() { return mColor; }
+
     sf::VertexArray& makeVisibilityShape(const std::vector<shoe::GameObject*>& obstacles);
 private:
     shoe::GameObject *mAnchor;

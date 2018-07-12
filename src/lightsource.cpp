@@ -22,7 +22,7 @@ LightSource::LightSource(shoe::GameState *state, shoe::GameObject *anchor)
 : GameObject (state)
 , mAnchor {anchor}
 , mShape (sf::PrimitiveType::Quads)
-, mColor {sf::Color::Red}
+, mColor {sf::Color::Black}
 {
     
 }
@@ -94,7 +94,8 @@ sf::VertexArray& LightSource::makeVisibilityShape(const std::vector<shoe::GameOb
     // mShape.append(sf::Vertex(longNormal2));
 
     for (uint i=0; i<mShape.getVertexCount(); i++) {
-        mShape[i].color = mColor;
+        // mShape[i].color = mColor;
+        mShape[i].color = sf::Color::Black;
     }
 
     return mShape;
