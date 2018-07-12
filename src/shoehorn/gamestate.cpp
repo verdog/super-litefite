@@ -37,6 +37,10 @@ void GameState::display() {
     mGame->window().display();
 }
 
+void GameState::drawOnGame(const sf::Drawable &thing, sf::RenderStates states) {
+    mGame->renderTexture().draw(thing, states);
+}
+
 bool GameState::loadTexture(std::string key, std::string path) {
     return mTextureManager->loadTexture(key, path);
 }

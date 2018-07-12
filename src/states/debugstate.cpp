@@ -133,8 +133,8 @@ void DebugState::update(const sf::Time &dTime) {
 void DebugState::draw() {
 
     for (shoe::GameObject *o : mObjects) {
-        mGame->renderTexture().draw(*o);
-        mGame->renderTexture().draw(o->collisionPolygon());
+        drawOnGame(*o);
+        drawOnGame(o->collisionPolygon());
     }
 
     mLightMask->clear(sf::Color::Black); // this is the shadow color
@@ -149,19 +149,19 @@ void DebugState::draw() {
 
     mLightMask->display();
     mLightSprite.setTexture(mLightMask->getTexture());
-    mGame->renderTexture().draw(mLightSprite, sf::RenderStates(sf::BlendMultiply));
+    drawOnGame(mLightSprite, sf::RenderStates(sf::BlendMultiply));
 
     sf::RenderStates states;
     states.texture = mTextureManager->getTexture("bricks");
 
     for (Wallygon *w : mWalls) {
-        mGame->renderTexture().draw(*w, states);
-        mGame->renderTexture().draw(w->collisionPolygon());
+        drawOnGame(*w, states);
+        drawOnGame(w->collisionPolygon());
     }
 
     for (LightSource *l : mLightSources) {
-        mGame->renderTexture().draw(*l);
+        drawOnGame(*l);
     }
 
-    // mGame->renderTexture().draw(*mFPS);
+    // drawOnGame(*mFPS);
 }
