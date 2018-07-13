@@ -41,7 +41,7 @@ public:
 
 protected:
     std::shared_ptr<shoe::Game> mGame;
-    std::vector<GameObject*> mObjects;
+    std::vector<std::shared_ptr<GameObject>> mObjects;
 
     // texture management
     std::shared_ptr<TextureManager> mTextureManager;

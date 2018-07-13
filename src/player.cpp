@@ -6,6 +6,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <memory>
 
 #include <SFML/Main.hpp>
 
@@ -31,7 +32,7 @@ Player::Player(shoe::GameState *state)
 }
 
 Player::~Player() {
-
+    std::cout << "Player got deleted.\n";
 }
 
 void Player::handleInput(const sf::Time &dTime) {
@@ -72,7 +73,7 @@ void Player::update(const sf::Time &dTime) {
     if (dynamic_cast<DebugState*>(mState) != nullptr) {
         DebugState *state = dynamic_cast<DebugState*>(mState);
 
-        for (Wallygon *w : state->mWalls) {
+        for (std::shared_ptr<Wallygon> w : state->mWalls) {
             sf::Vector2f MTA = -w->collidesWith(*this);
             // we make this negative because collidesWith() returns how much the
             // caller of the function should move (so here, it returns how much the wall should move.)

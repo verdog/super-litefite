@@ -18,7 +18,7 @@
 
 #include "include/lightsource.hpp"
 
-LightSource::LightSource(shoe::GameState *state, shoe::GameObject *anchor) 
+LightSource::LightSource(shoe::GameState *state, std::shared_ptr<shoe::GameObject> anchor) 
 : GameObject (state)
 , mAnchor {anchor}
 , mShape (sf::PrimitiveType::Quads)
@@ -27,12 +27,12 @@ LightSource::LightSource(shoe::GameState *state, shoe::GameObject *anchor)
     
 }
 
-sf::VertexArray& LightSource::makeVisibilityShape(const std::vector<shoe::GameObject*>& obstacles) {
+sf::VertexArray& LightSource::makeVisibilityShape(const std::vector<std::shared_ptr<GameObject>>& obstacles) {
     mShape.clear();
     sf::Vector2u gameSize = mState->getGame()->gameSize();
     float stretch = std::max(gameSize.x, gameSize.y) * 2;
 
-    for (shoe::GameObject *o : obstacles) {
+    for (std::shared_ptr<shoe::GameObject> o : obstacles) {
         shoe::CollisionPolygon c = o->collisionPolygon();
 
         for (uint i=0; i<c.getVertexCount(); i++) {

@@ -36,13 +36,12 @@ public:
     void update(const sf::Time &dTime);
     void draw();
     
-    std::vector<Wallygon*> mWalls;
+    std::vector<std::shared_ptr<Wallygon>> mWalls;
     shoe::FpsCounter *mFPS;
 private:
-    shoe::GameObject *mBackground;
-    Player *mPlayer;
+    std::vector<std::shared_ptr<Player>> mPlayers;
 
     std::vector<LightSource*> mLightSources;
     
-    std::shared_ptr<LightMask> mLightMaskk;
+    std::shared_ptr<LightMask> mLightMask;
 };
