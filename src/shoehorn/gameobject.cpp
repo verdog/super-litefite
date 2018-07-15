@@ -47,20 +47,7 @@ sf::Vector2f GameObject::collidesWith(const CollisionPolygon &other) const {
 }
 
 void GameObject::makeIntoRegularShape(uint sides, uint radius) {
-    mCollisionPolygon->clear();
-    mCollisionPolygon->resize(sides);
-    mCollisionPolygon->setPrimitiveType(sf::PrimitiveType::LineStrip);
-
-    float angle = 0;
-    float increment = 360.f/sides;
-
-    for (uint i=0; i<mCollisionPolygon->getVertexCount(); i++) {
-        (*mCollisionPolygon)[i].position = sf::Vector2f(
-            radius * std::cos(angle*pi/180.f),
-            radius * std::sin(angle*pi/180.f)
-        );
-        angle += increment;
-    }
+    mCollisionPolygon->makeIntoRegularShape(sides, radius);
 }
 
 void GameObject::makeIntoRect(sf::Vector2f size) {

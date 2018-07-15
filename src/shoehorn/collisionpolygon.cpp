@@ -50,6 +50,23 @@ void CollisionPolygon::loadPointsFromVertexArray(const sf::VertexArray &verts) {
     }
 }
 
+void CollisionPolygon::makeIntoRegularShape(uint sides, uint radius) {
+    mVertexArray.clear();
+    mVertexArray.resize(sides);
+    mVertexArray.setPrimitiveType(sf::PrimitiveType::LineStrip);
+
+    float angle = 0;
+    float increment = 360.f/sides;
+
+    for (uint i=0; i<getVertexCount(); i++) {
+        mVertexArray[i].position = sf::Vector2f(
+            radius * std::cos(angle*pi/180.f),
+            radius * std::sin(angle*pi/180.f)
+        );
+        angle += increment;
+    }
+}
+
 sf::Vector2f CollisionPolygon::getMidpoint() const {
     sf::Vector2f midpoint;
     for (uint i=0; i<mVertexArray.getVertexCount(); i++) {

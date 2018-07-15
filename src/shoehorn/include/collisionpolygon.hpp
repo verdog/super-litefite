@@ -38,6 +38,7 @@ public:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
     void loadPointsFromVertexArray(const sf::VertexArray &verts);
+    void makeIntoRegularShape(uint sides, uint radius);
 
     sf::Vector2f getMidpoint() const;
 
@@ -54,7 +55,7 @@ public:
     sf::Vertex& operator[](std::size_t size) {
         return mVertexArray[size];
     }
-private:
+protected:
     sf::VertexArray mVertexArray;
 };
 

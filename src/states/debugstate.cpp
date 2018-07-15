@@ -22,6 +22,7 @@
 #include "../include/lightsource.hpp"
 #include "../include/lightmask.hpp"
 #include "../include/player.hpp"
+#include "../include/hurtpolygon.hpp"
 
 DebugState::DebugState(std::shared_ptr<shoe::Game> game) 
 : GameState(game)
@@ -63,8 +64,8 @@ void DebugState::init() {
     p2->setPosition(sf::Vector2f(mGame->gameSize()) - p1->getPosition());
     p2->toggleReverse();
 
-    float low = 16;
-    float high = 196;
+    float low = 200;
+    float high = 232;
 
     p1->getLightSource().setColor(sf::Color(high, low, low));
     p2->getLightSource().setColor(sf::Color(low, low, high));
@@ -104,7 +105,8 @@ void DebugState::update(const sf::Time &dTime) {
             if (!keypress) {
                 if (player == 0) {
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-                        p->getLightSource().toggle();
+                        // p->getLightSource().toggle();
+                        p->hurtPolygon().toggle();
                         keypress = true;
                     }
                 } else {
@@ -148,6 +150,7 @@ void DebugState::draw() {
 
         if (std::shared_ptr<Player> p = std::dynamic_pointer_cast<Player>(o); p) {
             drawOntoGame(p->getLightSource());
+            drawOntoGame(p->hurtPolygon());
         }
     }
 

@@ -20,10 +20,14 @@
 #include "include/player.hpp"
 #include "include/lightsource.hpp"
 #include "include/wallygon.hpp"
+#include "include/hurtpolygon.hpp"
 
 Player::Player(shoe::GameState *state) 
 : GameObject(state)
+, mAlive {true}
+, mHP {100}
 , mLightSource (new LightSource(state, *this))
+, mHurtPolygon (new HurtPolygon(2))
 {
     setOrigin(16.f, 16.f);
     makeIntoRegularShape(7, 12);
@@ -78,6 +82,8 @@ void Player::update(const sf::Time &dTime) {
     setRotation(std::atan2(mVelocity.y, mVelocity.x)*180/M_PIl);
 
     mCollisionPolygon->setPosition(getPosition());
+    mHurtPolygon->setPosition(getPosition());
+    mHurtPolygon->setRotation(getRotation());
 
     if (dynamic_cast<DebugState*>(mState) != nullptr) {
         DebugState *state = dynamic_cast<DebugState*>(mState);
@@ -105,4 +111,8 @@ void Player::update(const sf::Time &dTime) {
     } else {
         std::cerr << "ERROR: Error casting debugstate\n";
     }
+}
+
+LightSource& Player::getLightSource() { 
+    return *mLightSource; 
 }

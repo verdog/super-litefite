@@ -15,6 +15,7 @@ namespace shoe {
 }
 
 class LightSource;
+class HurtPolygon;
 
 class Player : public shoe::GameObject {
 public:
@@ -24,9 +25,9 @@ public:
     void handleInput(const sf::Time &dTime);
     void update(const sf::Time &dTime);
 
-    LightSource& getLightSource() { return *mLightSource; }
+    LightSource& getLightSource();
 
-    // debug method.
+    // debug function.
     void toggleReverse() {
         if (mReverse) {
             mReverse = false;
@@ -35,7 +36,12 @@ public:
         }
     }
 
+    HurtPolygon& hurtPolygon() { return *mHurtPolygon; }
+
 private:
     bool mReverse;
+    bool mAlive;
+    int mHP;
     std::shared_ptr<LightSource> mLightSource;
+    std::shared_ptr<HurtPolygon> mHurtPolygon;
 };
