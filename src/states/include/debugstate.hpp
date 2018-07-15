@@ -15,9 +15,11 @@ namespace shoe {
     class Game;
     class GameObject;
     class FpsCounter;
+    template <typename T> class ObjectManager;
 }
 
 class LightSource;
+class HurtPolygon;
 class LightMask;
 class Player;
 class Wallygon;
@@ -38,6 +40,7 @@ public:
     
     std::vector<std::shared_ptr<Wallygon>> mWalls;
     shoe::FpsCounter *mFPS;
+    std::vector<std::shared_ptr<HurtPolygon>> hurtPolygons;
 private:
     std::shared_ptr<LightMask> mLightMask;
 

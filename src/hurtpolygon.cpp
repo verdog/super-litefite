@@ -15,6 +15,7 @@ HurtPolygon::HurtPolygon()
 , mOpen {false}
 , mDamage {1}
 {
+    
 }
 
 HurtPolygon::HurtPolygon(int damage)
@@ -49,6 +50,18 @@ void HurtPolygon::setDamage(int damage) {
 
 int HurtPolygon::getDamage() {
     return mDamage;
+}
+
+void HurtPolygon::addImmunity(const shoe::GameObject &object) {
+    mImmune.insert(object);
+}
+
+void HurtPolygon::removeImmunity(const shoe::GameObject &object) {
+    mImmune.erase(object);
+}
+
+bool HurtPolygon::canHurt(const shoe::GameObject &object) {
+    return mOpen && mImmune.find(object) == mImmune.end();
 }
 
 void HurtPolygon::draw(sf::RenderTarget &target, sf::RenderStates states) const {

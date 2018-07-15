@@ -9,6 +9,7 @@
 #include <iostream>
 
 #include "../shoehorn/include/gameobject.hpp"
+#include "../shoehorn/include/objectmanager.hpp"
 
 namespace shoe {
     class GameState;
@@ -36,7 +37,7 @@ public:
         }
     }
 
-    HurtPolygon& hurtPolygon() { return *mHurtPolygon; }
+    HurtPolygon& getHurtPolygon() { return *mHurtPolygon; }
 
 private:
     bool mReverse;

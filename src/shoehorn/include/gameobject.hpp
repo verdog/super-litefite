@@ -46,12 +46,21 @@ public:
 
     PhysicsProperties physics() { return mPhysics; };
 
+    int id() const { return mId; }
+
+    bool operator < (const GameObject b) const {
+        return mId < b.id();
+    }
+
 protected:
     GameState *mState;
     sf::Vector2f mVelocity;
     std::shared_ptr<CollisionPolygon> mCollisionPolygon;
 
     PhysicsProperties mPhysics;
+
+    const int mId;
+    static int mNextId;
 };
 
 }

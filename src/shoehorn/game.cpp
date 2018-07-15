@@ -21,6 +21,7 @@ Game::Game(std::string title)
 , mInitialized {false}
 , mRunning {false}
 {
+    init();
     setWindowTitle(title);
     mWindow.setVerticalSyncEnabled(60);
 }
@@ -28,6 +29,11 @@ Game::Game(std::string title)
 bool Game::init() {
     mInitialized = true;
     // placeholder?
+
+    if (mStates.size() > 0) {
+        std::cout << "topState use count at init = " << topState().use_count() << std::endl;
+    }
+    
     return true;
 }
 
@@ -52,17 +58,24 @@ bool Game::run() {
 
                 case sf::Event::KeyPressed:
                     if (e.key.code == sf::Keyboard::R) {
-                        std::shared_ptr<GameState> newState = popState()->clone();
-
                         std::cout << "RESTART\n";
+
+                        std::shared_ptr<GameState> newState = topState()->clone();
+                        std::cout << "topState use count = " << topState().use_count() << std::endl;
+                        std::cout << "newState use count = " << newState.use_count()   << std::endl;
+                        popState();
+
+                        std::cout << "stateStack length after pop: " << mStates.size() << std::endl;
 
                         newState->cleanUp();
                         newState->init();
                         pushState(newState);
+
+                        std::cout << "stateStack length after push: " << mStates.size() << std::endl;
                     }
 
                     if (e.key.code == sf::Keyboard::X) {
-                        popState();
+                        topState();
                     }
 
                     if (e.key.code == sf::Keyboard::Escape) {
@@ -131,12 +144,15 @@ void Game::setWindowTitle(std::string title) {
 // state management
 void Game::pushState(std::shared_ptr<shoe::GameState> state) {
     mStates.push_back(state);
+    std::cout << "topState use count after push = " << topState().use_count() << std::endl;
 }
 
-std::shared_ptr<GameState> Game::popState() {
-    std::shared_ptr<GameState> pop = mStates.back();
+std::shared_ptr<GameState> Game::topState() {
+    return mStates.back();
+}
+
+void Game::popState() {
     mStates.pop_back();
-    return pop;
 }
 
 }

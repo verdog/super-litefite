@@ -29,6 +29,8 @@ Player::Player(shoe::GameState *state)
 , mLightSource (new LightSource(state, *this))
 , mHurtPolygon (new HurtPolygon(2))
 {
+    std::cout << "Player()\n";
+
     setOrigin(16.f, 16.f);
     makeIntoRegularShape(7, 12);
     // makeIntoRect(sf::Vector2f(32.f, 32.f));
@@ -38,6 +40,12 @@ Player::Player(shoe::GameState *state)
     mPhysics.drag = 0.9;
 
     mReverse = false;
+
+    mHurtPolygon->addImmunity(*this);
+
+    if (DebugState *s = dynamic_cast<DebugState*>(mState); s) {
+        s->hurtPolygons.push_back(mHurtPolygon);
+    }
 }
 
 Player::~Player() {
@@ -83,7 +91,6 @@ void Player::update(const sf::Time &dTime) {
 
     mCollisionPolygon->setPosition(getPosition());
     mHurtPolygon->setPosition(getPosition());
-    mHurtPolygon->setRotation(getRotation());
 
     if (dynamic_cast<DebugState*>(mState) != nullptr) {
         DebugState *state = dynamic_cast<DebugState*>(mState);
@@ -107,6 +114,12 @@ void Player::update(const sf::Time &dTime) {
         std::vector<std::shared_ptr<shoe::GameObject>> tempWalls(state->mWalls.begin(), state->mWalls.end());
         mLightSource->update(dTime);
         mLightSource->makeVisibilityShape(tempWalls);
+
+        for (std::shared_ptr<HurtPolygon> p : state->hurtPolygons) {
+            if (p->canHurt(*this) && mCollisionPolygon->collidesWith(*p) != sf::Vector2f(0, 0)) {
+                std::cout << "ow\n";
+            }
+        }
 
     } else {
         std::cerr << "ERROR: Error casting debugstate\n";

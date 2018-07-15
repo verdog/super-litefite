@@ -15,11 +15,14 @@ const double pi = std::acos(-1);
 
 namespace shoe {
 
+int GameObject::mNextId = 0;
+
 GameObject::GameObject(GameState *state) 
 : mState {state}
 , mCollisionPolygon (new CollisionPolygon()) // shared_ptr
+, mId ( mNextId++ )
 {
-    //
+    std::cout << "Created object with Id: " << mId << std::endl;
 }
 
 GameObject::~GameObject() {

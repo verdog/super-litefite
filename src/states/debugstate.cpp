@@ -16,6 +16,7 @@
 #include "../shoehorn/include/game.hpp"
 #include "../shoehorn/include/random.hpp"
 #include "../shoehorn/include/fpscounter.hpp"
+#include "../shoehorn/include/objectmanager.hpp"
 
 #include "include/debugstate.hpp"
 #include "../include/wallygon.hpp"
@@ -50,8 +51,6 @@ void DebugState::loadTextures() {
 void DebugState::init() {
     shoe::Random random;
 
-    // these should all be smart pointers, but i'm ignoring it because this is a debug state only
-
     mFPS = new shoe::FpsCounter;
     mObjects.push_back(std::shared_ptr<shoe::GameObject>(new shoe::GameObject(this)));
     mObjects.back()->setTexture(*mTextureManager->getTexture("bg"));
@@ -85,6 +84,7 @@ void DebugState::cleanUp() {
     std::cout << "DebugState::cleanUp()\n";
     mObjects.clear();
     mWalls.clear();
+    hurtPolygons.clear();
 }
 
 void DebugState::update(const sf::Time &dTime) {
@@ -106,7 +106,7 @@ void DebugState::update(const sf::Time &dTime) {
                 if (player == 0) {
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
                         // p->getLightSource().toggle();
-                        p->hurtPolygon().toggle();
+                        p->getHurtPolygon().toggle();
                         keypress = true;
                     }
                 } else {
@@ -150,7 +150,7 @@ void DebugState::draw() {
 
         if (std::shared_ptr<Player> p = std::dynamic_pointer_cast<Player>(o); p) {
             drawOntoGame(p->getLightSource());
-            drawOntoGame(p->hurtPolygon());
+            drawOntoGame(p->getHurtPolygon());
         }
     }
 

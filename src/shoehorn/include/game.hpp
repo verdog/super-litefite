@@ -39,7 +39,8 @@ public:
 
     // state management
     void pushState(std::shared_ptr<shoe::GameState> state);
-    std::shared_ptr<GameState> popState();
+    void popState();
+    std::shared_ptr<GameState> topState();
 
 private:
     // display
