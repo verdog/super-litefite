@@ -40,4 +40,6 @@ public:
     shoe::FpsCounter *mFPS;
 private:
     std::shared_ptr<LightMask> mLightMask;
+
+    bool keypress;
 };

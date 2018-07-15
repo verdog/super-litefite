@@ -32,8 +32,12 @@ sf::VertexArray& LightSource::makeVisibilityShape(const std::vector<std::shared_
     mShape.clear();
 
     if (mOn == false) {
-        // don't draw anything if the light is off
-        std::cout << "light is off!\n";
+        sf::Vector2f gameSize = sf::Vector2f(mState->getGame()->gameSize());
+        // draw one big black rect if light is off
+        mShape.append(sf::Vertex(sf::Vector2f(0, 0), sf::Color::Black));
+        mShape.append(sf::Vertex(sf::Vector2f(0, gameSize.y), sf::Color::Black));
+        mShape.append(sf::Vertex(sf::Vector2f(gameSize.x, gameSize.y), sf::Color::Black));
+        mShape.append(sf::Vertex(sf::Vector2f(gameSize.x, 0), sf::Color::Black));
         return mShape;
     }
 
@@ -102,7 +106,6 @@ sf::VertexArray& LightSource::makeVisibilityShape(const std::vector<std::shared_
     // mShape.append(sf::Vertex(longNormal2));
 
     for (uint i=0; i<mShape.getVertexCount(); i++) {
-        // mShape[i].color = mColor;
         mShape[i].color = sf::Color::Black;
     }
 

@@ -29,6 +29,7 @@ DebugState::DebugState(std::shared_ptr<shoe::Game> game)
 {
     loadTextures();
     init();
+    keypress = false;
 }
 
 DebugState::~DebugState() {
@@ -62,6 +63,12 @@ void DebugState::init() {
     p2->setPosition(sf::Vector2f(mGame->gameSize()) - p1->getPosition());
     p2->toggleReverse();
 
+    float low = 16;
+    float high = 196;
+
+    p1->getLightSource().setColor(sf::Color(high, low, low));
+    p2->getLightSource().setColor(sf::Color(low, low, high));
+
     mObjects.push_back(p1);
     mObjects.push_back(p2);
 
@@ -82,7 +89,9 @@ void DebugState::cleanUp() {
 void DebugState::update(const sf::Time &dTime) {
     shoe::Random random;
 
-    mLightMask->reset(sf::Color(75,75,75));
+    mLightMask->reset(sf::Color::Black);
+
+    int player = 0;
 
     for (std::shared_ptr<shoe::GameObject> o : mObjects) {
         o->handleInput(dTime);
@@ -90,6 +99,25 @@ void DebugState::update(const sf::Time &dTime) {
 
         if (std::shared_ptr<Player> p = std::dynamic_pointer_cast<Player>(o); p) {
             mLightMask->add(p->getLightSource());
+
+            // PLACEHOLDER >:0
+            if (!keypress) {
+                if (player == 0) {
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+                        p->getLightSource().toggle();
+                        keypress = true;
+                    }
+                } else {
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+                        p->getLightSource().toggle();
+                        keypress = true;
+                    }
+                }
+            } else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && !sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+                keypress = false;
+            }
+
+            player++;
         }
     }
 

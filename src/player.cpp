@@ -46,7 +46,7 @@ void Player::handleInput(const sf::Time &dTime) {
     if (mReverse) {
         delta *= -1;
     }
-    
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         mVelocity += sf::Vector2f(-delta, 0);
         input = true;
