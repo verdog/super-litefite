@@ -39,9 +39,5 @@ public:
     std::vector<std::shared_ptr<Wallygon>> mWalls;
     shoe::FpsCounter *mFPS;
 private:
-    std::vector<std::shared_ptr<Player>> mPlayers;
-
-    std::vector<LightSource*> mLightSources;
-    
     std::shared_ptr<LightMask> mLightMask;
 };

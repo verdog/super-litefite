@@ -18,17 +18,25 @@
 
 #include "include/lightsource.hpp"
 
-LightSource::LightSource(shoe::GameState *state, std::shared_ptr<shoe::GameObject> anchor) 
+LightSource::LightSource(shoe::GameState *state, shoe::GameObject &anchor) 
 : GameObject (state)
 , mAnchor {anchor}
 , mShape (sf::PrimitiveType::Quads)
-, mColor {sf::Color::Black}
+, mColor {sf::Color::White}
+, mOn { true }
 {
-    
+    //
 }
 
 sf::VertexArray& LightSource::makeVisibilityShape(const std::vector<std::shared_ptr<GameObject>>& obstacles) {
     mShape.clear();
+
+    if (mOn == false) {
+        // don't draw anything if the light is off
+        std::cout << "light is off!\n";
+        return mShape;
+    }
+
     sf::Vector2u gameSize = mState->getGame()->gameSize();
     float stretch = std::max(gameSize.x, gameSize.y) * 2;
 
@@ -106,7 +114,7 @@ sf::VertexArray LightSource::getVisibilityShape() const {
 }
 
 void LightSource::update(const sf::Time &dTime) {
-    setPosition(mAnchor->getPosition());
+    setPosition(mAnchor.getPosition());
 }
 
 void LightSource::draw(sf::RenderTarget &target, sf::RenderStates states) const {
@@ -118,4 +126,26 @@ void LightSource::draw(sf::RenderTarget &target, sf::RenderStates states) const 
     target.draw(c);
 
     // target.draw(mShape);
+}
+
+bool LightSource::isOn() {
+    return mOn;
+}
+
+void LightSource::turnOn() {
+    mOn = true;
+}
+
+void LightSource::turnOff() {
+    mOn = false;
+}
+
+bool LightSource::toggle() {
+    if (mOn) {
+        mOn = false;
+    } else {
+        mOn = true;
+    }
+
+    return mOn;
 }

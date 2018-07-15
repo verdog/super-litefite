@@ -21,7 +21,6 @@
 #include "../include/wallygon.hpp"
 #include "../include/lightsource.hpp"
 #include "../include/lightmask.hpp"
-
 #include "../include/player.hpp"
 
 DebugState::DebugState(std::shared_ptr<shoe::Game> game) 
@@ -33,6 +32,7 @@ DebugState::DebugState(std::shared_ptr<shoe::Game> game)
 }
 
 DebugState::~DebugState() {
+    std::cout << "~DebugState()\n";
     cleanUp();
 }
 
@@ -59,53 +59,39 @@ void DebugState::init() {
     std::shared_ptr<Player> p2 = std::shared_ptr<Player>(new Player(this));
     p1->setTexture(*mTextureManager->getTexture("player"), true);
     p2->setTexture(*mTextureManager->getTexture("player"), true);
-
-    mPlayers.push_back(p1);
-    mPlayers.push_back(p2);
+    p2->setPosition(sf::Vector2f(mGame->gameSize()) - p1->getPosition());
+    p2->toggleReverse();
 
     mObjects.push_back(p1);
     mObjects.push_back(p2);
 
-    for (int i=0; i<5; i++) {
+    for (int i=0; i<3; i++) {
         std::shared_ptr<Wallygon> wall = std::shared_ptr<Wallygon>(new Wallygon(this));
         wall->randomize(4 + i/2, random.int_(32, 128), mGame->gameSize());
 
         mWalls.push_back(wall);
     }
-
-    LightSource *l1 = new LightSource(this, p1);
-    LightSource *l2 = new LightSource(this, p2);
-
-    l1->setColor(sf::Color(255, 220, 220)); // redish
-    l2->setColor(sf::Color(220, 220, 255)); // blueish
-
-    mLightSources.push_back(l1);
-    mLightSources.push_back(l2);
 }
 
 void DebugState::cleanUp() {
+    std::cout << "DebugState::cleanUp()\n";
     mObjects.clear();
     mWalls.clear();
-
-    mLightSources.clear();
 }
 
 void DebugState::update(const sf::Time &dTime) {
     shoe::Random random;
 
+    mLightMask->reset(sf::Color(75,75,75));
+
     for (std::shared_ptr<shoe::GameObject> o : mObjects) {
         o->handleInput(dTime);
         o->update(dTime);
+
+        if (std::shared_ptr<Player> p = std::dynamic_pointer_cast<Player>(o); p) {
+            mLightMask->add(p->getLightSource());
+        }
     }
-
-    std::vector<std::shared_ptr<shoe::GameObject>> tempWalls(mWalls.begin(), mWalls.end());
-    mLightSources[0]->update(dTime);
-    mLightSources[0]->makeVisibilityShape(tempWalls);
-
-    mPlayers[1]->setPosition(sf::Vector2f(mGame->gameSize()) - mPlayers[0]->getPosition());
-    mPlayers[1]->update(dTime);
-    mLightSources[1]->update(dTime);
-    mLightSources[1]->makeVisibilityShape(tempWalls);
 
     for (uint i=0; i<mWalls.size(); i++) {
         std::shared_ptr<Wallygon> w = mWalls[i];
@@ -130,13 +116,14 @@ void DebugState::draw() {
 
     for (std::shared_ptr<shoe::GameObject> o : mObjects) {
         drawOntoGame(*o);
-        drawOntoGame(o->collisionPolygon());
+        // drawOntoGame(o->collisionPolygon());
+
+        if (std::shared_ptr<Player> p = std::dynamic_pointer_cast<Player>(o); p) {
+            drawOntoGame(p->getLightSource());
+        }
     }
 
-    mLightMask->reset();
-    mLightMask->add(*mLightSources[0]);
-    mLightMask->add(*mLightSources[1]);
-    drawOntoGame(*mLightMask->sprite(), sf::RenderStates(sf::BlendMultiply));
+    drawOntoGame(mLightMask->sprite(), sf::RenderStates(sf::BlendMultiply));
 
     sf::RenderStates states;
     states.texture = mTextureManager->getTexture("bricks");
@@ -144,10 +131,6 @@ void DebugState::draw() {
     for (std::shared_ptr<Wallygon> w : mWalls) {
         drawOntoGame(*w, states);
         drawOntoGame(w->collisionPolygon());
-    }
-
-    for (LightSource *l : mLightSources) {
-        drawOntoGame(*l);
     }
 
     // drawOntoGame(*mFPS);

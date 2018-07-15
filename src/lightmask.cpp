@@ -7,6 +7,7 @@
 */
 
 #include <vector>
+#include <iostream>
 #include <memory>
 
 #include <SFML/Graphics.hpp>
@@ -15,8 +16,7 @@
 #include "include/lightmask.hpp"
 
 LightMask::LightMask(uint sizeX, uint sizeY) 
-: mSprite(new sf::Sprite)
-, mMask(new sf::RenderTexture)
+: mMask(new sf::RenderTexture)
 , mBuffer(new sf::RenderTexture)
 {
     mMask->create(sizeX, sizeY);
@@ -38,8 +38,8 @@ void LightMask::add(const LightSource &light) {
     mMask->draw(sf::Sprite(mBuffer->getTexture()), sf::RenderStates(sf::BlendAdd));
 }
 
-std::shared_ptr<sf::Sprite> LightMask::sprite() {
+sf::Sprite& LightMask::sprite() {
     mMask->display();
-    mSprite->setTexture(mMask->getTexture());
+    mSprite.setTexture(mMask->getTexture());
     return mSprite;
 }

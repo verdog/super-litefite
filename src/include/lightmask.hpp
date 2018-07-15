@@ -22,10 +22,10 @@ public:
 
     void reset(sf::Color color = sf::Color::Black);
     void add(const LightSource &light);
-    std::shared_ptr<sf::Sprite> sprite();
+    sf::Sprite& sprite();
 
 private:
-    std::shared_ptr<sf::Sprite> mSprite;
+    sf::Sprite mSprite;
     std::shared_ptr<sf::RenderTexture> mMask;
     std::unique_ptr<sf::RenderTexture> mBuffer;
 };

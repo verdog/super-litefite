@@ -11,16 +11,19 @@
 #include <SFML/Main.hpp>
 
 #include "../src/shoehorn/include/gamestate.hpp"
+#include "../src/shoehorn/include/gameobject.hpp"
 #include "../src/shoehorn/include/collisionpolygon.hpp"
 #include "../src/shoehorn/include/fpscounter.hpp"
 #include "../src/shoehorn/include/vector2math.hpp"
 
 #include "states/include/debugstate.hpp"
 #include "include/player.hpp"
+#include "include/lightsource.hpp"
 #include "include/wallygon.hpp"
 
 Player::Player(shoe::GameState *state) 
 : GameObject(state)
+, mLightSource (new LightSource(state, *this))
 {
     setOrigin(16.f, 16.f);
     makeIntoRegularShape(7, 12);
@@ -29,6 +32,8 @@ Player::Player(shoe::GameState *state)
     mPhysics.friction = 0.95;
     mPhysics.bounce = 0.25;
     mPhysics.drag = 0.9;
+
+    mReverse = false;
 }
 
 Player::~Player() {
@@ -38,6 +43,10 @@ Player::~Player() {
 void Player::handleInput(const sf::Time &dTime) {
     bool input = false;
     float delta = 6;
+    if (mReverse) {
+        delta *= -1;
+    }
+    
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
         mVelocity += sf::Vector2f(-delta, 0);
         input = true;
@@ -88,6 +97,11 @@ void Player::update(const sf::Time &dTime) {
                 mVelocity = mPhysics.friction * pVelocity - mPhysics.bounce * nVelocity;
             }
         }
+
+        std::vector<std::shared_ptr<shoe::GameObject>> tempWalls(state->mWalls.begin(), state->mWalls.end());
+        mLightSource->update(dTime);
+        mLightSource->makeVisibilityShape(tempWalls);
+
     } else {
         std::cerr << "ERROR: Error casting debugstate\n";
     }

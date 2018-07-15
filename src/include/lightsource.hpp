@@ -16,7 +16,7 @@
 
 class LightSource : public shoe::GameObject {
 public:
-    LightSource(shoe::GameState *state, std::shared_ptr<shoe::GameObject> anchor);
+    LightSource(shoe::GameState *state, shoe::GameObject &anchor);
 
     void update(const sf::Time &dTime);
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
@@ -26,8 +26,14 @@ public:
 
     sf::VertexArray& makeVisibilityShape(const std::vector<std::shared_ptr<GameObject>>& obstacles);
     sf::VertexArray getVisibilityShape() const;
+
+    bool isOn();
+    void turnOn();
+    void turnOff();
+    bool toggle();
 private:
-    std::shared_ptr<shoe::GameObject> mAnchor;
+    shoe::GameObject &mAnchor;
     sf::VertexArray mShape;
     sf::Color mColor;
+    bool mOn;
 };
