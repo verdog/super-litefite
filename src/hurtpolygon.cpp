@@ -18,13 +18,14 @@ HurtPolygon::HurtPolygon()
     
 }
 
-HurtPolygon::HurtPolygon(int damage)
+HurtPolygon::HurtPolygon(shoe::GameObject &owner, int damage)
 : shoe::CollisionPolygon()
 , mOpen {false}
 , mDamage {damage}
 {
     std::cout << "HurtPolygon()\n";
     makeIntoRegularShape(5, 16);
+    addImmunity(owner);
 }
 
 HurtPolygon::~HurtPolygon() {

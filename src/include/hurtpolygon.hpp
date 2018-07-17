@@ -17,7 +17,7 @@
 class HurtPolygon : public shoe::CollisionPolygon {
 public:
     HurtPolygon();
-    HurtPolygon(int damage);
+    HurtPolygon(shoe::GameObject &owner, int damage);
     ~HurtPolygon();
 
     void open();

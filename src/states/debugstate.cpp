@@ -24,6 +24,7 @@
 #include "../include/lightmask.hpp"
 #include "../include/player.hpp"
 #include "../include/hurtpolygon.hpp"
+#include "../include/weapon.hpp"
 
 DebugState::DebugState(std::shared_ptr<shoe::Game> game) 
 : GameState(game)
@@ -102,22 +103,22 @@ void DebugState::update(const sf::Time &dTime) {
             mLightMask->add(p->getLightSource());
 
             // PLACEHOLDER >:0
-            if (!keypress) {
-                if (player == 0) {
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-                        // p->getLightSource().toggle();
-                        p->getHurtPolygon().toggle();
-                        keypress = true;
-                    }
-                } else {
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-                        p->getLightSource().toggle();
-                        keypress = true;
-                    }
-                }
-            } else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && !sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-                keypress = false;
-            }
+            // if (!keypress) {
+            //     if (player == 0) {
+            //         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+            //             // p->getLightSource().toggle();
+            //             p->getHurtPolygon().toggle();
+            //             keypress = true;
+            //         }
+            //     } else {
+            //         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+            //             p->getLightSource().toggle();
+            //             keypress = true;
+            //         }
+            //     }
+            // } else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && !sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+            //     keypress = false;
+            // }
 
             player++;
         }
@@ -150,7 +151,7 @@ void DebugState::draw() {
 
         if (std::shared_ptr<Player> p = std::dynamic_pointer_cast<Player>(o); p) {
             drawOntoGame(p->getLightSource());
-            drawOntoGame(p->getHurtPolygon());
+            drawOntoGame(p->getWeapon());
         }
     }
 

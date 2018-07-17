@@ -21,13 +21,14 @@
 #include "include/lightsource.hpp"
 #include "include/wallygon.hpp"
 #include "include/hurtpolygon.hpp"
+#include "include/weapon.hpp"
 
 Player::Player(shoe::GameState *state) 
 : GameObject(state)
 , mAlive {true}
 , mHP {100}
 , mLightSource (new LightSource(state, *this))
-, mHurtPolygon (new HurtPolygon(2))
+, mWeapon (new Weapon(state, *this))
 {
     std::cout << "Player()\n";
 
@@ -40,12 +41,6 @@ Player::Player(shoe::GameState *state)
     mPhysics.drag = 0.9;
 
     mReverse = false;
-
-    mHurtPolygon->addImmunity(*this);
-
-    if (DebugState *s = dynamic_cast<DebugState*>(mState); s) {
-        s->hurtPolygons.push_back(mHurtPolygon);
-    }
 }
 
 Player::~Player() {
@@ -90,7 +85,7 @@ void Player::update(const sf::Time &dTime) {
     setRotation(std::atan2(mVelocity.y, mVelocity.x)*180/M_PIl);
 
     mCollisionPolygon->setPosition(getPosition());
-    mHurtPolygon->setPosition(getPosition());
+    mWeapon->setPosition(getPosition());
 
     if (dynamic_cast<DebugState*>(mState) != nullptr) {
         DebugState *state = dynamic_cast<DebugState*>(mState);
