@@ -18,9 +18,12 @@ public:
     Weapon(shoe::GameState *state, shoe::GameObject &owner);
 
     void setPosition(sf::Vector2f position);
+    void setRotation(float rotation);
 
+    virtual void activate();
+    
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
-private:
+protected:
     std::vector<std::shared_ptr<HurtPolygon>> mHurtPolygons;
 };

@@ -45,7 +45,7 @@ void CollisionPolygon::loadPointsFromVertexArray(const sf::VertexArray &verts) {
     mVertexArray.resize(verts.getVertexCount());
     mVertexArray.setPrimitiveType(sf::PrimitiveType::LineStrip);
 
-    for (uint i = 0; i < mVertexArray.getVertexCount(); i++) {
+    for (uint i = 0; i < verts.getVertexCount(); i++) {
         mVertexArray[i] = verts[i];
     }
 }

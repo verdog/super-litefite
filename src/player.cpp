@@ -22,13 +22,14 @@
 #include "include/wallygon.hpp"
 #include "include/hurtpolygon.hpp"
 #include "include/weapon.hpp"
+#include "include/sword.hpp"
 
 Player::Player(shoe::GameState *state) 
 : GameObject(state)
 , mAlive {true}
 , mHP {100}
 , mLightSource (new LightSource(state, *this))
-, mWeapon (new Weapon(state, *this))
+, mWeapon (new Sword(mState, *this, 10))
 {
     std::cout << "Player()\n";
 
@@ -86,6 +87,7 @@ void Player::update(const sf::Time &dTime) {
 
     mCollisionPolygon->setPosition(getPosition());
     mWeapon->setPosition(getPosition());
+    mWeapon->setRotation(getRotation());
 
     if (dynamic_cast<DebugState*>(mState) != nullptr) {
         DebugState *state = dynamic_cast<DebugState*>(mState);
@@ -110,7 +112,9 @@ void Player::update(const sf::Time &dTime) {
         mLightSource->update(dTime);
         mLightSource->makeVisibilityShape(tempWalls);
 
+        std::cout << "collision\n";
         for (std::shared_ptr<HurtPolygon> p : state->hurtPolygons) {
+            std::cout << "checking...\n";
             if (p->canHurt(*this) && mCollisionPolygon->collidesWith(*p) != sf::Vector2f(0, 0)) {
                 std::cout << "ow\n";
             }
@@ -123,4 +127,8 @@ void Player::update(const sf::Time &dTime) {
 
 LightSource& Player::getLightSource() { 
     return *mLightSource; 
+}
+
+Weapon& Player::getWeapon() {
+    return *mWeapon;
 }

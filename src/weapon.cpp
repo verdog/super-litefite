@@ -30,6 +30,19 @@ void Weapon::setPosition(sf::Vector2f position) {
     }
 }
 
+void Weapon::setRotation(float rotation) {
+    shoe::GameObject::setRotation(rotation);
+    for (std::shared_ptr<HurtPolygon> h : mHurtPolygons) {
+        h->setRotation(rotation);
+    }
+}
+
+void Weapon::activate() {
+    for (std::shared_ptr<HurtPolygon> h : mHurtPolygons) {
+        h->toggle();
+    }
+}
+
 void Weapon::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     for (std::shared_ptr<HurtPolygon> h : mHurtPolygons) {
         target.draw(*h, states);

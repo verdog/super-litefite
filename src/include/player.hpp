@@ -28,7 +28,7 @@ public:
     void update(const sf::Time &dTime);
 
     LightSource& getLightSource();
-    Weapon& getWeapon() { return *mWeapon; }
+    Weapon& getWeapon();
 
     // debug function.
     void toggleReverse() {

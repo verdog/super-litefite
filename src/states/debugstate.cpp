@@ -25,6 +25,7 @@
 #include "../include/player.hpp"
 #include "../include/hurtpolygon.hpp"
 #include "../include/weapon.hpp"
+#include "../include/sword.hpp"
 
 DebugState::DebugState(std::shared_ptr<shoe::Game> game) 
 : GameState(game)
@@ -103,22 +104,22 @@ void DebugState::update(const sf::Time &dTime) {
             mLightMask->add(p->getLightSource());
 
             // PLACEHOLDER >:0
-            // if (!keypress) {
-            //     if (player == 0) {
-            //         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-            //             // p->getLightSource().toggle();
-            //             p->getHurtPolygon().toggle();
-            //             keypress = true;
-            //         }
-            //     } else {
-            //         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-            //             p->getLightSource().toggle();
-            //             keypress = true;
-            //         }
-            //     }
-            // } else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && !sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-            //     keypress = false;
-            // }
+            if (!keypress) {
+                if (player == 0) {
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+                        // p->getLightSource().toggle();
+                        p->getWeapon().activate();
+                        keypress = true;
+                    }
+                } else {
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+                        p->getLightSource().toggle();
+                        keypress = true;
+                    }
+                }
+            } else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && !sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+                keypress = false;
+            }
 
             player++;
         }
