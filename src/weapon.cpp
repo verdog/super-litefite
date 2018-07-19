@@ -63,7 +63,7 @@ void Weapon::activate() {
 void Weapon::update(const sf::Time &dTime) {
     for (std::shared_ptr<HurtPolygon> hurtPolygon : mHurtPolygons) {
         for (shoe::GameObject go : hurtPolygon->getHurtList()) {
-            if (canHurt(go) && hurtPolygon->collidesWith(go.getCollisionPolygon()) != sf::Vector2f(0, 0)) {
+            if (canHurt(go) && hurtPolygon->collidesWith(go.getCollisionPolygon())) {
                 std::cout << "did damage!\n";
             }
         }

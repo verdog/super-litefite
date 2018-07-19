@@ -135,9 +135,8 @@ void DebugState::update(const sf::Time &dTime) {
         std::random_shuffle(sans.begin(), sans.end());
 
         for (std::shared_ptr<Wallygon> sw : sans) {
-            sf::Vector2f MTA = w->getCollisionPolygon().collidesWith(sw->getCollisionPolygon());
-            if (MTA != sf::Vector2f(0, 0)) {
-                w->move(MTA * 0.2f);
+            if (w->getCollisionPolygon().collidesWith(sw->getCollisionPolygon()) == true) {
+                w->move(w->getCollisionPolygon().getLastCollision().MTA * 0.2f);
                 break;
             }
         }

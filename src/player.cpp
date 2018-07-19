@@ -94,7 +94,7 @@ void Player::update(const sf::Time &dTime) {
         DebugState *state = dynamic_cast<DebugState*>(mState);
 
         for (std::shared_ptr<Wallygon> w : state->mWalls) {
-            sf::Vector2f MTA = -w->collidesWith(*this);
+            sf::Vector2f MTA = -w->collidesWith(*this).MTA;
             // we make this negative because collidesWith() returns how much the
             // caller of the function should move (so here, it returns how much the wall should move.)
             // we want to move the player, not the wall, so we invert it

@@ -75,7 +75,7 @@ sf::Vector2f CollisionPolygon::getMidpoint() const {
     return midpoint/(float)mVertexArray.getVertexCount();
 }
 
-sf::Vector2f CollisionPolygon::collidesWith(const CollisionPolygon &other) {
+Collision CollisionPolygon::collidesWith(const CollisionPolygon &other) {
     std::vector<sf::Vector2f> normals = getNormals();
     std::vector<sf::Vector2f> otherNormals = other.getNormals();
     normals.reserve(otherNormals.size());
@@ -89,7 +89,8 @@ sf::Vector2f CollisionPolygon::collidesWith(const CollisionPolygon &other) {
         Projection p2 = other.projectOnto(n);
 
         if (float overlap = p1.overlap(p2); overlap == 0.f) {
-            return sf::Vector2f(0, 0);
+            mLastCollision = Collision(false);
+            return mLastCollision;
         } else {
             if (overlap < smallestOverlap) {
                 smallestOverlap = overlap;
@@ -105,7 +106,12 @@ sf::Vector2f CollisionPolygon::collidesWith(const CollisionPolygon &other) {
         }
     }
 
-    return minTranslationVect;
+    mLastCollision = Collision(minTranslationVect);
+    return mLastCollision;
+}
+
+Collision CollisionPolygon::getLastCollision() const {
+    return mLastCollision;
 }
 
 std::vector<sf::Vector2f> CollisionPolygon::getNormals() const {
@@ -158,3 +164,13 @@ std::size_t CollisionPolygon::getVertexCount() {
 }
 
 } // shoe
+
+// Collision operators
+bool operator == (const shoe::Collision &a, const bool &b) { return a.hit == b; }
+bool operator == (const bool &b, const shoe::Collision &a) { return a.hit == b; }
+bool operator != (const shoe::Collision &a, const bool &b) { return !(a == b); }
+bool operator != (const bool &b, const shoe::Collision &a) { return !(a == b); }
+bool operator && (const shoe::Collision &a, const bool &b) { return a.hit && b; }
+bool operator && (const bool &b, const shoe::Collision &a) { return a.hit && b; }
+bool operator || (const shoe::Collision &a, const bool &b) { return a.hit || b; }
+bool operator || (const bool &b, const shoe::Collision &a) { return a.hit || b; }

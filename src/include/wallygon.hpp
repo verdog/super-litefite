@@ -10,6 +10,7 @@ namespace shoe {
     class GameState;
     class GameObject;
     class CollisionPolygon;
+    struct Collision;
 }
 
 class Wallygon : public shoe::GameObject {
@@ -23,9 +24,9 @@ public:
     void setPosition(sf::Vector2f position);
     void move(sf::Vector2f vector);
 
-    sf::Vector2f collidesWith(const shoe::GameObject &other);
+    shoe::Collision collidesWith(const shoe::GameObject &other);
 
-    shoe::CollisionPolygon getCollisionPolygon();
+    shoe::CollisionPolygon& getCollisionPolygon();
 
     sf::VertexArray getVertices() {
         return mVertices;

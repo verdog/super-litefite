@@ -15,6 +15,7 @@ namespace shoe
 
 class GameState;
 class CollisionPolygon;
+struct Collision;
 
 struct PhysicsProperties {
     PhysicsProperties() {
@@ -38,8 +39,8 @@ public:
 
     CollisionPolygon getCollisionPolygon() const;
     
-    sf::Vector2f collidesWith(const GameObject &other) const;
-    sf::Vector2f collidesWith(const CollisionPolygon &other) const;
+    Collision collidesWith(const GameObject &other) const;
+    Collision collidesWith(const CollisionPolygon &other) const;
 
     void makeIntoRegularShape(uint sides, uint radius);
     void makeIntoRect(sf::Vector2f size);
