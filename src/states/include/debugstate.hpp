@@ -26,7 +26,7 @@ class Wallygon;
 
 class DebugState : public shoe::GameState {
 public:
-    DebugState(std::shared_ptr<shoe::Game> game);
+    DebugState(shoe::Game *game);
     ~DebugState();
 
     std::shared_ptr<GameState> clone() const { return std::shared_ptr<DebugState>(new DebugState(*this)); }

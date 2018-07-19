@@ -21,7 +21,7 @@ class TextureManager;
 
 class GameState {
 public:
-    GameState(std::shared_ptr<Game> game);
+    GameState(Game *game);
 
     virtual std::shared_ptr<GameState> clone() const = 0;
 
@@ -37,10 +37,10 @@ public:
     bool loadTexture(std::string key, std::string path);
     sf::Texture* getTexture(std::string key);
 
-    std::shared_ptr<shoe::Game> getGame() { return mGame; }
+    Game* getGame() { return mGame; }
 
 protected:
-    std::shared_ptr<shoe::Game> mGame;
+    Game *mGame;
     std::vector<std::shared_ptr<GameObject>> mObjects;
 
     // texture management

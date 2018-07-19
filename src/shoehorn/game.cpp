@@ -10,6 +10,8 @@
 #include "include/game.hpp"
 #include "include/gamestate.hpp"
 
+#include "../states/include/debugstate.hpp"
+
 #include "include/texturemanager.hpp"
 
 namespace shoe {
@@ -70,12 +72,15 @@ bool Game::run() {
                         newState->cleanUp();
                         newState->init();
                         pushState(newState);
-
-                        std::cout << "stateStack length after push: " << mStates.size() << std::endl;
                     }
 
                     if (e.key.code == sf::Keyboard::X) {
-                        topState();
+                        popState();
+                    }
+
+                    if (e.key.code == sf::Keyboard::Z) {
+                        std::shared_ptr<GameState> newState(new DebugState(this));
+                        pushState(newState);
                     }
 
                     if (e.key.code == sf::Keyboard::Escape) {
@@ -90,10 +95,10 @@ bool Game::run() {
         deltaTime = frameTimer.getElapsedTime();
         frameTimer.restart();
         if (!mStates.empty()) {
-            mStates.back()->clear();
-            mStates.back()->update(deltaTime);
-            mStates.back()->draw();
-            mStates.back()->display();
+            topState()->clear();
+            topState()->update(deltaTime);
+            topState()->draw();
+            topState()->display();
         } else {
             mRunning = false;
             std::cerr << "ERROR: No state on state stack!\n"; 

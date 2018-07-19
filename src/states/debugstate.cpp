@@ -27,7 +27,7 @@
 #include "../include/weapon.hpp"
 #include "../include/sword.hpp"
 
-DebugState::DebugState(std::shared_ptr<shoe::Game> game) 
+DebugState::DebugState(shoe::Game *game) 
 : GameState(game)
 , mLightMask(new LightMask(mGame->gameSize().x, mGame->gameSize().y))
 {
@@ -38,7 +38,7 @@ DebugState::DebugState(std::shared_ptr<shoe::Game> game)
 
 DebugState::~DebugState() {
     std::cout << "~DebugState()\n";
-    cleanUp();
+    // cleanUp();
 }
 
 void DebugState::loadTextures() {

@@ -11,7 +11,7 @@
 
 int main(int argc, char const *argv[])
 {
-    std::shared_ptr<shoe::Game> game(new shoe::Game("super litefite"));
+    shoe::Game *game = new shoe::Game("super litefite");
     game->setGameSize(800, 450);
     game->setPixelScale(2);
 
