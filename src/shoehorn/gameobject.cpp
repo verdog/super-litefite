@@ -37,12 +37,12 @@ void GameObject::update(const sf::Time &dTime) {
 
 }
 
-CollisionPolygon GameObject::collisionPolygon() const {
+CollisionPolygon GameObject::getCollisionPolygon() const {
     return *mCollisionPolygon;
 }
 
 sf::Vector2f GameObject::collidesWith(const GameObject &other) const {
-    return mCollisionPolygon->collidesWith(other.collisionPolygon());
+    return mCollisionPolygon->collidesWith(other.getCollisionPolygon());
 }
 
 sf::Vector2f GameObject::collidesWith(const CollisionPolygon &other) const {

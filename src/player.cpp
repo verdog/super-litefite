@@ -29,7 +29,7 @@ Player::Player(shoe::GameState *state)
 , mAlive {true}
 , mHP {100}
 , mLightSource (new LightSource(state, *this))
-, mWeapon (new Sword(mState, *this, 10))
+, mWeapon (new Sword(mState, 10))
 {
     std::cout << "Player()\n";
 
@@ -88,6 +88,7 @@ void Player::update(const sf::Time &dTime) {
     mCollisionPolygon->setPosition(getPosition());
     mWeapon->setPosition(getPosition());
     mWeapon->setRotation(getRotation());
+    mWeapon->update(dTime);
 
     if (dynamic_cast<DebugState*>(mState) != nullptr) {
         DebugState *state = dynamic_cast<DebugState*>(mState);
@@ -111,15 +112,6 @@ void Player::update(const sf::Time &dTime) {
         std::vector<std::shared_ptr<shoe::GameObject>> tempWalls(state->mWalls.begin(), state->mWalls.end());
         mLightSource->update(dTime);
         mLightSource->makeVisibilityShape(tempWalls);
-
-        std::cout << "collision\n";
-        for (std::shared_ptr<HurtPolygon> p : state->hurtPolygons) {
-            std::cout << "checking...\n";
-            if (p->canHurt(*this) && mCollisionPolygon->collidesWith(*p) != sf::Vector2f(0, 0)) {
-                std::cout << "ow\n";
-            }
-        }
-
     } else {
         std::cerr << "ERROR: Error casting debugstate\n";
     }

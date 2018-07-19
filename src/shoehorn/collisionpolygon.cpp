@@ -141,4 +141,20 @@ Projection CollisionPolygon::projectOnto(const sf::Vector2f &axis) const {
     return Projection(min, max);
 }
 
+void CollisionPolygon::clear() {
+    mVertexArray.clear();
+}
+
+void CollisionPolygon::resize(std::size_t size) {
+    mVertexArray.resize(size);
+}
+
+void CollisionPolygon::setPrimitiveType(sf::PrimitiveType type) { 
+    mVertexArray.setPrimitiveType(type); 
+}
+
+std::size_t CollisionPolygon::getVertexCount() {
+    return mVertexArray.getVertexCount();
+}
+
 } // shoe

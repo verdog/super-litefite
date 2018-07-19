@@ -16,8 +16,7 @@
 
 class HurtPolygon : public shoe::CollisionPolygon {
 public:
-    HurtPolygon();
-    HurtPolygon(shoe::GameObject &owner, int damage);
+    HurtPolygon(int damage = 2);
     ~HurtPolygon();
 
     void open();
@@ -27,15 +26,14 @@ public:
     void setDamage(int damage);
     int getDamage();
 
-    void addImmunity(const shoe::GameObject &object);
-    void removeImmunity(const shoe::GameObject &object);
-
+    void addVulnerability(const shoe::GameObject &object);
+    void removeVulnerability(const shoe::GameObject &object);
     bool canHurt(const shoe::GameObject &object);
+    std::set<shoe::GameObject>& getHurtList() { return mVulnerable; }
 
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
-
 private:
     bool mOpen;
     int mDamage;
-    std::set<shoe::GameObject> mImmune;
+    std::set<shoe::GameObject> mVulnerable;
 };

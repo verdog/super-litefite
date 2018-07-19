@@ -98,10 +98,10 @@ void Wallygon::move(sf::Vector2f vector) {
 }
 
 sf::Vector2f Wallygon::collidesWith(const shoe::GameObject &other) {
-    return mCollisionPolygon->collidesWith(other.collisionPolygon());
+    return mCollisionPolygon->collidesWith(other.getCollisionPolygon());
 }
 
-shoe::CollisionPolygon Wallygon::collisionPolygon() {
+shoe::CollisionPolygon Wallygon::getCollisionPolygon() {
     return *mCollisionPolygon;   
 }
 

@@ -11,16 +11,12 @@
 #include "include/hurtpolygon.hpp"
 #include "states/include/debugstate.hpp"
 
-Weapon::Weapon(shoe::GameState *state, shoe::GameObject &owner)
+Weapon::Weapon(shoe::GameState *state)
 : shoe::GameObject(state) 
 {
-    mHurtPolygons.emplace_back(new HurtPolygon(owner, 2));
+    mHurtPolygons.emplace_back(new HurtPolygon(7));
 
     std::shared_ptr<HurtPolygon> defaultPoly = mHurtPolygons.back();
-
-    if (DebugState *s = dynamic_cast<DebugState*>(mState); s) {
-        s->hurtPolygons.push_back(defaultPoly);
-    }
 }
 
 void Weapon::setPosition(sf::Vector2f position) {
@@ -37,9 +33,40 @@ void Weapon::setRotation(float rotation) {
     }
 }
 
+void Weapon::addVulnerability(const shoe::GameObject &object) {
+    for (auto hp : mHurtPolygons) {
+        hp->addVulnerability(object);
+    }
+}
+
+void Weapon::removeVulnerability(const shoe::GameObject &object) {
+    for (auto hp : mHurtPolygons) {
+        hp->removeVulnerability(object);
+    }
+}
+
+bool Weapon::canHurt(const shoe::GameObject &object) {
+    for (auto hp : mHurtPolygons) {
+        if (hp->canHurt(object)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void Weapon::activate() {
     for (std::shared_ptr<HurtPolygon> h : mHurtPolygons) {
         h->toggle();
+    }
+}
+
+void Weapon::update(const sf::Time &dTime) {
+    for (std::shared_ptr<HurtPolygon> hurtPolygon : mHurtPolygons) {
+        for (shoe::GameObject go : hurtPolygon->getHurtList()) {
+            if (canHurt(go) && hurtPolygon->collidesWith(go.getCollisionPolygon()) != sf::Vector2f(0, 0)) {
+                std::cout << "did damage!\n";
+            }
+        }
     }
 }
 

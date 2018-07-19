@@ -15,12 +15,17 @@ class HurtPolygon;
 
 class Weapon : public shoe::GameObject {
 public:
-    Weapon(shoe::GameState *state, shoe::GameObject &owner);
+    Weapon(shoe::GameState *state);
 
     void setPosition(sf::Vector2f position);
     void setRotation(float rotation);
 
+    void addVulnerability(const shoe::GameObject &object);
+    void removeVulnerability(const shoe::GameObject &object);
+    bool canHurt(const shoe::GameObject &object);
+
     virtual void activate();
+    void update(const sf::Time &dTime);
     
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 

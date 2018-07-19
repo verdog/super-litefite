@@ -45,7 +45,7 @@ sf::VertexArray& LightSource::makeVisibilityShape(const std::vector<std::shared_
     float stretch = std::max(gameSize.x, gameSize.y) * 2;
 
     for (std::shared_ptr<shoe::GameObject> o : obstacles) {
-        shoe::CollisionPolygon c = o->collisionPolygon();
+        shoe::CollisionPolygon c = o->getCollisionPolygon();
 
         for (uint i=0; i<c.getVertexCount(); i++) {
             sf::Vector2f begin = c.getTransform().transformPoint(c[i].position);

@@ -47,11 +47,11 @@ public:
 
     sf::Vector2f collidesWith(const CollisionPolygon &other);
 
-    void clear() { mVertexArray.clear(); }
-    void resize(std::size_t size) { mVertexArray.resize(size); }
-    void setPrimitiveType(sf::PrimitiveType type) { mVertexArray.setPrimitiveType(type); }
-    std::size_t getVertexCount() { return mVertexArray.getVertexCount(); }
-
+    void clear();
+    void resize(std::size_t size);
+    void setPrimitiveType(sf::PrimitiveType type);
+    std::size_t getVertexCount();
+    
     sf::Vertex& operator[](std::size_t size) {
         return mVertexArray[size];
     }

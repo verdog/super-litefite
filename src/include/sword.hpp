@@ -11,8 +11,7 @@
 
 class Sword : public Weapon {
 public:
-    Sword(shoe::GameState *state, shoe::GameObject &owner, int length);
-
+    Sword(shoe::GameState *state, int length);
 
 private:
 };

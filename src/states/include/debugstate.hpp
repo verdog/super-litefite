@@ -40,7 +40,6 @@ public:
     
     std::vector<std::shared_ptr<Wallygon>> mWalls;
     shoe::FpsCounter *mFPS;
-    std::vector<std::shared_ptr<HurtPolygon>> hurtPolygons;
 private:
     std::shared_ptr<LightMask> mLightMask;
 

@@ -39,7 +39,6 @@ public:
         }
     }
 
-
 private:
     bool mReverse;
     bool mAlive;

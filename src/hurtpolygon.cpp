@@ -10,22 +10,12 @@
 
 #include "include/hurtpolygon.hpp"
 
-HurtPolygon::HurtPolygon()
-: shoe::CollisionPolygon()
-, mOpen {false}
-, mDamage {1}
-{
-    
-}
-
-HurtPolygon::HurtPolygon(shoe::GameObject &owner, int damage)
+HurtPolygon::HurtPolygon(int damage)
 : shoe::CollisionPolygon()
 , mOpen {false}
 , mDamage {damage}
 {
-    std::cout << "HurtPolygon()\n";
-    makeIntoRegularShape(5, 16);
-    addImmunity(owner);
+    makeIntoRegularShape(4, 16);
 }
 
 HurtPolygon::~HurtPolygon() {
@@ -53,16 +43,17 @@ int HurtPolygon::getDamage() {
     return mDamage;
 }
 
-void HurtPolygon::addImmunity(const shoe::GameObject &object) {
-    mImmune.insert(object);
+void HurtPolygon::addVulnerability(const shoe::GameObject &object) {
+    mVulnerable.insert(object);
 }
 
-void HurtPolygon::removeImmunity(const shoe::GameObject &object) {
-    mImmune.erase(object);
+void HurtPolygon::removeVulnerability(const shoe::GameObject &object) {
+    mVulnerable.erase(object);
 }
 
 bool HurtPolygon::canHurt(const shoe::GameObject &object) {
-    return mOpen && mImmune.find(object) == mImmune.end();
+    // make sure the hitbox is open and the object is in the vulnerable vector
+    return mOpen && !(mVulnerable.find(object) == mVulnerable.end());
 }
 
 void HurtPolygon::draw(sf::RenderTarget &target, sf::RenderStates states) const {

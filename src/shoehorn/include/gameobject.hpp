@@ -36,7 +36,7 @@ public:
     virtual void handleInput(const sf::Time &dTime);
     virtual void update(const sf::Time &dTime);
 
-    CollisionPolygon collisionPolygon() const;
+    CollisionPolygon getCollisionPolygon() const;
     
     sf::Vector2f collidesWith(const GameObject &other) const;
     sf::Vector2f collidesWith(const CollisionPolygon &other) const;

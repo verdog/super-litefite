@@ -71,6 +71,9 @@ void DebugState::init() {
     p1->getLightSource().setColor(sf::Color(high, low, low));
     p2->getLightSource().setColor(sf::Color(low, low, high));
 
+    p1->getWeapon().addVulnerability(*p2);
+    p2->getWeapon().addVulnerability(*p1);
+
     mObjects.push_back(p1);
     mObjects.push_back(p2);
 
@@ -86,7 +89,6 @@ void DebugState::cleanUp() {
     std::cout << "DebugState::cleanUp()\n";
     mObjects.clear();
     mWalls.clear();
-    hurtPolygons.clear();
 }
 
 void DebugState::update(const sf::Time &dTime) {
@@ -133,7 +135,7 @@ void DebugState::update(const sf::Time &dTime) {
         std::random_shuffle(sans.begin(), sans.end());
 
         for (std::shared_ptr<Wallygon> sw : sans) {
-            sf::Vector2f MTA = w->collisionPolygon().collidesWith(sw->collisionPolygon());
+            sf::Vector2f MTA = w->getCollisionPolygon().collidesWith(sw->getCollisionPolygon());
             if (MTA != sf::Vector2f(0, 0)) {
                 w->move(MTA * 0.2f);
                 break;
@@ -148,7 +150,7 @@ void DebugState::draw() {
 
     for (std::shared_ptr<shoe::GameObject> o : mObjects) {
         drawOntoGame(*o);
-        drawOntoGame(o->collisionPolygon());
+        drawOntoGame(o->getCollisionPolygon());
 
         if (std::shared_ptr<Player> p = std::dynamic_pointer_cast<Player>(o); p) {
             drawOntoGame(p->getLightSource());
@@ -163,7 +165,7 @@ void DebugState::draw() {
 
     for (std::shared_ptr<Wallygon> w : mWalls) {
         drawOntoGame(*w, states);
-        drawOntoGame(w->collisionPolygon());
+        drawOntoGame(w->getCollisionPolygon());
     }
 
     // drawOntoGame(*mFPS);

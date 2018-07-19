@@ -4,6 +4,8 @@
  * Josh Chandler
 */
 
+// THIS IS OUTDATED
+
 #pragma once
 
 #define SHOEHORN_ENABLED

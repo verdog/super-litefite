@@ -25,7 +25,7 @@ public:
 
     sf::Vector2f collidesWith(const shoe::GameObject &other);
 
-    shoe::CollisionPolygon collisionPolygon();
+    shoe::CollisionPolygon getCollisionPolygon();
 
     sf::VertexArray getVertices() {
         return mVertices;
