@@ -20,13 +20,18 @@ Sword::Sword(shoe::GameState *state, int length)
     mHurtPolygons.clear();
     sf::VertexArray load;
     load.resize(5);
-    load[0] = sf::Vector2f(-16, -16);
-    load[1] = sf::Vector2f(16, -16);
-    load[2] = sf::Vector2f(16 + length, 0);
-    load[3] = sf::Vector2f(16, 16);
-    load[4] = sf::Vector2f(-16, 16);
+    load[0] = sf::Vector2f(16, -4);
+    load[1] = sf::Vector2f(16 + length, -4);
+    load[2] = sf::Vector2f(16 + length + 2, 0);
+    load[3] = sf::Vector2f(16 + length, 4);
+    load[4] = sf::Vector2f(16, 4);
     std::shared_ptr<HurtPolygon> h(new HurtPolygon);
     h->loadPointsFromVertexArray(load);
 
     mHurtPolygons.push_back(h);
+
+    setTexture(*mState->getTexture("sword"), true);
+    setOrigin(sf::Vector2f(16, 30));
+
+    // rotate(-90);
 }

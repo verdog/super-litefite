@@ -70,8 +70,8 @@ void Weapon::update(const sf::Time &dTime) {
     }
 }
 
-void Weapon::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    for (std::shared_ptr<HurtPolygon> h : mHurtPolygons) {
-        target.draw(*h, states);
-    }
-}
+// void Weapon::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+//     for (std::shared_ptr<HurtPolygon> h : mHurtPolygons) {
+//         target.draw(*h, states);
+//     }
+// }
