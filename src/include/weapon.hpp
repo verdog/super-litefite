@@ -27,7 +27,7 @@ public:
     virtual void activate();
     void update(const sf::Time &dTime);
     
-    // void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+    void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 protected:
     std::vector<std::shared_ptr<HurtPolygon>> mHurtPolygons;

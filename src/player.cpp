@@ -29,7 +29,7 @@ Player::Player(shoe::GameState *state)
 , mAlive {true}
 , mHP {100}
 , mLightSource (new LightSource(state, *this))
-, mWeapon (new Sword(mState, 10))
+, mWeapon (new Sword(mState, 24))
 {
     std::cout << "Player()\n";
 
@@ -123,4 +123,10 @@ LightSource& Player::getLightSource() {
 
 Weapon& Player::getWeapon() {
     return *mWeapon;
+}
+
+void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+    states.transform.combine(getTransform());
+    target.draw(mSprite, states);
+    target.draw(*mWeapon, states);
 }

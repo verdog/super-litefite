@@ -64,4 +64,17 @@ void GameObject::makeIntoRect(sf::Vector2f size) {
     (*mCollisionPolygon)[3] = sf::Vector2f(0, size.y);
 }
 
+void GameObject::setSpriteTexture(const sf::Texture &texture, bool resetRect) {
+    mSprite.setTexture(texture, resetRect);
+}
+
+void GameObject::setSpriteTextureRect(const sf::IntRect &rectangle) {
+    mSprite.setTextureRect(rectangle);
+}
+
+void GameObject::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+    states.transform.combine(getTransform());
+    target.draw(mSprite, states);
+}
+
 }

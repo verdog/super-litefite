@@ -49,7 +49,7 @@ void DebugState::loadTextures() {
     mTextureManager->loadTexture("bricks", "resources/img/brik.png");
     mTextureManager->getTexture("bricks")->setRepeated(true);
 
-    mTextureManager->loadTexture("sword", "resources/img/SWORD.png");
+    mTextureManager->loadTexture("sword", "resources/img/GUN.png");
 }
 
 void DebugState::init() {
@@ -57,13 +57,13 @@ void DebugState::init() {
 
     mFPS = new shoe::FpsCounter;
     mObjects.push_back(std::shared_ptr<shoe::GameObject>(new shoe::GameObject(this)));
-    mObjects.back()->setTexture(*mTextureManager->getTexture("bg"));
-    mObjects.back()->setTextureRect(sf::IntRect(0,0,mGame->window().getSize().x,mGame->window().getSize().y));
+    mObjects.back()->setSpriteTexture(*mTextureManager->getTexture("bg"));
+    mObjects.back()->setSpriteTextureRect(sf::IntRect(0,0,mGame->window().getSize().x,mGame->window().getSize().y));
 
     std::shared_ptr<Player> p1 = std::shared_ptr<Player>(new Player(this));
     std::shared_ptr<Player> p2 = std::shared_ptr<Player>(new Player(this));
-    p1->setTexture(*mTextureManager->getTexture("player"), true);
-    p2->setTexture(*mTextureManager->getTexture("player"), true);
+    p1->setSpriteTexture(*mTextureManager->getTexture("player"), true);
+    p2->setSpriteTexture(*mTextureManager->getTexture("player"), true);
     p2->setPosition(sf::Vector2f(mGame->gameSize()) - p1->getPosition());
     p2->toggleReverse();
 
@@ -155,7 +155,7 @@ void DebugState::draw() {
 
         if (std::shared_ptr<Player> p = std::dynamic_pointer_cast<Player>(o); p) {
             // drawOntoGame(p->getLightSource());
-            drawOntoGame(p->getWeapon());
+            // drawOntoGame(p->getWeapon());
         }
     }
 

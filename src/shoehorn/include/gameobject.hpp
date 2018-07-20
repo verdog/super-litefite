@@ -29,7 +29,7 @@ struct PhysicsProperties {
     float bounce; // bounce off object
 };
 
-class GameObject : public sf::Sprite {
+class GameObject : public sf::Drawable, public sf::Transformable {
 public:
     GameObject(GameState *state);
     ~GameObject();
@@ -47,6 +47,11 @@ public:
 
     PhysicsProperties physics() { return mPhysics; };
 
+    void setSpriteTexture(const sf::Texture &texture, bool resetRect = false);
+    void setSpriteTextureRect(const sf::IntRect &rectangle);
+
+void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
     int id() const { return mId; }
 
     bool operator < (const GameObject b) const {
@@ -59,6 +64,8 @@ protected:
     std::shared_ptr<CollisionPolygon> mCollisionPolygon;
 
     PhysicsProperties mPhysics;
+
+    sf::Sprite mSprite;
 
     const int mId;
     static int mNextId;

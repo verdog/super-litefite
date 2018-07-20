@@ -13,6 +13,6 @@ class Sword : public Weapon {
 public:
     Sword(shoe::GameState *state, int length);
 
-    // void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+    void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 private:
 };
