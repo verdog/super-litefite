@@ -40,5 +40,5 @@ Sword::Sword(shoe::GameState *state, int length)
 void Sword::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     states.transform.combine(getTransform());
     target.draw(mSprite, states);
-    // Weapon::draw(target, states); // draw wireframe
+    Weapon::draw(target, states); // draw wireframe
 }

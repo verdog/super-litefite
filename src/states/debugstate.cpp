@@ -49,7 +49,7 @@ void DebugState::loadTextures() {
     mTextureManager->loadTexture("bricks", "resources/img/brik.png");
     mTextureManager->getTexture("bricks")->setRepeated(true);
 
-    mTextureManager->loadTexture("sword", "resources/img/GUN.png");
+    mTextureManager->loadTexture("sword", "resources/img/SWORD.png");
 }
 
 void DebugState::init() {
@@ -151,7 +151,7 @@ void DebugState::draw() {
 
     for (std::shared_ptr<shoe::GameObject> o : mObjects) {
         drawOntoGame(*o);
-        // drawOntoGame(o->getCollisionPolygon());
+        drawOntoGame(o->getCollisionPolygon());
 
         if (std::shared_ptr<Player> p = std::dynamic_pointer_cast<Player>(o); p) {
             // drawOntoGame(p->getLightSource());
