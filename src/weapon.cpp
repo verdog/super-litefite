@@ -15,19 +15,15 @@ Weapon::Weapon(shoe::GameState *state)
 : shoe::GameObject(state) 
 {
     mHurtPolygons.emplace_back(new HurtPolygon(7));
-
-    std::shared_ptr<HurtPolygon> defaultPoly = mHurtPolygons.back();
 }
 
 void Weapon::setPosition(sf::Vector2f position) {
-    // shoe::GameObject::setPosition(position);
     for (std::shared_ptr<HurtPolygon> h : mHurtPolygons) {
         h->setPosition(position);
     }
 }
 
 void Weapon::setRotation(float rotation) {
-    // shoe::GameObject::setRotation(rotation);
     for (std::shared_ptr<HurtPolygon> h : mHurtPolygons) {
         h->setRotation(rotation);
     }

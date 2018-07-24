@@ -46,7 +46,7 @@ void DebugState::loadTextures() {
     mTextureManager->getTexture("bg")->setRepeated(true);
 
     mTextureManager->loadTexture("player", "resources/img/player.png");
-    mTextureManager->loadTexture("bricks", "resources/img/brik.png");
+    mTextureManager->loadTexture("bricks", "resources/img/woood.png");
     mTextureManager->getTexture("bricks")->setRepeated(true);
 
     mTextureManager->loadTexture("sword", "resources/img/SWORD.png");
