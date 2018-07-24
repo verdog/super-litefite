@@ -81,6 +81,8 @@ void Player::handleInput(const sf::Time &dTime) {
 }
 
 void Player::update(const sf::Time &dTime) {
+    spriteAnimator.update(dTime);
+
     float dTimeSeconds = dTime.asSeconds();
     move(dTimeSeconds * mVelocity);
     setRotation(std::atan2(mVelocity.y, mVelocity.x)*180/M_PIl);

@@ -10,6 +10,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "spriteanimator.hpp"
+
 namespace shoe
 {
 
@@ -50,13 +52,15 @@ public:
     void setSpriteTexture(const sf::Texture &texture, bool resetRect = false);
     void setSpriteTextureRect(const sf::IntRect &rectangle);
 
-void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     int id() const { return mId; }
 
     bool operator < (const GameObject b) const {
         return mId < b.id();
     }
+
+    SpriteAnimator spriteAnimator;
 
 protected:
     GameState *mState;

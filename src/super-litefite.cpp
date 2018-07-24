@@ -8,7 +8,7 @@
 #include <iostream>
 using std::cout;
 using std::cin;
-using std::end;
+using std::endl;
 
 #include "include/super-litefite.hpp"
 #include "shoehorn/include/gamestate.hpp"
@@ -42,14 +42,14 @@ bool SuperLiteFite::run() {
 
                 case sf::Event::KeyPressed:
                     if (e.key.code == sf::Keyboard::R) {
-                        std::cout << "RESTART\n";
+                        cout << "RESTART\n";
 
                         std::shared_ptr<shoe::GameState> newState = topState()->clone();
-                        std::cout << "topState use count = " << topState().use_count() << std::endl;
-                        std::cout << "newState use count = " << newState.use_count()   << std::endl;
+                        cout << "topState use count = " << topState().use_count() << endl;
+                        cout << "newState use count = " << newState.use_count()   << endl;
                         popState();
 
-                        std::cout << "stateStack length after pop: " << mStates.size() << std::endl;
+                        cout << "stateStack length after pop: " << mStates.size() << endl;
 
                         newState->cleanUp();
                         newState->init();

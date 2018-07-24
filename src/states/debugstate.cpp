@@ -42,7 +42,7 @@ DebugState::~DebugState() {
 }
 
 void DebugState::loadTextures() {
-    mTextureManager->loadTexture("bg", "resources/img/bg.png");
+    mTextureManager->loadTexture("bg", "resources/img/bg2.png");
     mTextureManager->getTexture("bg")->setRepeated(true);
 
     mTextureManager->loadTexture("player", "resources/img/player.png");
@@ -62,8 +62,15 @@ void DebugState::init() {
 
     std::shared_ptr<Player> p1 = std::shared_ptr<Player>(new Player(this));
     std::shared_ptr<Player> p2 = std::shared_ptr<Player>(new Player(this));
-    p1->setSpriteTexture(*mTextureManager->getTexture("player"), true);
-    p2->setSpriteTexture(*mTextureManager->getTexture("player"), true);
+    p1->setSpriteTexture(*mTextureManager->getTexture("player"), false);
+    p1->setSpriteTextureRect(sf::IntRect(0, 0, 32, 32));
+
+    p1->spriteAnimator.addKeyframe(0, 0, 32, 32, 1);
+    p1->spriteAnimator.addKeyframe(32, 0, 32, 32, 1);
+    p1->spriteAnimator.play(sf::seconds(1));
+
+    p2->setSpriteTexture(*mTextureManager->getTexture("player"), false);
+    p2->setSpriteTextureRect(sf::IntRect(32, 0, 32, 32));
     p2->setPosition(sf::Vector2f(mGame->gameSize()) - p1->getPosition());
     p2->toggleReverse();
 
@@ -151,7 +158,7 @@ void DebugState::draw() {
 
     for (std::shared_ptr<shoe::GameObject> o : mObjects) {
         drawOntoGame(*o);
-        drawOntoGame(o->getCollisionPolygon());
+        // drawOntoGame(o->getCollisionPolygon());
 
         if (std::shared_ptr<Player> p = std::dynamic_pointer_cast<Player>(o); p) {
             // drawOntoGame(p->getLightSource());

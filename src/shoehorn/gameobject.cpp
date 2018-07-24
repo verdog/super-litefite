@@ -10,6 +10,7 @@
 
 #include "include/gameobject.hpp"
 #include "include/collisionpolygon.hpp"
+#include "include/spriteanimator.hpp"
 
 const double pi = std::acos(-1);
 
@@ -18,7 +19,8 @@ namespace shoe {
 int GameObject::mNextId = 0;
 
 GameObject::GameObject(GameState *state) 
-: mState {state}
+: spriteAnimator (this)
+, mState {state}
 , mCollisionPolygon (new CollisionPolygon()) // shared_ptr
 , mId ( mNextId++ )
 {
