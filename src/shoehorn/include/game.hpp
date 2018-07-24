@@ -20,10 +20,10 @@ class ImageManager;
 
 class Game {
 public:
-    Game(std::string title = "shoegame");
+    Game(std::string title);
 
-    bool init();
-    bool run();
+    virtual bool init();
+    virtual bool run();
 
     // window management
     sf::RenderWindow& window();
@@ -42,7 +42,7 @@ public:
     void popState();
     std::shared_ptr<GameState> topState();
 
-private:
+protected:
     // display
     sf::RenderWindow mWindow;
     sf::View mView;

@@ -10,7 +10,7 @@
 #include "include/game.hpp"
 #include "include/gamestate.hpp"
 
-#include "../states/include/debugstate.hpp"
+// #include "../states/include/debugstate.hpp"
 
 #include "include/texturemanager.hpp"
 
@@ -31,10 +31,6 @@ Game::Game(std::string title)
 bool Game::init() {
     mInitialized = true;
     // placeholder?
-
-    if (mStates.size() > 0) {
-        std::cout << "topState use count at init = " << topState().use_count() << std::endl;
-    }
     
     return true;
 }
@@ -59,30 +55,6 @@ bool Game::run() {
                     break;
 
                 case sf::Event::KeyPressed:
-                    if (e.key.code == sf::Keyboard::R) {
-                        std::cout << "RESTART\n";
-
-                        std::shared_ptr<GameState> newState = topState()->clone();
-                        std::cout << "topState use count = " << topState().use_count() << std::endl;
-                        std::cout << "newState use count = " << newState.use_count()   << std::endl;
-                        popState();
-
-                        std::cout << "stateStack length after pop: " << mStates.size() << std::endl;
-
-                        newState->cleanUp();
-                        newState->init();
-                        pushState(newState);
-                    }
-
-                    if (e.key.code == sf::Keyboard::X) {
-                        popState();
-                    }
-
-                    if (e.key.code == sf::Keyboard::Z) {
-                        std::shared_ptr<GameState> newState(new DebugState(this));
-                        pushState(newState);
-                    }
-
                     if (e.key.code == sf::Keyboard::Escape) {
                         mRunning = false;
                     }
@@ -149,7 +121,6 @@ void Game::setWindowTitle(std::string title) {
 // state management
 void Game::pushState(std::shared_ptr<shoe::GameState> state) {
     mStates.push_back(state);
-    std::cout << "topState use count after push = " << topState().use_count() << std::endl;
 }
 
 std::shared_ptr<GameState> Game::topState() {
