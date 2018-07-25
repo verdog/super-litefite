@@ -1,7 +1,7 @@
 # super litefite
 super litefite is a local multiplayer fiting (haha get it?) game in a top-down perspective. hopefully i'll encorperate some lite (hehe haha) mechanics too.  
 
-it's called "super" litefite because i scrapped the original game and started from scratch a second time and wanted to be cheeky.  
+it's called "super" litefite because i scrapped the original game and started from scratch a second time.
 i feel that it was a good decision.
 
 ## dependencies
