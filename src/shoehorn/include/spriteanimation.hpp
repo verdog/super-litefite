@@ -1,5 +1,5 @@
 /*
- * sprite animator
+ * sprite animation
  * 
  * Josh Chandler
 */
@@ -25,9 +25,9 @@ struct Keyframe {
     uint weight;
 };
 
-class SpriteAnimator {
+class SpriteAnimation {
 public:
-    SpriteAnimator(GameObject *target);
+    SpriteAnimation(GameObject *target);
 
     void clear();
     void addKeyframe(uint x, uint y, uint w, uint h, uint weight);

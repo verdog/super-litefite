@@ -1,16 +1,16 @@
 /*
- * sprite animator
+ * sprite animation
  * 
  * Josh Chandler
 */
 
 #include "include/gameobject.hpp"
-#include "include/spriteanimator.hpp"
+#include "include/spriteanimation.hpp"
 
 
 namespace shoe {
     
-SpriteAnimator::SpriteAnimator(GameObject *target) 
+SpriteAnimation::SpriteAnimation(GameObject *target) 
 : mTargetObject {target}
 , mPosition {0}
 , mPlaying {false}
@@ -18,32 +18,32 @@ SpriteAnimator::SpriteAnimator(GameObject *target)
     
 }
 
-void SpriteAnimator::clear() {
+void SpriteAnimation::clear() {
     mKeyframes.clear();
 }
 
-void SpriteAnimator::addKeyframe(uint x, uint y, uint w, uint h, uint weight) {
+void SpriteAnimation::addKeyframe(uint x, uint y, uint w, uint h, uint weight) {
     addKeyframe(Keyframe(x, y, w, h, weight));
 }
 
-void SpriteAnimator::addKeyframe(Keyframe keyframe) {
+void SpriteAnimation::addKeyframe(Keyframe keyframe) {
     mKeyframes.push_back(keyframe);
 }
 
-void SpriteAnimator::play(sf::Time duration) {
+void SpriteAnimation::play(sf::Time duration) {
     mPlaying = true;
     mLength = duration;
 }
 
-void SpriteAnimator::pause() {
+void SpriteAnimation::pause() {
     mPlaying = false;
 }
 
-void SpriteAnimator::goTo(float percent) {
+void SpriteAnimation::goTo(float percent) {
     mPosition = percent;
 }
 
-void SpriteAnimator::update(const sf::Time &dTime) {
+void SpriteAnimation::update(const sf::Time &dTime) {
     if (!mPlaying) return;
 
     mPosition += dTime/mLength * 100.f;
