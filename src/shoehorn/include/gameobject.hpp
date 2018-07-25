@@ -10,7 +10,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "spriteanimation.hpp"
+#include "animationmanager.hpp"
 
 namespace shoe
 {
@@ -60,7 +60,7 @@ public:
         return mId < b.id();
     }
 
-    SpriteAnimation spriteAnimation;
+    AnimationManager animationManager;
 
 protected:
     GameState *mState;

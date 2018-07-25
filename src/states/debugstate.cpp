@@ -65,9 +65,11 @@ void DebugState::init() {
     p1->setSpriteTexture(*mTextureManager->getTexture("player"), false);
     p1->setSpriteTextureRect(sf::IntRect(0, 0, 32, 32));
 
-    p1->spriteAnimation.addKeyframe(0, 0, 32, 32);
-    p1->spriteAnimation.addKeyframe(32, 0, 32, 32);
-    p1->spriteAnimation.play(sf::seconds(1));
+    shoe::SpriteAnimation animation(*p1);
+    animation.addKeyframe(0, 0, 32, 32);
+    animation.addKeyframe(32, 0, 32, 32);
+    p1->animationManager.insert("walk", animation);
+    p1->animationManager.play("walk", sf::seconds(0.5));
 
     p2->setSpriteTexture(*mTextureManager->getTexture("player"), false);
     p2->setSpriteTextureRect(sf::IntRect(32, 0, 32, 32));

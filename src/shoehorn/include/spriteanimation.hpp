@@ -26,7 +26,7 @@ struct Keyframe {
 
 class SpriteAnimation {
 public:
-    SpriteAnimation(GameObject *target);
+    SpriteAnimation(GameObject &target);
 
     void clear();
     void addKeyframe(uint x, uint y, uint w, uint h);
@@ -38,7 +38,7 @@ public:
     void update(const sf::Time &dTime);
 
 private:
-    GameObject *mTargetObject;
+    GameObject &mTargetObject;
     std::vector<Keyframe> mKeyframes;
     sf::Time mTime;
     uint mTotalweight;

@@ -11,7 +11,7 @@
 
 namespace shoe {
     
-SpriteAnimation::SpriteAnimation(GameObject *target) 
+SpriteAnimation::SpriteAnimation(GameObject &target) 
 : mTargetObject {target}
 , mTotalweight {0}
 , mPosition {0}
@@ -67,7 +67,7 @@ void SpriteAnimation::update(const sf::Time &dTime) {
     }
 
     uint frame = mPosition * mKeyframes.size();
-    mTargetObject->setSpriteTextureRect(mKeyframes[frame].rect);
+    mTargetObject.setSpriteTextureRect(mKeyframes[frame].rect);
 }
 
 } // shoe

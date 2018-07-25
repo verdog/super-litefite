@@ -19,8 +19,7 @@ namespace shoe {
 int GameObject::mNextId = 0;
 
 GameObject::GameObject(GameState *state) 
-: spriteAnimation (this)
-, mState {state}
+: mState {state}
 , mCollisionPolygon (new CollisionPolygon()) // shared_ptr
 , mId ( mNextId++ )
 {

@@ -81,7 +81,7 @@ void Player::handleInput(const sf::Time &dTime) {
 }
 
 void Player::update(const sf::Time &dTime) {
-    spriteAnimation.update(dTime);
+    animationManager.update(dTime);
 
     float dTimeSeconds = dTime.asSeconds();
     move(dTimeSeconds * mVelocity);
