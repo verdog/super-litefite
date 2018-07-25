@@ -65,8 +65,8 @@ void DebugState::init() {
     p1->setSpriteTexture(*mTextureManager->getTexture("player"), false);
     p1->setSpriteTextureRect(sf::IntRect(0, 0, 32, 32));
 
-    p1->spriteAnimation.addKeyframe(0, 0, 32, 32, 1);
-    p1->spriteAnimation.addKeyframe(32, 0, 32, 32, 1);
+    p1->spriteAnimation.addKeyframe(0, 0, 32, 32);
+    p1->spriteAnimation.addKeyframe(32, 0, 32, 32);
     p1->spriteAnimation.play(sf::seconds(1));
 
     p2->setSpriteTexture(*mTextureManager->getTexture("player"), false);

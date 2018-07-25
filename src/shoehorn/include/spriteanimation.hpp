@@ -16,9 +16,8 @@ namespace shoe {
 class GameObject;
 
 struct Keyframe {
-    Keyframe(uint x, uint y, uint w, uint h, uint _weight) {
+    Keyframe(uint x, uint y, uint w, uint h) {
         rect = sf::IntRect(x, y, w, h);
-        weight = _weight;
     }
 
     sf::IntRect rect;
@@ -30,7 +29,7 @@ public:
     SpriteAnimation(GameObject *target);
 
     void clear();
-    void addKeyframe(uint x, uint y, uint w, uint h, uint weight);
+    void addKeyframe(uint x, uint y, uint w, uint h);
     void addKeyframe(Keyframe keyframe);
     void play(sf::Time duration);
     void pause();
@@ -41,7 +40,8 @@ public:
 private:
     GameObject *mTargetObject;
     std::vector<Keyframe> mKeyframes;
-    sf::Time mLength;
+    sf::Time mTime;
+    uint mTotalweight;
     float mPosition;
     bool mPlaying;
 };

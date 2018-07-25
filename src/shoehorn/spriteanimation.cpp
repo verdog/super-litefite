@@ -4,14 +4,16 @@
  * Josh Chandler
 */
 
+#include <iostream>
+
 #include "include/gameobject.hpp"
 #include "include/spriteanimation.hpp"
-
 
 namespace shoe {
     
 SpriteAnimation::SpriteAnimation(GameObject *target) 
 : mTargetObject {target}
+, mTotalweight {0}
 , mPosition {0}
 , mPlaying {false}
 {
@@ -20,19 +22,22 @@ SpriteAnimation::SpriteAnimation(GameObject *target)
 
 void SpriteAnimation::clear() {
     mKeyframes.clear();
+    mTotalweight = 0;
 }
 
-void SpriteAnimation::addKeyframe(uint x, uint y, uint w, uint h, uint weight) {
-    addKeyframe(Keyframe(x, y, w, h, weight));
+void SpriteAnimation::addKeyframe(uint x, uint y, uint w, uint h) {
+    addKeyframe(Keyframe(x, y, w, h));
 }
 
 void SpriteAnimation::addKeyframe(Keyframe keyframe) {
+    keyframe.weight = 1;
     mKeyframes.push_back(keyframe);
+    mTotalweight += keyframe.weight;
 }
 
 void SpriteAnimation::play(sf::Time duration) {
     mPlaying = true;
-    mLength = duration;
+    mTime = duration;
 }
 
 void SpriteAnimation::pause() {
@@ -40,25 +45,29 @@ void SpriteAnimation::pause() {
 }
 
 void SpriteAnimation::goTo(float percent) {
+    if (percent >= 1.f) {
+        float old = percent;
+        while (percent >= 1.f) {
+            percent /= 100.f;
+        }
+
+        std::cout << "SpriteAnimation::goTo : changed " << old << " to " << percent << std::endl;
+    }
+
     mPosition = percent;
 }
 
 void SpriteAnimation::update(const sf::Time &dTime) {
     if (!mPlaying) return;
 
-    mPosition += dTime/mLength * 100.f;
+    mPosition += dTime/mTime;
 
-    if (mPosition > 100.f) {
-        mPosition -= 100.f;
+    while (mPosition >= 1.f) {
+        mPosition -= 1.f;
     }
 
-    if (mKeyframes.size() != 0) { // placeholder
-        if (mPosition < 50) { // placeholder
-            mTargetObject->setSpriteTextureRect(mKeyframes[0].rect);
-        } else {
-            mTargetObject->setSpriteTextureRect(mKeyframes[1].rect);
-        }
-    }
+    uint frame = mPosition * mKeyframes.size();
+    mTargetObject->setSpriteTextureRect(mKeyframes[frame].rect);
 }
 
 } // shoe
