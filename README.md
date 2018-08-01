@@ -9,7 +9,7 @@ this game uses SFML for handling graphics, sounds, and windows. you'll need it t
 
 i'm building this game on linux (ubuntu 18.04). i've only tested it on linux. you'll probably need to be on linux.
 
-i'm using some modern (c++14) features, so you'll need a compiler that supports them.
+i'm using some modern (c++17) features, so you'll need a compiler that supports them.
 
 i'm personally compiling this game with gcc (g++), but it might work with other compilers too.
 
