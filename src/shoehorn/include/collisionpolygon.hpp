@@ -51,8 +51,6 @@ struct Collision {
     
 class CollisionPolygon : public sf::Drawable, public sf::Transformable {
 public:
-    CollisionPolygon();
-    ~CollisionPolygon();
 
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 

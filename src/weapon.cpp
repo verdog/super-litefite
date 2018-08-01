@@ -17,13 +17,19 @@ Weapon::Weapon(shoe::GameState *state)
     mHurtPolygons.emplace_back(new HurtPolygon(7));
 }
 
-void Weapon::setPosition(sf::Vector2f position) {
+void Weapon::setHurtPolygonPosition(sf::Vector2f position) {
     for (std::shared_ptr<HurtPolygon> h : mHurtPolygons) {
         h->setPosition(position);
     }
 }
 
-void Weapon::setRotation(float rotation) {
+void Weapon::rotateHurtPolygon(float angle) {
+    for (std::shared_ptr<HurtPolygon> h : mHurtPolygons) {
+        h->rotate(angle);
+    }
+}
+
+void Weapon::setHurtPolygonRotation(float rotation) {
     for (std::shared_ptr<HurtPolygon> h : mHurtPolygons) {
         h->setRotation(rotation);
     }

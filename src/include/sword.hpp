@@ -14,5 +14,6 @@ public:
     Sword(shoe::GameState *state, int length);
 
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+    void update(const sf::Time &dTime);
 private:
 };

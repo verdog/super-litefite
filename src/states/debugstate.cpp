@@ -164,7 +164,6 @@ void DebugState::draw() {
 
         if (std::shared_ptr<Player> p = std::dynamic_pointer_cast<Player>(o); p) {
             // drawOntoGame(p->getLightSource());
-            // drawOntoGame(p->getWeapon());
         }
     }
 

@@ -33,12 +33,17 @@ Sword::Sword(shoe::GameState *state, int length)
     setSpriteTexture(*mState->getTexture("sword"), true);
     setOrigin(sf::Vector2f(16, 30));
 
+    setOrigin(sf::Vector2f(16, 48));
     rotate(90);
-    move(sf::Vector2f(32, 16));
+    move(sf::Vector2f(16, 16));
+}
+
+void Sword::update(const sf::Time &dTime) {
+    Weapon::update(dTime);
 }
 
 void Sword::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     states.transform.combine(getTransform());
     target.draw(mSprite, states);
-    // Weapon::draw(target, states); // draw wireframe
+    Weapon::draw(target, states); // draw wireframe
 }

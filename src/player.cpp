@@ -88,8 +88,8 @@ void Player::update(const sf::Time &dTime) {
     setRotation(std::atan2(mVelocity.y, mVelocity.x)*180/M_PIl);
 
     mCollisionPolygon->setPosition(getPosition());
-    mWeapon->setPosition(getPosition());
-    mWeapon->setRotation(getRotation());
+    mWeapon->setHurtPolygonPosition(getPosition());
+    mWeapon->setHurtPolygonRotation(getRotation());
     mWeapon->update(dTime);
 
     if (dynamic_cast<DebugState*>(mState) != nullptr) {

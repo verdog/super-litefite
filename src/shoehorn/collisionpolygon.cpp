@@ -19,15 +19,6 @@ const double pi = std::acos(-1);
 
 namespace shoe {
 
-CollisionPolygon::CollisionPolygon() 
-{
-    //
-}
-
-CollisionPolygon::~CollisionPolygon() {
-    //
-}
-
 void CollisionPolygon::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     sf::VertexArray va = mVertexArray;
     
