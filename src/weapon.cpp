@@ -9,71 +9,48 @@
 
 #include "include/weapon.hpp"
 #include "include/hurtpolygon.hpp"
+#include "include/hurtpolygon-animator.hpp"
 #include "states/include/debugstate.hpp"
 
 Weapon::Weapon(shoe::GameState *state)
 : shoe::GameObject(state) 
+, mHurtPolygons (new HurtPolygonAnimator)
 {
-    mHurtPolygons.emplace_back(new HurtPolygon(7));
+    mHurtPolygons->insert(std::make_shared<HurtPolygon>(3));
 }
 
 void Weapon::setHurtPolygonPosition(sf::Vector2f position) {
-    for (std::shared_ptr<HurtPolygon> h : mHurtPolygons) {
-        h->setPosition(position);
-    }
+    mHurtPolygons->setPosition(position);
 }
 
 void Weapon::rotateHurtPolygon(float angle) {
-    for (std::shared_ptr<HurtPolygon> h : mHurtPolygons) {
-        h->rotate(angle);
-    }
+    mHurtPolygons->rotate(angle);
 }
 
 void Weapon::setHurtPolygonRotation(float rotation) {
-    for (std::shared_ptr<HurtPolygon> h : mHurtPolygons) {
-        h->setRotation(rotation);
-    }
+    mHurtPolygons->setRotation(rotation);
 }
 
 void Weapon::addVulnerability(const shoe::GameObject &object) {
-    for (auto hp : mHurtPolygons) {
-        hp->addVulnerability(object);
-    }
+    mHurtPolygons->addVulnerability(object);
 }
 
 void Weapon::removeVulnerability(const shoe::GameObject &object) {
-    for (auto hp : mHurtPolygons) {
-        hp->removeVulnerability(object);
-    }
+    mHurtPolygons->removeVulnerability(object);
 }
 
 bool Weapon::canHurt(const shoe::GameObject &object) {
-    for (auto hp : mHurtPolygons) {
-        if (hp->canHurt(object)) {
-            return true;
-        }
-    }
-    return false;
+    return mHurtPolygons->canHurt(object);
 }
 
 void Weapon::activate() {
-    for (std::shared_ptr<HurtPolygon> h : mHurtPolygons) {
-        h->toggle();
-    }
+    // mHurtPolygons->Play?
 }
 
 void Weapon::update(const sf::Time &dTime) {
-    for (std::shared_ptr<HurtPolygon> hurtPolygon : mHurtPolygons) {
-        for (shoe::GameObject go : hurtPolygon->getHurtList()) {
-            if (canHurt(go) && hurtPolygon->collidesWith(go.getCollisionPolygon())) {
-                std::cout << "did damage!\n";
-            }
-        }
-    }
+    mHurtPolygons->update(dTime);
 }
 
 void Weapon::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    for (std::shared_ptr<HurtPolygon> h : mHurtPolygons) {
-        target.draw(*h, states);
-    }
+    mHurtPolygons->draw(target, states);
 }

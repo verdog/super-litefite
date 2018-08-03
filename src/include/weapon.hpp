@@ -11,7 +11,7 @@
 
 #include "../shoehorn/include/gameobject.hpp"
 
-class HurtPolygon;
+class HurtPolygonAnimator;
 
 class Weapon : public shoe::GameObject {
 public:
@@ -31,5 +31,5 @@ public:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 protected:
-    std::vector<std::shared_ptr<HurtPolygon>> mHurtPolygons;
+    std::shared_ptr<HurtPolygonAnimator> mHurtPolygons;
 };

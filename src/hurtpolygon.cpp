@@ -18,8 +18,8 @@ HurtPolygon::HurtPolygon(int damage)
     makeIntoRegularShape(4, 16);
 }
 
-HurtPolygon::~HurtPolygon() {
-    //
+bool HurtPolygon::isOpen() {
+    return mOpen;
 }
 
 void HurtPolygon::open() {

@@ -160,7 +160,7 @@ void DebugState::draw() {
 
     for (std::shared_ptr<shoe::GameObject> o : mObjects) {
         drawOntoGame(*o);
-        // drawOntoGame(o->getCollisionPolygon());
+        drawOntoGame(o->getCollisionPolygon());
 
         if (std::shared_ptr<Player> p = std::dynamic_pointer_cast<Player>(o); p) {
             // drawOntoGame(p->getLightSource());
@@ -174,7 +174,7 @@ void DebugState::draw() {
 
     for (std::shared_ptr<Wallygon> w : mWalls) {
         drawOntoGame(*w, states);
-        // drawOntoGame(w->getCollisionPolygon());
+        drawOntoGame(w->getCollisionPolygon());
     }
 
     // drawOntoGame(*mFPS);
