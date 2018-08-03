@@ -16,14 +16,11 @@ Weapon::Weapon(shoe::GameState *state)
 : shoe::GameObject(state) 
 , mHurtPolygons (new HurtPolygonAnimator)
 {
-    std::shared_ptr p1 = std::make_shared<HurtPolygon>(5);
-    std::shared_ptr p2 = std::make_shared<HurtPolygon>(5);
-    
-    p1->makeIntoRegularShape(4, 16);
-    p2->makeIntoRegularShape(6, 20);
-
-    mHurtPolygons->insert(p1);
-    mHurtPolygons->insert(p2);
+    for (uint i=3; i<=12; i++) {
+        std::shared_ptr p = std::make_shared<HurtPolygon>(6);
+        p->makeIntoRegularShape(i, i*9);
+        mHurtPolygons->insert(p);
+    }
 }
 
 void Weapon::setHurtPolygonPosition(sf::Vector2f position) {
