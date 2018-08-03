@@ -8,6 +8,11 @@
 #include "include/hurtpolygon-animator.hpp"
 
 HurtPolygonAnimator::HurtPolygonAnimator() 
+: mCurrentFrame { nullptr }
+, mPlaying { false }
+, mLooping { false }
+, mElapsedCycles { 0 }
+, mEndCycles { 0 }
 {
     
 }
@@ -59,20 +64,59 @@ bool HurtPolygonAnimator::canHurt(const shoe::GameObject &object) {
     return false;
 }
 
+void HurtPolygonAnimator::play(const sf::Time &duration, bool loop, uint cycles) {
+    std::cout << "Playing animation...\n"; 
+    mCurrentTime = sf::seconds(0);
+    mPlaying = true;
+    mElapsedCycles = 0;
+
+    mEndTime = duration;
+    mLooping = loop;
+    mEndCycles = cycles;
+
+    if (mFrames.size() > 0) {
+        mCurrentFrame = mFrames[0].get();
+    } else {
+        std::cerr << "ERROR: Tried to play an animation with no frames!\n";
+    }
+}
+
+void HurtPolygonAnimator::stop() {
+    mPlaying = false;
+    mCurrentFrame = nullptr;
+}
+
 void HurtPolygonAnimator::update(const sf::Time &dTime) {
-    // incorperate current frame
-    for (auto hurtPolygon : mFrames) {
-        for (auto gameObject : hurtPolygon->getHurtList()) {
-            if (canHurt(gameObject) && hurtPolygon->collidesWith(gameObject.getCollisionPolygon())) {
-                std::cout << "did damage!\n";
+    if (mPlaying) {
+        // determine current frame
+        mCurrentTime += dTime;
+
+        // check for an animation loop
+        if (mCurrentTime >= mEndTime) {
+            if (!mLooping && ++mElapsedCycles >= mEndCycles) { // time to stop
+                return stop();
+            } else { // just reset the loop
+                while (mCurrentTime >= mEndTime) {
+                    mCurrentTime -= mEndTime;
+                }
             }
+        }
+
+        // current frame = floor((percent of animation finished) * number of frames )
+        mCurrentFrame = mFrames[ (uint)( mFrames.size() * ( mCurrentTime/mEndTime )) ].get();
+        mCurrentFrame->open();
+    }
+
+    if (!mCurrentFrame) return; // return if there's no current frame (animation not running)
+
+    for (auto gameObject : mCurrentFrame->getHurtList()) {
+        if (canHurt(gameObject) && mCurrentFrame->collidesWith(gameObject.getCollisionPolygon())) {
+            std::cout << "did damage!\n";
         }
     }
 }
 
 void HurtPolygonAnimator::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-    // replace with "draw current frame"
-    for (auto h : mFrames) {
-        target.draw(*h, states);
-    }
+    if (!mCurrentFrame) return; // return if there's no current frame (animation not running)
+    target.draw(*mCurrentFrame, states);
 }

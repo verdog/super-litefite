@@ -40,7 +40,7 @@ public:
 private:
     GameObject &mTargetObject;
     std::vector<Keyframe> mKeyframes;
-    sf::Time mTime;
+    sf::Time mEndTime;
     uint mTotalweight;
     float mPosition;
     bool mPlaying;

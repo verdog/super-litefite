@@ -16,7 +16,14 @@ Weapon::Weapon(shoe::GameState *state)
 : shoe::GameObject(state) 
 , mHurtPolygons (new HurtPolygonAnimator)
 {
-    mHurtPolygons->insert(std::make_shared<HurtPolygon>(3));
+    std::shared_ptr p1 = std::make_shared<HurtPolygon>(5);
+    std::shared_ptr p2 = std::make_shared<HurtPolygon>(5);
+    
+    p1->makeIntoRegularShape(4, 16);
+    p2->makeIntoRegularShape(6, 20);
+
+    mHurtPolygons->insert(p1);
+    mHurtPolygons->insert(p2);
 }
 
 void Weapon::setHurtPolygonPosition(sf::Vector2f position) {
@@ -44,7 +51,7 @@ bool Weapon::canHurt(const shoe::GameObject &object) {
 }
 
 void Weapon::activate() {
-    // mHurtPolygons->Play?
+    mHurtPolygons->play(sf::seconds(0.25), false, 4);
 }
 
 void Weapon::update(const sf::Time &dTime) {

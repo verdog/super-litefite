@@ -37,7 +37,7 @@ void SpriteAnimation::addKeyframe(Keyframe keyframe) {
 
 void SpriteAnimation::play(sf::Time duration) {
     mPlaying = true;
-    mTime = duration;
+    mEndTime = duration;
 }
 
 void SpriteAnimation::pause() {
@@ -60,7 +60,7 @@ void SpriteAnimation::goTo(float percent) {
 void SpriteAnimation::update(const sf::Time &dTime) {
     if (!mPlaying) return;
 
-    mPosition += dTime/mTime;
+    mPosition += dTime/mEndTime;
 
     while (mPosition >= 1.f) {
         mPosition -= 1.f;

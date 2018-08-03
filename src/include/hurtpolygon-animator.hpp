@@ -26,10 +26,20 @@ public:
     void removeVulnerability(const shoe::GameObject &object);
 
     bool canHurt(const shoe::GameObject &object);
+
+    void play(const sf::Time &duration, bool loop = false, uint cycles = 1);
+    void stop();
     
     void update(const sf::Time &dTime);
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 private:
     std::vector<std::shared_ptr<HurtPolygon>> mFrames;
-    HurtPolygon *currentFrame;
+    HurtPolygon *mCurrentFrame;
+
+    bool mPlaying;
+    bool mLooping;
+    uint mElapsedCycles;
+    uint mEndCycles;
+    sf::Time mCurrentTime;
+    sf::Time mEndTime;
 };

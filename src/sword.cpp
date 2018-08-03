@@ -38,10 +38,6 @@ Sword::Sword(shoe::GameState *state, int length)
     // move(sf::Vector2f(16, 16));
 }
 
-void Sword::activate() {
-
-}
-
 void Sword::update(const sf::Time &dTime) {
     Weapon::update(dTime);
 }
